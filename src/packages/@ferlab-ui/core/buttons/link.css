@@ -17,3 +17,13 @@ a:hover {
   text-decoration: underline;
 }
 
+a.underlined {
+  text-decoration: none;
+  border-bottom: 1px #486F90 dotted; /* gray-7 */
+}
+
+a.underlined:hover {
+  text-decoration: none;
+  border-bottom: 1px #486F90 solid; /* gray-7 */
+}
+

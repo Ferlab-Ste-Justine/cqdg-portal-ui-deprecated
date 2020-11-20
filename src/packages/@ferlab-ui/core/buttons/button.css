@@ -20,6 +20,10 @@ button {
   white-space: nowrap;
 }
 
+button:hover {
+  cursor: pointer;
+}
+
 button.navigation {
   background: #F8F9FC;
   border-color: #D8E1EB;
@@ -48,6 +52,36 @@ button.navigation.active {
 button.text {
   border: none;
   background-color: transparent;
+}
+
+button.primary {
+  border: 1px solid #FFD261;
+  background-color: #FFD261;
+}
+
+button.primary:hover {
+  background-color: #FFC431;
+}
+
+button.primary:focus {
+  background-color: #fff;
+  border: 2px solid #FFC431;
+  outline: none;
+}
+
+button.hollow {
+  border: 1px solid #fff;
+  background-color: transparent;
+  color: #fff;
+}
+
+button.hollow:hover {
+  border: 1px solid #FFE091;
+}
+
+button.hollow:focus {
+  border: 2px solid #FFE091;
+  outline: none;
 }
 
 /* Shape */

@@ -5,13 +5,15 @@ import './link.css';
 
 const Link = ({
   children,
-  className,
+  className = '',
   defaultIcon = true,
   disabled = false,
   href,
+  target,
+  type = '',
 }) => {
   return (
-    <a className={className} disabled={disabled} href={href}>
+    <a className={`${type} ${className}`} disabled={disabled} href={href} target={target}>
       {children}
       {' '}
       { defaultIcon && <FiExternalLink className="link-icon" />}

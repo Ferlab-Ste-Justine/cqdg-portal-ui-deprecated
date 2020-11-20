@@ -143,18 +143,14 @@ section.bottom-links {
 
 section.bottom-links .bottom-links-cards {
     display: grid;
-    grid-auto-flow: column;
+    grid-template-columns: repeat(3, 260px);
     justify-content: space-evenly;
 }
 
-section.bottom-links .bottom-links-cards a {
+/* section.bottom-links .bottom-links-cards a {
     text-decoration: none;
     display: inline-grid;
-}
-
-section.bottom-links .bottom-links-cards .card-container {
-    max-width: 260px;
-}
+} */
 
 section.bottom-links .bottom-links-cards .card-container p {
     font-size: 12px;

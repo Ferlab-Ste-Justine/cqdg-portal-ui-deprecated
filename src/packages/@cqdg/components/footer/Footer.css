@@ -28,8 +28,8 @@
 	line-height:20px;
 }
 
-.footerMoreInfo button {
-    display: inline-grid;
+.footerMoreInfo a {
+    font-size: 14px;
 }
   
 .footerTitle {
@@ -45,7 +45,7 @@
     display: flex;
 }
 
-.footerLogos button {
+.footerLogos a {
     margin: 0 20px;
 }
 
