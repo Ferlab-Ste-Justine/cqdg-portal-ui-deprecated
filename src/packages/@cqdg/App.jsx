@@ -7,7 +7,6 @@ import {
 } from 'recompose';
 
 import Header from '@cqdg/components/header/Header';
-import Footer from '@cqdg/components/footer/Footer';
 import NotificationContainer from '@ncigdc/components/NotificationContainer';
 import RelayLoadingContainer from '@ncigdc/components/RelayLoadingContainer';
 import ProgressContainer from '@ncigdc/components/ProgressContainer';
@@ -58,7 +57,6 @@ class CqdgApp extends React.PureComponent {
           >
           <Routes />
         </div>
-        <Footer />
         <RelayLoadingContainer />
         <NotificationContainer />
         <ModalContainer />

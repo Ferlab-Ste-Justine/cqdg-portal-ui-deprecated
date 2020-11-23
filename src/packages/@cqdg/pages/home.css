@@ -134,7 +134,6 @@ section.graphs h3, .bottom-links-cards h3 {
     line-height: 24px;
     margin: 0;
     color: var(--secondary-color);
-
 }
 
 section.bottom-links {
@@ -147,10 +146,11 @@ section.bottom-links .bottom-links-cards {
     justify-content: space-evenly;
 }
 
-/* section.bottom-links .bottom-links-cards a {
-    text-decoration: none;
+section.bottom-links .bottom-links-cards a {
     display: inline-grid;
-} */
+    white-space: normal;
+    text-decoration: none;
+}
 
 section.bottom-links .bottom-links-cards .card-container p {
     font-size: 12px;
@@ -158,4 +158,57 @@ section.bottom-links .bottom-links-cards .card-container p {
     margin: 0;
     color: #486F90;
     text-align: center;
+}
+
+/* FOOTER */
+
+.nav-footer {
+    background: #f8f8fb;
+    border-top: 1px solid #dcdde1;
+    padding: 0px;
+    color: 'black';
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+  
+.footerWrapper {
+    display: flex;
+    justify-content: space-between;
+    padding: 24px;
+}
+  
+.footerTextWrapper {
+    display: flex;
+    flex-direction: column;
+}
+  
+.footerMoreInfo{
+    margin: auto 0 0 0;
+    color: #486f90;
+    font-size:14px;
+	font-family:IBM Plex Sans;
+	font-weight:normal;
+	line-height:20px;
+}
+
+.footerMoreInfo a {
+    font-size: 14px;
+}
+  
+.footerTitle {
+    font-size:16px;
+	font-family:IBM Plex Sans;
+	font-weight:600;
+	line-height:24px;
+    color: #486f90;
+    margin: 0;
+}
+
+.footerLogos {
+    display: flex;
+}
+
+.footerLogos a {
+    margin: 0 20px;
 }
