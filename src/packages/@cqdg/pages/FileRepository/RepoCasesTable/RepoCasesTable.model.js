@@ -3,14 +3,16 @@ import React from 'react';
 import { RepositoryCasesLink, RepositoryFilesLink } from '@ncigdc/components/Links/RepositoryLink';
 import ProjectLink from '@ncigdc/components/Links/ProjectLink';
 import CaseLink from '@ncigdc/components/Links/CaseLink';
-import {
-  Td, TdNum, Th, ThNum,
-} from '@ncigdc/uikit/Table';
 import { makeFilter } from '@ncigdc/utils/filters';
 import ageDisplay from '@ncigdc/utils/ageDisplay';
 import withRouter from '@ncigdc/utils/withRouter';
 import { createDataCategoryColumns } from '@ncigdc/tableModels/utils';
+
 import t from '@cqdg/locales/intl';
+import Th from '@cqdg/components/table/Th';
+import Td from '@cqdg/components/table/Td';
+import TdNum from '@cqdg/components/table/TdNum';
+import ThNum from '@cqdg/components/table/ThNum';
 
 const youngestDiagnosis = (
   p: { age_at_diagnosis: number },
@@ -66,7 +68,7 @@ const casesTableModel = [
     sortable: false,
     downloadable: true,
     hidden: true,
-    th: () => <Th rowSpan="2">Study ID</Th>,
+    th: () => <Th>Study ID</Th>,
     td: ({ node }) => <Td>{node.study.hits.edges[0].node.study_id}</Td>,
   },
   {
@@ -75,7 +77,7 @@ const casesTableModel = [
     sortable: false,
     downloadable: true,
     hidden: true,
-    th: () => <Th rowSpan="2">Donor ID</Th>,
+    th: () => <Th>Donor ID</Th>,
     td: ({ node }) => <Td>{node.submitter_donor_id}</Td>,
   },
   {
@@ -84,7 +86,7 @@ const casesTableModel = [
     sortable: true,
     downloadable: true,
     th: () => (
-      <Th key="gender" rowSpan="2">
+      <Th key="gender">
         Gender
       </Th>
     ),
@@ -100,7 +102,7 @@ const casesTableModel = [
     sortable: false,
     downloadable: true,
     hidden: true,
-    th: () => <Th rowSpan="2">Ethnicity</Th>,
+    th: () => <Th>Ethnicity</Th>,
     td: ({ node }) => (
       <Td>{(node.ethnicity) || '--'}</Td>
     ),
@@ -111,7 +113,7 @@ const casesTableModel = [
     sortable: false,
     downloadable: true,
     hidden: true,
-    th: () => <Th rowSpan="2">Vital Status</Th>,
+    th: () => <Th>Vital Status</Th>,
     td: ({ node }) => {
       return <Td>{node.vital_status}</Td>;
     },
@@ -122,7 +124,7 @@ const casesTableModel = [
     sortable: false,
     downloadable: true,
     hidden: true,
-    th: () => <Th rowSpan="2">Age at recruitment (years)</Th>,
+    th: () => <Th>Age at recruitment (years)</Th>,
     td: ({ node }) => <Td>{node.age_at_recruitment}</Td>,
   },
   {
@@ -131,7 +133,7 @@ const casesTableModel = [
     sortable: false,
     downloadable: true,
     hidden: true,
-    th: () => <Th rowSpan="2">Age at diagnosis (years)</Th>,
+    th: () => <Th>Age at diagnosis (years)</Th>,
     td: ({ node }) => {
       // PLA - What if 2 diagnosis on the same year?
       // Use diagnosis with minimum age
@@ -147,7 +149,7 @@ const casesTableModel = [
     sortable: false,
     downloadable: true,
     hidden: true,
-    th: () => <Th rowSpan="2">Diagnosis ICD Term</Th>,
+    th: () => <Th>Diagnosis ICD Term</Th>,
     td: ({ node }) => {
       // Use diagnosis with minimum age
       if (node) {
@@ -169,7 +171,7 @@ const casesTableModel = [
     sortable: false,
     downloadable: true,
     hidden: true,
-    th: () => <Th rowSpan="2">Phenotype HPO Term</Th>,
+    th: () => <Th>Phenotype HPO Term</Th>,
     td: ({ node }) => <Td>{node.phenotypes ? node.phenotypes.hits.edges[0].node.hpo_term : '--'}</Td>,
   },
   {
@@ -178,7 +180,7 @@ const casesTableModel = [
     sortable: false,
     downloadable: true,
     hidden: true,
-    th: () => <Th rowSpan="2">Number of Files</Th>,
+    th: () => <Th>Number of Files</Th>,
     td: ({ node }) => <Td>{node.files && node.files.hits ? node.files.hits.total : 0}</Td>,
   },
 ];

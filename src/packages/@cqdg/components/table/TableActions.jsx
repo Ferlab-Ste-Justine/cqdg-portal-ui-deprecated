@@ -19,7 +19,7 @@ import SortTableButton, {
   TSortTableButtonSortFunc,
 } from '@ncigdc/components/SortTableButton';
 
-import DownloadTableButton from '@cqdg/components/DownloadTableButton';
+import DownloadTableButton from '@cqdg/components/table/button/DownloadTableButton';
 
 
 import './TableActions.css';

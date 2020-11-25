@@ -8,9 +8,10 @@ import MdLock from 'react-icons/lib/md/lock';
 import MdLockOutline from 'react-icons/lib/md/lock-outline';
 import MdLockOpen from 'react-icons/lib/md/lock-open';
 
-import {
-  Th, Td, TdNum, ThNum,
-} from '@ncigdc/uikit/Table';
+import Th from '@cqdg/components/table/Th';
+import Td from '@cqdg/components/table/Td';
+import TdNum from '@cqdg/components/table/TdNum';
+import ThNum from '@cqdg/components/table/ThNum';
 import FileLink from '@ncigdc/components/Links/FileLink';
 import FileSize from '@ncigdc/components/FileSize';
 import CopyToClipboardButton from '@ncigdc/modern_components/CopyToClipboardButton/CopyToClipboardButton';
@@ -136,8 +137,8 @@ const filesTableModel = [
   {
     name: 'Number of donors',
     id: 'cases.hits.edges.submitter_donor_id',
-    th: () => <Th className="table-th" style={{ textAlign: 'right' }}>{t('facet.cases.hits.edges.submitter_donor_id')}</Th>,
-    td: ({ node }) => <Td style={{ textAlign: 'right' }}>{node.cases.hits.total}</Td>,
+    th: () => <ThNum className="table-th">{t('facet.cases.hits.edges.submitter_donor_id')}</ThNum>,
+    td: ({ node }) => <TdNum>{node.cases.hits.total}</TdNum>,
     sortable: false,
     downloadable: true,
     hidden: false,

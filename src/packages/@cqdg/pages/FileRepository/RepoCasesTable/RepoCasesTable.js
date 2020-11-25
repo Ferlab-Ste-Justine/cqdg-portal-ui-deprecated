@@ -11,7 +11,6 @@ import Pagination from '@ncigdc/components/Pagination';
 import Showing from '@ncigdc/components/Pagination/Showing';
 import { Row } from '@ncigdc/uikit/Flex';
 import tableModels from '@ncigdc/tableModels';
-import Table, { Tr } from '@ncigdc/uikit/Table';
 import { CreateRepositoryCaseSetButton, AppendRepositoryCaseSetButton, RemoveFromRepositoryCaseSetButton } from '@ncigdc/modern_components/withSetAction';
 
 
@@ -19,8 +18,10 @@ import { theme } from '@ncigdc/theme';
 import withSelectIds from '@ncigdc/utils/withSelectIds';
 import timestamp from '@ncigdc/utils/timestamp';
 
-import TableActions from '@cqdg/components/TableActions';
+import TableActions from '@cqdg/components/table/TableActions';
 import InlineCount from '@cqdg/components/countWithIcon/InlineCount';
+import Table from '@cqdg/components/table/Table';
+import Tr from '@cqdg/components/table/Tr';
 
 import './CasesTable.css';
 
@@ -37,10 +38,8 @@ export default compose(
 )(
   ({
     entityType = 'cases',
-    score,
     selectedIds,
     setSelectedIds,
-    sort,
     tableColumns,
     variables,
     viewer: { Case: { hits } },
@@ -64,8 +63,6 @@ export default compose(
               .filter(x => x.downloadable)
               .map(x => x.field || x.id)}
             endpoint="cases"
-            false
-            false
             idField="cases.case_id"
             scope="repository"
             score={variables.score}

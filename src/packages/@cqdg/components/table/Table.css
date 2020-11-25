@@ -1,0 +1,34 @@
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  overflow: auto;
+  background-color: #fff;
+}
+
+table thead th {
+  background-color: #F0F3F8;
+  color: #003457;
+  padding: 8px;
+  line-height: 20px;
+  text-align: left;
+  white-space: nowrap;
+}
+
+table tbody tr.stripped {
+  background-color: #F8F9FC;
+}
+
+table tbody tr {
+  background-color: #fff;
+}
+
+table tbody td {
+  color: #18486B;
+  padding: 8px;
+  white-space: nowrap;
+}
+
+table tbody td.td-number, table tbody th.th-number {
+  text-align: right;
+}

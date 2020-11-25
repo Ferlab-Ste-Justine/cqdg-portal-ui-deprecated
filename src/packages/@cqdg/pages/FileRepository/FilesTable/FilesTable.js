@@ -2,30 +2,31 @@
 
 import React from 'react';
 import {
-  compose, setDisplayName, branch, renderComponent, withState,
+  compose, setDisplayName, branch, renderComponent,
 } from 'recompose';
+import debounce from 'lodash/debounce';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
 import { parse, stringify } from 'query-string';
 
 import FaFile from 'react-icons/lib/fa/file';
 
 import { Row } from '@ncigdc/uikit/Flex';
-import Table, { Tr } from '@ncigdc/uikit/Table';
 import timestamp from '@ncigdc/utils/timestamp';
 import {
   parseIntParam,
 } from '@ncigdc/utils/uri';
 
 
-import TableActions from '@cqdg/components/TableActions';
+import Table from '@cqdg/components/table/Table';
+import Tr from '@cqdg/components/table/Tr';
+
+import TableActions from '@cqdg/components/table/TableActions';
 import InlineCount from '@cqdg/components/countWithIcon/InlineCount';
 
 import './FilesTable.css';
 
 export default compose(
   setDisplayName('FilesTablePresentation'),
-  withRouter,
   connect(state => ({ tableColumns: state.tableColumns.files })),
   branch(
     ({ viewer }) =>
@@ -39,7 +40,6 @@ export default compose(
     downloadable,
     entityType = 'files',
     history,
-    location: { search },
     tableColumns,
     tableHeader,
     viewer: { File: { hits } },
@@ -72,16 +72,21 @@ export default compose(
         <div
           className="table-container"
           onScroll={(e) => {
-            const isNearBottom = e.target.scrollHeight - e.target.scrollTop <= e.target.clientHeight + 50;
-            console.log(e.target.scrollTop);
-            if (isNearBottom) {
-              e.target.scrollTop -= 25;
-              const q = parse(search);
-              const offsetSize = parseIntParam(q.files_size, 20);
-              q.files_size = offsetSize + 20;
-              const stringified = stringify(q);
-              history.push(`${location.pathname}?${stringified}`);
+            e.persist();
+
+            if (!this.scrollHander) {
+              this.scrollHander = debounce(() => {
+                const isNearBottom = e.target.scrollHeight - e.target.scrollTop <= e.target.clientHeight + 50;
+                if (isNearBottom) {
+                  const q = parse(window.location.search);
+                  const offsetSize = parseIntParam(q.files_size, 20);
+                  q.files_size = offsetSize + 20;
+                  const stringified = stringify(q);
+                  history.push(`${window.location.pathname}?${stringified}`);
+                }
+              }, 150);
             }
+            this.scrollHander();
           }}
           >
           <Table
