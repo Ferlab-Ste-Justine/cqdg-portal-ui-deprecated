@@ -9,17 +9,15 @@ import {IBucket} from '@ncigdc/components/Aggregations/types';
 import withRouter from '@ncigdc/utils/withRouter';
 import {parseFilterParam} from '@ncigdc/utils/uri';
 import {
-  BottomBorderedBox,
-  ColumnCenter,
   PieTitle,
-  RowCenter,
   SelfFilteringBars,
   SelfFilteringPie,
-  ShowToggleBox,
-  WrappedRow
+  ShowToggleBox
 } from './index';
 import t from "../../locales/intl";
 import {withTheme} from "../../../@ncigdc/theme";
+import Column from "../../../@ncigdc/uikit/Flex/Column";
+import Row from "../../../@ncigdc/uikit/Flex/Row";
 
 export type TProps = {
   push: Function,
@@ -58,8 +56,8 @@ const RepoCasesChartsComponent = ({ aggregations,
 
   return (
     <div className="repo-charts">
-      <WrappedRow style={{ maxWidth: `${width}px`, width: '100%' }}>
-        <ColumnCenter style={{ minWidth: `${pieColMinWidth}px` }} className="test-primary-site-pie">
+      <Row style={{ maxWidth: `${width}px`, width: '100%' }} className="wrapped-row">
+        <Column style={{ minWidth: `${pieColMinWidth}px` }} className="column-center">
           <PieTitle>{t('charts.study')}</PieTitle>
           <SelfFilteringPie
             buckets={_.get(
@@ -76,8 +74,8 @@ const RepoCasesChartsComponent = ({ aggregations,
             height={125}
             width={125}
           />
-        </ColumnCenter>
-        <ColumnCenter style={{ minWidth: `${pieColMinWidth}px` }} className="test-project-pie">
+        </Column>
+        <Column style={{ minWidth: `${pieColMinWidth}px` }} className="column-center">
           <PieTitle>{t('charts.gender')}</PieTitle>
           <SelfFilteringPie
             buckets={_.get(aggregations, 'gender.buckets')}
@@ -91,8 +89,8 @@ const RepoCasesChartsComponent = ({ aggregations,
             height={125}
             width={125}
           />
-        </ColumnCenter>
-        <ColumnCenter style={{ minWidth: `${pieColMinWidth}px` }} className="test-disease-type-pie">
+        </Column>
+        <Column style={{ minWidth: `${pieColMinWidth}px` }} className="column-center">
           <PieTitle>{t('charts.ethnicity')}</PieTitle>
           <SelfFilteringPie
             buckets={_.get(aggregations, 'ethnicity.buckets')}
@@ -106,10 +104,10 @@ const RepoCasesChartsComponent = ({ aggregations,
             height={125}
             width={125}
           />
-        </ColumnCenter>
+        </Column>
 
         {showingMore && [
-          <ColumnCenter style={{ minWidth: `${chartColMinWidth}px` }} className="test-gender-pie" key={"disease_type_bar_chart"}>
+          <Column style={{ minWidth: `${chartColMinWidth}px` }} className="column-center" key={"disease_type_bar_chart"}>
             <PieTitle>{t('charts.disease_type')}</PieTitle>
             <SelfFilteringBars
               buckets={_.get(
@@ -131,8 +129,8 @@ const RepoCasesChartsComponent = ({ aggregations,
               }}
               textFormatter={(id) => id && id.indexOf(':') ? id.substr(id.indexOf(':')+1, id.length) : id}
             />
-          </ColumnCenter>,
-          <ColumnCenter style={{ minWidth: `${chartColMinWidth}px` }} className="test-vital-status-pie" key={"phenotype_category_bar_chart"}>
+          </Column>,
+          <Column style={{ minWidth: `${chartColMinWidth}px` }} className="column-center" key={"phenotype_category_bar_chart"}>
             <PieTitle>{t('charts.phenotype_category')}</PieTitle>
             <SelfFilteringBars
               buckets={_.get(
@@ -153,14 +151,14 @@ const RepoCasesChartsComponent = ({ aggregations,
                 left: 250,
               }}
             />
-          </ColumnCenter>
+          </Column>
         ]}
-      </WrappedRow>
-      <RowCenter>
+      </Row>
+      <Row className="row-center">
         <ShowToggleBox onClick={() => setShowingMore(!showingMore)}>
           {showingMore ? t('global.less') : t('global.more')}
         </ShowToggleBox>
-      </RowCenter>
+      </Row>
     </div>
   );
 };

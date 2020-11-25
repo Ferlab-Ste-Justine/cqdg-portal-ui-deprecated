@@ -9,12 +9,11 @@ import { IBucket } from '@ncigdc/components/Aggregations/types';
 import withRouter from '@ncigdc/utils/withRouter';
 import { parseFilterParam } from '@ncigdc/utils/uri';
 import {
-  ColumnCenter,
-  WrappedRow,
-  BottomBorderedBox,
   PieTitle,
   SelfFilteringPie,
 } from './index';
+import Column from "../../../@ncigdc/uikit/Flex/Column";
+import Row from "../../../@ncigdc/uikit/Flex/Row";
 
 export type TProps = {
   push: Function,
@@ -48,10 +47,10 @@ const RepoFilesChartsComponent = ({
   const pieColMinWidth = (width - 2) / 4;
   return (
     <div className="repo-charts">
-      <WrappedRow style={{maxWidth: `${width}px`, width: '100%'}}>
-        <ColumnCenter
+      <Row style={{maxWidth: `${width}px`, width: '100%'}} className="wrapped-row">
+        <Column
           style={{ minWidth: `${pieColMinWidth}px` }}
-          className="test-primary-site-pie"
+          className="column-center"
         >
           <PieTitle>{t('charts.study')}</PieTitle>
           <SelfFilteringPie
@@ -69,10 +68,10 @@ const RepoFilesChartsComponent = ({
             height={125}
             width={125}
           />
-        </ColumnCenter>
-        <ColumnCenter
+        </Column>
+        <Column
           style={{ minWidth: `${pieColMinWidth}px` }}
-          className="test-data-category-pie"
+          className="column-center"
         >
           <PieTitle>{t('charts.data_category')}</PieTitle>
           <SelfFilteringPie
@@ -87,10 +86,10 @@ const RepoFilesChartsComponent = ({
             height={125}
             width={125}
           />
-        </ColumnCenter>
-        <ColumnCenter
+        </Column>
+        <Column
           style={{ minWidth: `${pieColMinWidth}px` }}
-          className="test-data-type"
+          className="column-center"
         >
           <PieTitle>{t('charts.data_type')}</PieTitle>
           <SelfFilteringPie
@@ -105,10 +104,10 @@ const RepoFilesChartsComponent = ({
             height={125}
             width={125}
           />
-        </ColumnCenter>
-        <ColumnCenter
+        </Column>
+        <Column
           style={{ minWidth: `${pieColMinWidth}px` }}
-          className="test-file-format"
+          className="column-center"
         >
           <PieTitle>{t('charts.file_format')}</PieTitle>
           <SelfFilteringPie
@@ -123,8 +122,8 @@ const RepoFilesChartsComponent = ({
             height={125}
             width={125}
           />
-        </ColumnCenter>
-      </WrappedRow>
+        </Column>
+      </Row>
     </div>
   );
 };

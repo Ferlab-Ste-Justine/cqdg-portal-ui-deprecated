@@ -23,3 +23,20 @@
   margin-top: 1rem;
   border: 1px solid rgb(200, 200, 200);
 }
+
+.column-center {
+  justify-content: center;
+  align-items: center;
+}
+
+.wrapped-row {
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.row-center {
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+}

@@ -25,23 +25,6 @@ const toPieData = (clickHandler, docTypeSingular) => bucket => ({
   ),
 });
 
-export const ColumnCenter = styled(Column, {
-  justifyContent: 'center',
-  alignItems: 'center',
-});
-
-export const WrappedRow = styled(Row, {
-  alignItems: 'center',
-  flexWrap: 'wrap',
-  justifyContent: 'flex-start'
-});
-
-export const RowCenter = styled(Row, {
-  justifyContent: 'space-around',
-  alignItems: 'center',
-  flexWrap: 'wrap',
-});
-
 export const ShowToggleBox = styled.div({
   border: ({ theme }) => `1px solid ${theme.greyScale4}`,
   padding: '0.25rem 0.5rem',
