@@ -33,7 +33,7 @@ export const ColumnCenter = styled(Column, {
 export const WrappedRow = styled(Row, {
   alignItems: 'center',
   flexWrap: 'wrap',
-  justifyContent: 'flex-start',
+  justifyContent: 'flex-start'
 });
 
 export const RowCenter = styled(Row, {
@@ -44,16 +44,12 @@ export const RowCenter = styled(Row, {
 
 export const ShowToggleBox = styled.div({
   border: ({ theme }) => `1px solid ${theme.greyScale4}`,
-  padding: '0.5rem 1rem',
+  padding: '0.25rem 0.5rem',
+  marginBottom: '0.75rem',
+  marginTop: '0.5rem',
   backgroundColor: ({ theme }) => theme.white,
   cursor: 'pointer',
   color: ({ theme }) => theme.primary,
-});
-
-export const BottomBorderedBox = styled(Row, {
-  borderBottom: ({ theme }) => `1px solid ${theme.greyScale4}`,
-  paddingBottom: '1.5rem',
-  justifyContent: 'center',
 });
 
 export const PieTitle = styled.div({

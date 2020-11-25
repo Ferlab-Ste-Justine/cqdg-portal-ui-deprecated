@@ -17,8 +17,8 @@ import { SaveIcon } from '@ncigdc/theme/icons';
 import withFilters from '@ncigdc/utils/withFilters';
 import formatFileSize from '@ncigdc/utils/formatFileSize';
 
-import RepoCasesPies from '@cqdg/components/charts/RepoCasesPies';
-import RepoFilesPies from '@cqdg/components/charts/RepoFilesPies';
+import RepoCasesCharts from '@cqdg/components/charts/RepoCasesCharts';
+import RepoFilesCharts from '@cqdg/components/charts/RepoFilesCharts';
 
 import withRouter from '@ncigdc/utils/withRouter';
 import ActionsRow from '@ncigdc/components/ActionsRow';
@@ -86,15 +86,13 @@ const enhance = compose(
 );
 
 export const RepositoryPageComponent = (props: TProps) => {
-  const { filters, relay, viewer } = props;
+  const { filters, relay, viewer, query } = props;
   const fileCount = viewer.File.hits.total;
   const caseCount = viewer.Case.hits.total;
-  /* const fileSize = props.viewer.cart_summary.aggregations.fs.value; */
 
   // PLA : hardcoding this to get page to load
-  // const caseCount = 1;
+  /* const fileSize = props.viewer.cart_summary.aggregations.fs.value; */
   const fileSize = 0;
-
 
   const facetTabPanes: TabPanes = [
     {
@@ -126,24 +124,28 @@ export const RepositoryPageComponent = (props: TProps) => {
           linkText: t('search.advanced.search'),
         }}
         results={(
-          <span>
+          <div>
+
+            {
+              query.searchTableTab === 'cases' && caseCount ? <RepoCasesCharts aggregations={viewer.Case.pies}/> :
+              query.searchTableTab === 'files' && fileCount ? <RepoFilesCharts aggregations={viewer.File.pies} /> :
+              <div/>
+            }
+
             <ActionsRow
               filters={filters}
               totalCases={caseCount}
               totalFiles={fileCount}
               />
+
             <TabbedLinks
               defaultIndex={0}
               links={[
                 {
                   id: 'cases',
                   text: t('repo.tabs.cases', { count: caseCount.toLocaleString() }),
-                  component: viewer.Case.hits.total ? (
+                  component: caseCount ? (
                     <div>
-                      <RepoCasesPies
-                        aggregations={viewer.Case.pies}
-                        />
-
                       <RepoCasesTable />
                     </div>
                   ) : (
@@ -155,12 +157,8 @@ export const RepositoryPageComponent = (props: TProps) => {
                 {
                   id: 'files',
                   text: t('repo.tabs.files', { count: fileCount.toLocaleString() }),
-                  component: viewer.File.hits.total ? (
+                  component: fileCount ? (
                     <div>
-                      <RepoFilesPies
-                        aggregations={viewer.File.pies}
-                        />
-
                       <FilesTable />
                     </div>
                   ) : (
@@ -183,7 +181,7 @@ export const RepositoryPageComponent = (props: TProps) => {
                 )
               }
               />
-          </span>
+          </div>
         )}
         sidePanelComponent={SidePanelComponent}
         />
@@ -206,7 +204,7 @@ export const RepositoryPageQuery = {
       fragment on Root {
           File {
             pies: aggregations(filters: $fileFilters, aggregations_filter_themselves: true) {
-                ${RepoFilesPies.getFragment('aggregations')}
+                ${RepoFilesCharts.getFragment('aggregations')}
             }              
             hits(first: $files_size offset: $files_offset, filters: $fileFilters, sort: $files_sort) {
               total
@@ -214,7 +212,7 @@ export const RepositoryPageQuery = {
           }
           Case {
             pies: aggregations(filters: $caseFilters, aggregations_filter_themselves: true) {
-                ${RepoCasesPies.getFragment('aggregations')}
+                ${RepoCasesCharts.getFragment('aggregations')}
             }
             hits(first: $files_size offset: $files_offset, filters: $caseFilters, sort: $files_sort) {
               total

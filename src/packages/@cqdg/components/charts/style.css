@@ -1,5 +1,5 @@
 .bar:hover {
-  fill: 'rgb(131,0,30)';
+  fill: rgb(131,0,30);
 }
 
 .pointer {
@@ -16,4 +16,10 @@
 
 .exported-svg-class .displayOnly {
   display: none !important;
+}
+
+.repo-charts {
+  background-color: #fff;
+  margin-top: 1rem;
+  border: 1px solid rgb(200, 200, 200);
 }
