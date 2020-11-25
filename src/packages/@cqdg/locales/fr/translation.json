@@ -3,6 +3,7 @@
     "documentation": "Documentation",
     "files.title": "Fichiers",
     "files": "fichiers",
+    "cases": "cas",
     "participants": "Participants",
     "login": "Connexion",
     "total": "Total",
@@ -127,18 +128,18 @@
     "hpo.term": "Terme HPO",
     "mondo.term": "Terme Mondo",
     "file_id": "UUID du Fichier",
-    "data_access": "Access",
+    "data_access": "Accès",
     "file_name_keyword": "Nom de fichier",
-    "data_category": "Data Category",
-    "file_format": "Data Format",
-    "file_size": "Size",
+    "data_category": "Catégorie de données",
+    "file_format": "Format de données",
+    "file_size": "Taille",
     "case_suggest_placeholder": "ex.: ID Patient, UUID Fichier, Nom du fichier",
     "file_suggest_placeholder": "ex.: ID Patient, UUID Fichier, Nom du fichier",
-    "is_harmonized": "Harmonized",
-    "data_type": "Data Type",
+    "is_harmonized": "Données Harmonizés",
+    "data_type": "Type de données",
     "experimental_strategy": "Strategie Experimental",
-    "platform": "Platform",
-    "cases.hits.edges.submitter_donor_id": "Number of donors",
+    "platform": "Platforme",
+    "cases.hits.edges.submitter_donor_id": "Nombre de donneurs",
     "file": "Fichier",
     "range": {
       "from": "De",
@@ -311,6 +312,10 @@
     "tabs": {
       "files": "Fichiers ${count}",
       "cases": "Cas ${count}"
+    },
+    "download": {
+      "options.all.json": "Tout en JSON",
+      "options.all.tsv": "Valeur courantes en TSV"
     }
   }
 }

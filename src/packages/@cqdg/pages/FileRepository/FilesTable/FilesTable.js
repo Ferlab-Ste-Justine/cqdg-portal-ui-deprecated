@@ -2,34 +2,30 @@
 
 import React from 'react';
 import {
-  compose, setDisplayName, branch, renderComponent,
+  compose, setDisplayName, branch, renderComponent, withState,
 } from 'recompose';
 import { connect } from 'react-redux';
-import Pagination from '@ncigdc/components/Pagination';
-import Showing from '@ncigdc/components/Pagination/Showing';
-import { Row } from '@ncigdc/uikit/Flex';
-import TableActions from '@ncigdc/components/TableActions';
-import Table, { Tr } from '@ncigdc/uikit/Table';
-import styled from '@ncigdc/theme/styled';
-import Button from '@ncigdc/uikit/Button';
-import timestamp from '@ncigdc/utils/timestamp';
-import DownloadFileSingle from '@ncigdc/components/DownloadFileSingle';
+import { withRouter } from 'react-router-dom';
+import { parse, stringify } from 'query-string';
 
-const RemoveButton = styled(Button, {
-  backgroundColor: '#FFF',
-  borderColor: '#CCC',
-  color: '#333',
-  margin: '0 auto',
-  padding: '0px 5px',
-  ':hover': {
-    background:
-      'linear-gradient(to bottom, #ffffff 50%, #e6e6e6 100%) repeat scroll 0 0 #E6E6E6',
-    borderColor: '#ADADAD',
-  },
-});
+import FaFile from 'react-icons/lib/fa/file';
+
+import { Row } from '@ncigdc/uikit/Flex';
+import Table, { Tr } from '@ncigdc/uikit/Table';
+import timestamp from '@ncigdc/utils/timestamp';
+import {
+  parseIntParam,
+} from '@ncigdc/utils/uri';
+
+
+import TableActions from '@cqdg/components/TableActions';
+import InlineCount from '@cqdg/components/countWithIcon/InlineCount';
+
+import './FilesTable.css';
 
 export default compose(
   setDisplayName('FilesTablePresentation'),
+  withRouter,
   connect(state => ({ tableColumns: state.tableColumns.files })),
   branch(
     ({ viewer }) =>
@@ -40,44 +36,24 @@ export default compose(
 )(
   ({
     canAddToCart = true,
-    dispatch,
     downloadable,
     entityType = 'files',
-    parentVariables,
+    history,
+    location: { search },
     tableColumns,
     tableHeader,
     viewer: { File: { hits } },
   }) => {
     const tableInfo = tableColumns.slice().filter(x => !x.hidden);
-
-    const prefix = 'files';
-
     return (
-      <div className="test-files-table">
+      <div className="files-table">
         {tableHeader && (
-          <h1
-            className="panel-title"
-            style={{
-              padding: '1rem',
-              marginTop: '-6rem',
-            }}
-            >
+          <h1 className="panel-title">
             {tableHeader}
           </h1>
         )}
-        <Row
-          style={{
-            backgroundColor: 'white',
-            padding: '1rem',
-            justifyContent: 'space-between',
-          }}
-          >
-          <Showing
-            docType="files"
-            params={parentVariables}
-            prefix={prefix}
-            total={hits.total}
-            />
+        <Row className="files-actions">
+          <InlineCount Icon={FaFile} label="global.files" total={hits.total} />
           <TableActions
             arrangeColumnKey={entityType}
             downloadable={downloadable}
@@ -93,7 +69,21 @@ export default compose(
             type="file"
             />
         </Row>
-        <div style={{ overflowX: 'auto' }}>
+        <div
+          className="table-container"
+          onScroll={(e) => {
+            const isNearBottom = e.target.scrollHeight - e.target.scrollTop <= e.target.clientHeight + 50;
+            console.log(e.target.scrollTop);
+            if (isNearBottom) {
+              e.target.scrollTop -= 25;
+              const q = parse(search);
+              const offsetSize = parseIntParam(q.files_size, 20);
+              q.files_size = offsetSize + 20;
+              const stringified = stringify(q);
+              history.push(`${location.pathname}?${stringified}`);
+            }
+          }}
+          >
           <Table
             body={(
               <tbody>
@@ -123,11 +113,6 @@ export default compose(
             id="repository-files-table"
             />
         </div>
-        <Pagination
-          params={parentVariables}
-          prefix={prefix}
-          total={hits.total}
-          />
       </div>
     );
   }

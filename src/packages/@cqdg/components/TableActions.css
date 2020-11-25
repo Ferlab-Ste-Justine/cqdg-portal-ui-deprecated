@@ -1,0 +1,23 @@
+.test-table-actions .table-actions-buttons {
+  padding: 4px;
+  min-width: auto;
+  min-height: auto;
+  height: auto;
+
+  border-radius: 2px;
+  border: 1px solid #B5C6D8;
+  color: #18486B;
+}
+
+.test-table-actions .table-actions-buttons:hover {
+  border: 1px solid #0075A2;
+  color: #0075A2;
+  background: #fff;
+}
+
+.test-table-actions .table-actions-buttons:focus {
+  border: 1px solid #005673;
+  color: #005673;
+  background: #fff;
+  outline: none;
+}

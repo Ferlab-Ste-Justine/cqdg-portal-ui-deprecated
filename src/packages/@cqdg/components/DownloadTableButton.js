@@ -1,12 +1,15 @@
 import React from 'react';
 import { map, reduce } from 'lodash';
+import MdFileDownload from 'react-icons/lib/md/file-download';
 
 import saveFile from '@ncigdc/utils/filesaver';
 import { mapStringArrayToTsvString } from '@ncigdc/utils/toTsvString';
 import Button from '@ncigdc/uikit/Button';
 import { visualizingButton } from '@ncigdc/theme/mixins';
-import { Tooltip } from '@ncigdc/uikit/Tooltip';
 import { track } from '@ncigdc/utils/analytics';
+import Dropdown from '@ncigdc/uikit/Dropdown';
+import DropdownItem from '@ncigdc/uikit/DropdownItem';
+
 import t from '@cqdg/locales/intl';
 
 type TProps = {
@@ -83,27 +86,65 @@ export const downloadToTSV = ({
 
 const DownloadTableToTsvButton =
   ({
-    excludedColumns,
     filename,
     selector,
     leftIcon,
     style = {},
+    className = '',
   }: TProps) => (
-    <Tooltip Component={t('global.tables.actions.export')}>
-      <Button
-        leftIcon={leftIcon}
-        onClick={() => downloadToTSV({
-          filename,
-          selector,
-        })}
+    <Dropdown
+      button={(
+        <Button
+          className={className}
+          leftIcon={leftIcon}
+          style={{
+            ...visualizingButton,
+            ...style,
+          }}
+          >
+          <MdFileDownload />
+        </Button>
+      )}
+      >
+      <DropdownItem
         style={{
-          ...visualizingButton,
-          ...style,
+          color: '#18486B',
+          lineHeight: '1.5',
+          ':hover': {
+            cursor: 'pointer',
+            color: '#18486B',
+          },
         }}
         >
-        TSV
-      </Button>
-    </Tooltip>
+        <div onClick={() => console.log('TO JSON')}>
+          <span>
+            {t('repo.download.options.all.json')}
+          </span>
+        </div>
+      </DropdownItem>
+      <DropdownItem
+        style={{
+          color: '#18486B',
+          lineHeight: '1.5',
+          ':hover': {
+            cursor: 'pointer',
+            color: '#18486B',
+          },
+        }}
+        >
+        <div
+          onClick={() => downloadToTSV({
+            filename,
+            selector,
+          })}
+          >
+          <span>
+            {t('repo.download.options.all.tsv')}
+          </span>
+        </div>
+      </DropdownItem>
+    </Dropdown>
+
   );
 
 export default DownloadTableToTsvButton;

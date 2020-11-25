@@ -46,17 +46,16 @@ const ArrangeColumnsButton = compose(
         entityType,
         style = {},
         hideColumns,
+        buttonClassName = '',
       } = this.props;
       return (
         <Dropdown
           autoclose={false}
           button={(
-            <Tooltip Component={<span>{t('global.tables.actions.arrange')}</span>}>
-              <Button style={style}>
-                <ArrangeIcon />
-                <Hidden>{t('global.tables.actions.sort')}</Hidden>
-              </Button>
-            </Tooltip>
+            <Button className={buttonClassName} style={style}>
+              <ArrangeIcon />
+              <Hidden>{t('global.tables.actions.sort')}</Hidden>
+            </Button>
           )}
           className="test-arrange-columns-button"
           dropdownStyle={{

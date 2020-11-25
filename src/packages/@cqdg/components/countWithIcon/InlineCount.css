@@ -1,0 +1,13 @@
+.inline-count-container {
+  display: flex;
+  color: #003457;
+  font-weight: 600;
+  align-items: center;
+}
+
+.inline-count-container .icon-count {
+  margin-right: 6px;
+  fill: #003457; /* gray-9 */
+  width: 16px;
+  height: 16px;
+}

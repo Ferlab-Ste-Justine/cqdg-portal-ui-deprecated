@@ -24,6 +24,10 @@ button:hover {
   cursor: pointer;
 }
 
+button:focus  {
+  outline: none;
+}
+
 button.navigation {
   background: #F8F9FC;
   border-color: #D8E1EB;
@@ -39,7 +43,7 @@ button.navigation:hover {
 background-color: #FFFFFF;
 }
 
-button.navigation.focus {
+button.navigation:focus {
   border: 1px solid #18486B;
 }
 

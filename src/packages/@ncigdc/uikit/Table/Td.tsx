@@ -3,7 +3,8 @@ import React from 'react';
 
 const styles = {
   td: {
-    padding: '3px',
+    color: '#18486B',
+    padding: '8px',
     whiteSpace: 'nowrap',
   },
 };
@@ -15,8 +16,14 @@ interface ITdProps {
 
 export type TTd = (props: ITdProps) => JSX.Element;
 
-const Td: TTd = ({ style, children, ...props }) => (
-  <td style={{ ...styles.td, ...style }} {...props}>
+const Td: TTd = ({ children, style, ...props }) => (
+  <td
+    style={{
+      ...styles.td,
+      ...style,
+    }}
+    {...props}
+    >
     {children}
   </td>
 );

@@ -14,7 +14,6 @@ import {
 import { ITheme, withTheme } from '@ncigdc/theme';
 import { Row } from '@ncigdc/uikit/Flex';
 import { SortIcon } from '@ncigdc/theme/icons';
-import { Tooltip } from '@ncigdc/uikit/Tooltip';
 import t from '@cqdg/locales/intl';
 
 const RadioRow = styled(Row, {
@@ -63,6 +62,7 @@ interface ISortTableButtonProps {
   theme?: ITheme;
   style?: React.CSSProperties;
   isDisabled?: boolean;
+  buttonClassName?: string;
 }
 
 interface ICSortTableButtonProps extends ISortTableButtonProps {
@@ -140,6 +140,7 @@ const SortTableButton = compose<ICSortTableButtonProps, ISortTableButtonProps>(
   withTheme
 )(
   ({
+    buttonClassName = '',
     dispatch,
     isDisabled = false,
     options,
@@ -154,12 +155,10 @@ const SortTableButton = compose<ICSortTableButtonProps, ISortTableButtonProps>(
       <Dropdown
         autoclose={false}
         button={(
-          <Tooltip Component={<span>{t('global.tables.actions.sort')}</span>}>
-            <Button disabled={isDisabled} style={style}>
-              <SortIcon />
-              <Hidden>{t('global.tables.actions.sort')}</Hidden>
-            </Button>
-          </Tooltip>
+          <Button className={buttonClassName} disabled={isDisabled} style={style}>
+            <SortIcon />
+            <Hidden>{t('global.tables.actions.sort')}</Hidden>
+          </Button>
         )}
         dropdownStyle={{
           top: '100%',
@@ -190,11 +189,8 @@ const SortTableButton = compose<ICSortTableButtonProps, ISortTableButtonProps>(
               key={id}
               style={{
                 lineHeight: '1.5',
-                borderRight: '2px solid transparent',
                 ':hover': {
-                  borderRight: `2px solid ${theme
-                    ? theme.secondary
-                    : 'transparent'}`,
+                  cursor: 'pointer',
                 },
               }}
               >
@@ -205,7 +201,7 @@ const SortTableButton = compose<ICSortTableButtonProps, ISortTableButtonProps>(
                       'toggleSortKey',
                       id,
                       uiState[id].asc ? 'asc' : 'desc'
-                  )}
+                    )}
                   style={{
                     width: '100%',
                     color: 'rgb(0, 80, 131)',

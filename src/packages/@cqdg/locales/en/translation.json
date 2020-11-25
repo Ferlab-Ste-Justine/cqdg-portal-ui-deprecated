@@ -3,6 +3,7 @@
     "documentation": "Documentation",
     "files.title": "Files",
     "files": "files",
+    "cases": "cases",
     "participants": "Participants",
     "login": "Login",
     "total": "Total",
@@ -309,6 +310,10 @@
     "tabs": {
       "files": "Files ${count}",
       "cases": "Cases ${count}"
+    },
+    "download": {
+      "options.all.json": "All to JSON",
+      "options.all.tsv": "Current values in TSV"
     }
   },
   "errors": {

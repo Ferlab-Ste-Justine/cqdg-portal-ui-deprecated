@@ -14,7 +14,7 @@ import { fetchFilesAndAdd } from '@ncigdc/dux/cart';
 import { ShoppingCartIcon } from '@ncigdc/theme/icons';
 import DownloadManifestButton from '@ncigdc/components/DownloadManifestButton';
 import { IGroupFilter } from '@ncigdc/utils/filters/types';
-import { DISPLAY_SLIDES } from '@ncigdc/utils/constants';
+import { DISPLAY_SLIDES, AWG } from '@ncigdc/utils/constants';
 import { RepositorySlideCount } from '@ncigdc/modern_components/Counts';
 import { Tooltip } from '@ncigdc/uikit/Tooltip';
 import Spinner from '@ncigdc/theme/icons/Spinner';
@@ -23,7 +23,7 @@ import { linkButton } from '@ncigdc/theme/mixins';
 import ImageViewerLink from '@ncigdc/components/Links/ImageViewerLink';
 import { withTheme } from '@ncigdc/theme';
 import pluralize from '@ncigdc/utils/pluralize';
-import { AWG } from '@ncigdc/utils/constants';
+
 import features from '../../../features.json';
 
 const ImageViewerLinkAsButton = styled(ImageViewerLink, {
@@ -38,19 +38,19 @@ export default compose(
   withTheme,
 )(
   ({
-    filters,
-    totalCases,
     dispatch,
-    totalFiles,
+    filters,
     push,
     theme,
+    totalCases,
+    totalFiles,
   }: {
-    filters: IGroupFilter,
-    totalCases: number,
-    totalFiles: number,
-    dispatch: Function,
-    push: Function,
-    theme: any,
+    filters: IGroupFilter;
+    totalCases: number;
+    totalFiles: number;
+    dispatch: Function;
+    push: Function;
+    theme: any;
   }) => {
     return (
       <Row
@@ -59,26 +59,25 @@ export default compose(
           justifyContent: 'space-between',
           padding: '0 0 1rem',
         }}
-      >
+        >
         <Row spacing="0.2rem">
-            {features.addFilesToCart && (
-                <Button
-            onClick={() => dispatch(fetchFilesAndAdd(filters, totalFiles))}
-            leftIcon={<ShoppingCartIcon />}
-          >
+          {features.addFilesToCart && (
+            <Button
+              leftIcon={<ShoppingCartIcon />}
+              onClick={() => dispatch(fetchFilesAndAdd(filters, totalFiles))}
+              >
             Add All Files to Cart
-          </Button>
-            )}
-            {features.downloadManifest && (
-                <DownloadManifestButton fileCount={totalFiles} filters={filters} />
-            )}
+            </Button>
+          )}
+          {features.downloadManifest && (
+            <DownloadManifestButton fileCount={totalFiles} filters={filters} />
+          )}
           {!AWG && features.navTabs.tabs.exploration ? (
             filters ? (
               <CreateRepositoryCaseSetButton
-                filters={filters}
                 disabled={!totalCases}
-                style={{ paddingLeft: '5px' }}
-                onComplete={(setId: String) => {
+                filters={filters}
+                onComplete={(setId: string) => {
                   push({
                     pathname: '/exploration',
                     query: {
@@ -97,22 +96,27 @@ export default compose(
                     },
                   });
                 }}
-              >
+                style={{ paddingLeft: '5px' }}
+                >
                 {'View '}
-                {totalCases.toLocaleString()} {pluralize(' Case', totalCases)}
+                {totalCases.toLocaleString()}
+                {' '}
+                {pluralize(' Case', totalCases)}
                 {' in Exploration'}
               </CreateRepositoryCaseSetButton>
             ) : (
               <Button
                 disabled={!totalCases}
-                style={{ paddingLeft: '5px' }}
                 onClick={() =>
                   push({
                     pathname: '/exploration',
                   })}
-              >
+                style={{ paddingLeft: '5px' }}
+                >
                 {'View '}
-                {totalCases.toLocaleString()} {pluralize(' Case', totalCases)}
+                {totalCases.toLocaleString()}
+                {' '}
+                {pluralize(' Case', totalCases)}
                 {' in Exploration'}
               </Button>
             )
@@ -120,11 +124,11 @@ export default compose(
 
           {DISPLAY_SLIDES && (
             <RepositorySlideCount filters={filters}>
-              {(count: Number, loading: Boolean) => (
+              {(count: number, loading: boolean) => (
                 <span style={{ marginTop: '7px' }}>
                   <Tooltip
                     Component={count === 0 ? 'No images available' : null}
-                  >
+                    >
                     <ImageViewerLinkAsButton
                       query={{
                         filters,
@@ -132,12 +136,12 @@ export default compose(
                       style={
                         loading || count === 0
                           ? {
-                              backgroundColor: theme.greyScale4,
-                              pointerEvents: 'none',
-                            }
+                            backgroundColor: theme.greyScale4,
+                            pointerEvents: 'none',
+                          }
                           : { cursor: 'pointer' }
                       }
-                    >
+                      >
                       {loading && <Spinner style={{ marginRight: '5px' }} />}
                       View Images
                     </ImageViewerLinkAsButton>
@@ -147,11 +151,13 @@ export default compose(
             </RepositorySlideCount>
           )}
         </Row>
-          {features.browseAnnotations && (
-              <AnnotationsLink>
-                  <i className="fa fa-edit" /> Browse Annotations
-              </AnnotationsLink>
-          )}
+        {features.browseAnnotations && (
+          <AnnotationsLink>
+            <i className="fa fa-edit" />
+            {' '}
+Browse Annotations
+          </AnnotationsLink>
+        )}
       </Row>
     );
   },

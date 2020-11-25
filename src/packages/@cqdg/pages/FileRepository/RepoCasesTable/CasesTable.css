@@ -1,0 +1,8 @@
+.cases-table {
+  padding: 24px;
+}
+
+.cases-table .files-actions {
+  justify-content: space-between;
+  padding: 0 8px 24px;
+}

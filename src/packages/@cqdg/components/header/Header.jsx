@@ -18,7 +18,6 @@ const Header = (props) => {
   const { history, intl, setLanguage } = props;
   const { push } = history;
   const { location } = window;
-
   return (
     <header id="header" role="banner">
       <img
@@ -75,6 +74,6 @@ const MapDispatchToProps = (dispatch) => ({
 });
 
 export default compose(
+  withRouter,
   connect((store) => ({ intl: store.intl }), MapDispatchToProps),
-  withRouter
 )(Header);

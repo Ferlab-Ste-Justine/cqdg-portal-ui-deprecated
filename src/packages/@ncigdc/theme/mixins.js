@@ -31,7 +31,8 @@ export const dropdown = {
   backgroundColor: 'white',
   textAlign: 'left',
   right: 0,
-  borderRadius: '5px',
+  borderRadius: '2px',
+  boxShadow: '0px 2px 8px rgba(13, 102, 159, 0.17)',
 };
 
 export const dropdownButton = {
@@ -43,10 +44,10 @@ export const dropdownButton = {
 };
 
 export const visualizingButton = {
-  padding: '0 12px',
+  padding: '0 6px',
   color: '#333',
   backgroundColor: '#fff',
-  borderColor: '#ccc',
+  borderColor: '#B5C6D8',
   minWidth: 40,
   minHeight: 28,
   lineHeight: '28px',
@@ -110,8 +111,8 @@ export const absoluteCenter = {
 
 export const linkButton = {
   fontSize: '14px',
-  borderRadius: '4px',
-  backgroundColor: ({ theme }: Object) => theme.primary,
+  borderRadius: '2px',
+  backgroundColor: ({ theme }: Record<string, any>) => theme.primary,
   color: 'white',
   ':link': {
     textDecoration: 'none',
@@ -126,9 +127,7 @@ export const linkButton = {
     color: 'white',
   },
   ':hover': {
-    backgroundColor: ({ theme }: Object) => Color(theme.primary)
-      .lighten(0.7)
-      .rgbString(),
+    backgroundColor: 'white',
     color: 'white',
   },
 };

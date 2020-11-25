@@ -1,20 +1,28 @@
 /* @flow */
 
 import React from 'react';
-import { compose, setDisplayName, branch, renderComponent } from 'recompose';
+import {
+  compose, setDisplayName, branch, renderComponent,
+} from 'recompose';
 import { connect } from 'react-redux';
+import MdPeople from 'react-icons/lib/md/people';
+
 import Pagination from '@ncigdc/components/Pagination';
 import Showing from '@ncigdc/components/Pagination/Showing';
 import { Row } from '@ncigdc/uikit/Flex';
-import TableActions from '@ncigdc/components/TableActions';
 import tableModels from '@ncigdc/tableModels';
 import Table, { Tr } from '@ncigdc/uikit/Table';
-import { CreateRepositoryCaseSetButton } from '@ncigdc/modern_components/withSetAction';
-import { AppendRepositoryCaseSetButton } from '@ncigdc/modern_components/withSetAction';
-import { RemoveFromRepositoryCaseSetButton } from '@ncigdc/modern_components/withSetAction';
+import { CreateRepositoryCaseSetButton, AppendRepositoryCaseSetButton, RemoveFromRepositoryCaseSetButton } from '@ncigdc/modern_components/withSetAction';
+
+
 import { theme } from '@ncigdc/theme';
 import withSelectIds from '@ncigdc/utils/withSelectIds';
 import timestamp from '@ncigdc/utils/timestamp';
+
+import TableActions from '@cqdg/components/TableActions';
+import InlineCount from '@cqdg/components/countWithIcon/InlineCount';
+
+import './CasesTable.css';
 
 export default compose(
   setDisplayName('RepoCasesTablePresentation'),
@@ -28,59 +36,82 @@ export default compose(
   withSelectIds
 )(
   ({
-    viewer: { Case: { hits } },
     entityType = 'cases',
-    tableColumns,
-    variables,
+    score,
     selectedIds,
     setSelectedIds,
-    score,
     sort,
+    tableColumns,
+    variables,
+    viewer: { Case: { hits } },
   }) => {
     const tableInfo = tableColumns.slice().filter(x => !x.hidden);
 
     return (
-      <div className="test-cases-table">
+      <div className="cases-table">
         <Row
           style={{
             backgroundColor: 'white',
             padding: '1rem',
             justifyContent: 'space-between',
           }}
-        >
-          <Showing
-            docType="cases"
-            prefix={entityType}
-            params={variables}
-            total={hits.total}
-          />
+          >
+          <InlineCount Icon={MdPeople} label="global.cases" total={hits.total} />
           <TableActions
-            type="case"
-            scope="repository"
             arrangeColumnKey={entityType}
-            total={hits.total}
-            endpoint="cases"
+            currentFilters={variables.filters}
             downloadFields={tableInfo
               .filter(x => x.downloadable)
               .map(x => x.field || x.id)}
-            sortOptions={tableInfo.filter(x => x.sortable)}
-            tsvSelector="#repository-cases-table"
-            tsvFilename={`repository-cases-table.${timestamp()}.tsv`}
+            endpoint="cases"
+            false
+            false
+            idField="cases.case_id"
+            scope="repository"
             score={variables.score}
+            selectedIds={selectedIds}
             sort={variables.cases_sort}
-            currentFilters={variables.filters}
+            sortOptions={tableInfo.filter(x => x.sortable)}
             // CreateSetButton={CreateRepositoryCaseSetButton}
             // AppendSetButton={AppendRepositoryCaseSetButton}
             // RemoveFromSetButton={RemoveFromRepositoryCaseSetButton}
-            idField="cases.case_id"
-            selectedIds={selectedIds}
-            false
-            false
-          />
+            total={hits.total}
+            tsvFilename={`repository-cases-table.${timestamp()}.tsv`}
+            tsvSelector="#repository-cases-table"
+            type="case"
+            />
         </Row>
         <div style={{ overflowX: 'auto' }}>
           <Table
-            id="repository-cases-table"
+            body={(
+              <tbody>
+                {hits.edges.map((e, i) => (
+                  <Tr
+                    index={i}
+                    key={e.node.id}
+                    style={{
+                      ...(selectedIds.includes(e.node.case_id) && {
+                        backgroundColor: theme.tableHighlight,
+                      }),
+                    }}
+                    >
+                    {tableInfo
+                      .filter(x => x.td)
+                      .map(x => (
+                        <x.td
+                          edges={hits.edges}
+                          index={i}
+                          key={x.id}
+                          node={e.node}
+                          selectedIds={selectedIds}
+                          setSelectedIds={setSelectedIds}
+                          total={hits.total}
+                          />
+                      ))}
+                  </Tr>
+                ))}
+              </tbody>
+            )}
             headings={tableInfo
               .filter(x => !x.subHeading)
               .map(x => (
@@ -89,43 +120,14 @@ export default compose(
                   nodes={hits.edges}
                   selectedIds={selectedIds}
                   setSelectedIds={setSelectedIds}
-                />
+                  />
               ))}
+            id="repository-cases-table"
             subheadings={tableInfo
               .filter(x => x.subHeading)
               .map(x => <x.th key={x.id} />)}
-            body={
-              <tbody>
-                {hits.edges.map((e, i) => (
-                  <Tr
-                    key={e.node.id}
-                    index={i}
-                    style={{
-                      ...(selectedIds.includes(e.node.case_id) && {
-                        backgroundColor: theme.tableHighlight,
-                      }),
-                    }}
-                  >
-                    {tableInfo
-                      .filter(x => x.td)
-                      .map(x => (
-                        <x.td
-                          key={x.id}
-                          node={e.node}
-                          index={i}
-                          total={hits.total}
-                          edges={hits.edges}
-                          selectedIds={selectedIds}
-                          setSelectedIds={setSelectedIds}
-                        />
-                      ))}
-                  </Tr>
-                ))}
-              </tbody>
-            }
-          />
+            />
         </div>
-        <Pagination prefix={entityType} params={variables} total={hits.total} />
       </div>
     );
   }

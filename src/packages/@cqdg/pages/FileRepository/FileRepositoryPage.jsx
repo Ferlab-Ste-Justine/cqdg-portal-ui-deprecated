@@ -21,7 +21,6 @@ import RepoCasesCharts from '@cqdg/components/charts/RepoCasesCharts';
 import RepoFilesCharts from '@cqdg/components/charts/RepoFilesCharts';
 
 import withRouter from '@ncigdc/utils/withRouter';
-import ActionsRow from '@ncigdc/components/ActionsRow';
 import t from '@cqdg/locales/intl';
 import Tabs from '@ferlab-ui/core/containers/tabs';
 
@@ -86,7 +85,9 @@ const enhance = compose(
 );
 
 export const RepositoryPageComponent = (props: TProps) => {
-  const { filters, relay, viewer, query } = props;
+  const {
+    filters, query, relay, viewer,
+  } = props;
   const fileCount = viewer.File.hits.total;
   const caseCount = viewer.Case.hits.total;
 
@@ -127,9 +128,9 @@ export const RepositoryPageComponent = (props: TProps) => {
           <div>
 
             {
-              query.searchTableTab === 'cases' && caseCount ? <RepoCasesCharts aggregations={viewer.Case.pies}/> :
-              query.searchTableTab === 'files' && fileCount ? <RepoFilesCharts aggregations={viewer.File.pies} /> :
-              <div/>
+              query.searchTableTab === 'cases' && caseCount ? <RepoCasesCharts aggregations={viewer.Case.pies} />
+              : query.searchTableTab === 'files' && fileCount ? <RepoFilesCharts aggregations={viewer.File.pies} />
+              : <div />
             }
 
             <ActionsRow

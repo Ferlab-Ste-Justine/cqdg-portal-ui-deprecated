@@ -4,20 +4,27 @@
 // @flow
 
 import React from 'react';
+import MdLock from 'react-icons/lib/md/lock';
+import MdLockOutline from 'react-icons/lib/md/lock-outline';
+import MdLockOpen from 'react-icons/lib/md/lock-open';
+
 import {
   Th, Td, TdNum, ThNum,
 } from '@ncigdc/uikit/Table';
 import FileLink from '@ncigdc/components/Links/FileLink';
 import FileSize from '@ncigdc/components/FileSize';
 import CopyToClipboardButton from '@ncigdc/modern_components/CopyToClipboardButton/CopyToClipboardButton';
+
 import t from '@cqdg/locales/intl';
+
 import features from '../../../../../features.json';
+import './FilesTable.css';
 
 const filesTableModel = [
   {
     name: 'File UUID',
     id: 'file_id',
-    th: () => <Th>{t('facet.file_id')}</Th>,
+    th: () => <Th className="table-th">{t('facet.file_id')}</Th>,
     td: ({ node }) => (
       <Td>
         {features.fileLinking ? (
@@ -42,18 +49,11 @@ const filesTableModel = [
     id: 'data_access',
     sortable: true,
     downloadable: true,
-    th: () => <Th>{t('facet.data_access')}</Th>,
+    th: () => <Th className="table-th"><MdLock className="files-table-locks" /></Th>,
     td: ({ node }) => (
       <Td>
-        {node.data_access === 'open' && <i className="fa fa-unlock-alt" />}
-        {node.data_access === 'controlled' && <i className="fa fa-lock" />}
-        <span
-          style={{
-            marginLeft: '0.3rem',
-          }}
-          >
-          {node.data_access}
-        </span>
+        {node.data_access.toLowerCase() === 'open' && <MdLockOpen className="files-table-locks files-table-lock-open" />}
+        {node.data_access.toLowerCase() === 'controled' && <MdLockOutline className="files-table-locks files-table-lock" />}
       </Td>
     ),
   },
@@ -62,7 +62,7 @@ const filesTableModel = [
     id: 'file_name_keyword',
     sortable: true,
     downloadable: true,
-    th: () => <Th>{t('facet.file_name_keyword')}</Th>,
+    th: () => <Th className="table-th">{t('facet.file_name_keyword')}</Th>,
     td: ({ node }) => (
       <Td>
         <CopyToClipboardButton text={node.file_name_keyword} />
@@ -83,7 +83,7 @@ const filesTableModel = [
   {
     name: 'Data Category',
     id: 'data_category',
-    th: () => <Th>{t('facet.data_category')}</Th>,
+    th: () => <Th className="table-th">{t('facet.data_category')}</Th>,
     td: ({ node }) => <Td>{node.data_category || '--'}</Td>,
     sortable: true,
     downloadable: true,
@@ -91,29 +91,17 @@ const filesTableModel = [
   {
     name: 'Data Format',
     id: 'file_format',
-    th: () => <Th>{t('facet.file_format')}</Th>,
+    th: () => <Th className="table-th">{t('facet.file_format')}</Th>,
     td: ({ node }) => <Td>{node.file_format || '--'}</Td>,
-    sortable: true,
-    downloadable: true,
-  },
-  {
-    name: 'Size',
-    id: 'file_size',
-    th: () => <ThNum>{t('facet.file_size')}</ThNum>,
-    td: ({ node }) => (
-      <TdNum>
-        <FileSize bytes={node.file_size * 1000000} />
-      </TdNum>
-    ),
     sortable: true,
     downloadable: true,
   },
   {
     name: 'Harmonized',
     id: 'is_harmonized',
-    th: () => <Th>{t('facet.is_harmonized')}</Th>,
+    th: () => <Th className="table-th">{t('facet.is_harmonized')}</Th>,
     td: ({ node }) => (
-      <Td style={{ textAlign: 'center' }}>{node.is_harmonized ? 'true' : 'false'}</Td>
+      <Td>{node.is_harmonized ? 'true' : 'false'}</Td>
     ),
     sortable: true,
     downloadable: true,
@@ -121,7 +109,7 @@ const filesTableModel = [
   {
     name: 'Data Type',
     id: 'data_type',
-    th: () => <Th>{t('facet.data_type')}</Th>,
+    th: () => <Th className="table-th">{t('facet.data_type')}</Th>,
     td: ({ node }) => <Td>{node.data_type || '--'}</Td>,
     sortable: true,
     downloadable: true,
@@ -130,7 +118,7 @@ const filesTableModel = [
   {
     name: 'Experimental Strategy',
     id: 'experimental_strategy',
-    th: () => <Th>{t('facet.data_category')}</Th>,
+    th: () => <Th className="table-th">{t('facet.data_category')}</Th>,
     td: ({ node }) => <Td>{node.experimental_strategy || '--'}</Td>,
     sortable: true,
     downloadable: true,
@@ -139,7 +127,7 @@ const filesTableModel = [
   {
     name: 'Platform',
     id: 'platform',
-    th: () => <Th>{t('facet.platform')}</Th>,
+    th: () => <Th className="table-th">{t('facet.platform')}</Th>,
     td: ({ node }) => <Td>{node.platform || '--'}</Td>,
     sortable: true,
     downloadable: true,
@@ -148,11 +136,23 @@ const filesTableModel = [
   {
     name: 'Number of donors',
     id: 'cases.hits.edges.submitter_donor_id',
-    th: () => <Th>{t('facet.cases.hits.edges.submitter_donor_id')}</Th>,
-    td: ({ node }) => <Td style={{ textAlign: 'center' }}>{node.cases.hits.total}</Td>,
+    th: () => <Th className="table-th" style={{ textAlign: 'right' }}>{t('facet.cases.hits.edges.submitter_donor_id')}</Th>,
+    td: ({ node }) => <Td style={{ textAlign: 'right' }}>{node.cases.hits.total}</Td>,
     sortable: false,
     downloadable: true,
     hidden: false,
+  },
+  {
+    name: 'Size',
+    id: 'file_size',
+    th: () => <ThNum className="table-th">{t('facet.file_size')}</ThNum>,
+    td: ({ node }) => (
+      <TdNum>
+        <FileSize bytes={node.file_size * 1000000} />
+      </TdNum>
+    ),
+    sortable: true,
+    downloadable: true,
   },
 ];
 
