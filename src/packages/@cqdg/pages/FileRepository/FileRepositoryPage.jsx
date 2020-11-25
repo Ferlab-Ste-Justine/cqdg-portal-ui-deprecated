@@ -132,13 +132,6 @@ export const RepositoryPageComponent = (props: TProps) => {
               : query.searchTableTab === 'files' && fileCount ? <RepoFilesCharts aggregations={viewer.File.pies} />
               : <div />
             }
-
-            <ActionsRow
-              filters={filters}
-              totalCases={caseCount}
-              totalFiles={fileCount}
-              />
-
             <TabbedLinks
               defaultIndex={0}
               links={[
@@ -179,7 +172,7 @@ export const RepositoryPageComponent = (props: TProps) => {
                       <strong>{formatFileSize(fileSize)}</strong>
                     </span>
                   </Row>
-                )
+              )
               }
               />
           </div>
