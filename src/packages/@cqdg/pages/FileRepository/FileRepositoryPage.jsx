@@ -128,19 +128,19 @@ export const RepositoryPageComponent = (props: TProps) => {
           <div>
 
             {
-              (Object.keys(query).length === 0 || query.searchTableTab === 'cases') && caseCount ? <RepoCasesCharts aggregations={viewer.Case.pies} />
-              : query.searchTableTab === 'files' && fileCount ? <RepoFilesCharts aggregations={viewer.File.pies} />
+              (Object.keys(query).length === 0 || query.searchTableTab === 'files') && caseCount ? <RepoFilesCharts aggregations={viewer.File.pies} />
+              : query.searchTableTab === 'cases' && fileCount ? <RepoCasesCharts aggregations={viewer.Case.pies} />
               : <div />
             }
             <TabbedLinks
               defaultIndex={0}
               links={[
                 {
-                  id: 'cases',
-                  text: t('repo.tabs.cases', { count: caseCount.toLocaleString() }),
-                  component: caseCount ? (
+                  id: 'files',
+                  text: t('repo.tabs.files', { count: fileCount.toLocaleString() }),
+                  component: fileCount ? (
                     <div>
-                      <RepoCasesTable />
+                      <FilesTable />
                     </div>
                   ) : (
                     <NoResultsMessage>
@@ -149,11 +149,11 @@ export const RepositoryPageComponent = (props: TProps) => {
                   ),
                 },
                 {
-                  id: 'files',
-                  text: t('repo.tabs.files', { count: fileCount.toLocaleString() }),
-                  component: fileCount ? (
+                  id: 'cases',
+                  text: t('repo.tabs.cases', { count: caseCount.toLocaleString() }),
+                  component: caseCount ? (
                     <div>
-                      <FilesTable />
+                      <RepoCasesTable />
                     </div>
                   ) : (
                     <NoResultsMessage>
