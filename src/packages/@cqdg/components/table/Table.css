@@ -29,6 +29,6 @@ table tbody td {
   white-space: nowrap;
 }
 
-table tbody td.td-number, table tbody th.th-number {
+table tbody td.td-number, table thead th.th-number {
   text-align: right;
 }
