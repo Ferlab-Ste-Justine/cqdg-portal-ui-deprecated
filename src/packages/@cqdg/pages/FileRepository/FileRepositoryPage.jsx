@@ -97,14 +97,14 @@ export const RepositoryPageComponent = (props: TProps) => {
 
   const facetTabPanes: TabPanes = [
     {
-      component: <CaseAggregations relay={relay} />,
-      id: 'participants',
-      text: t('global.participants'),
-    },
-    {
       component: <FileAggregations relay={relay} />,
       id: 'files',
       text: t('global.files.title'),
+    },
+    {
+      component: <CaseAggregations relay={relay} />,
+      id: 'participants',
+      text: t('global.donors'),
     },
   ];
 

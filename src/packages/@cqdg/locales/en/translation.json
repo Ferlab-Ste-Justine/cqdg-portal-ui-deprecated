@@ -4,7 +4,7 @@
     "files.title": "Files",
     "files": "files",
     "cases": "cases",
-    "participants": "Participants",
+    "donors": "Donors",
     "login": "Login",
     "total": "Total",
     "more": "More",
@@ -309,7 +309,7 @@
     },
     "tabs": {
       "files": "Files ${count}",
-      "cases": "Cases ${count}"
+      "cases": "Donors ${count}"
     },
     "download": {
       "options.all.json": "All to JSON",
