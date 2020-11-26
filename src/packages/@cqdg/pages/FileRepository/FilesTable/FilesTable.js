@@ -19,10 +19,14 @@ import InlineCount from '@cqdg/components/countWithIcon/InlineCount';
 import StackLayout from '@ferlab-ui/core/layouts/StackLayout';
 
 import './FilesTable.css';
+import Td from "../../../components/table/Td";
+import {toggleFilesInCart} from "../../../../@ncigdc/dux/cart";
+import Th from "../../../components/table/Th";
 
 export default compose(
   setDisplayName('FilesTablePresentation'),
   connect(state => ({ tableColumns: state.tableColumns.files })),
+  connect(state => state.cart),
   withPropsOnChange(['variables'], ({ variables: { files_size } }) => {
     return {
       resetScroll: !(files_size > 20),
@@ -36,7 +40,8 @@ export default compose(
   )
 )(
   ({
-    canAddToCart = true,
+    dispatch,
+    files,
     downloadable,
     entityType = 'files',
     resetScroll = false,
@@ -45,6 +50,10 @@ export default compose(
     viewer: { File: { hits } },
   }) => {
     const tableInfo = tableColumns.slice().filter(x => !x.hidden);
+
+    console.log("Cart size: ", files.length);
+    const fileInCart = (file) => files.some(f => f.file_id === file.file_id);
+
     return (
       <div className="files-table">
         {tableHeader && (
@@ -76,6 +85,12 @@ export default compose(
                 {hits.edges.map((e, i) => (
                   <Tr index={i} key={e.node.id}>
                     {[
+                      <Td key="add_to_cart">
+                        <input type="checkbox"
+                               onChange={() => dispatch(toggleFilesInCart(e.node))}
+                               checked={fileInCart(e.node)}
+                        />
+                      </Td>,
                       ...tableInfo
                         .filter(x => x.td)
                         .map(x => (
@@ -92,8 +107,11 @@ export default compose(
               </tbody>
             )}
             headings={[
+              <Th key="cart-toggle-all">
+                <input type="checkbox" onChange={() => dispatch(toggleFilesInCart(hits.edges.map(e => e.node)))} />
+              </Th>,
               ...tableInfo.map(x => (
-                <x.th canAddToCart={canAddToCart} hits={hits} key={x.id} />
+                <x.th hits={hits} key={x.id}/>
               )),
             ]}
             id="repository-files-table"

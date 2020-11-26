@@ -66,6 +66,7 @@ export default (Component: ReactClass<*>) =>
                       node {
                         id
                         file_id
+                        file_name
                         file_name_keyword
                         file_size
                         data_access

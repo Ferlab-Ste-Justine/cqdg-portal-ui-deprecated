@@ -21,8 +21,7 @@ export type TCartFile = {
   acl: Array<string>,
   state: string,
   access: string,
-  file_size: number,
-  projects: Array<string>,
+  file_size: number
 };
 
 type TNotification = {
@@ -130,6 +129,7 @@ function toggleFilesInCart(
     }
 
     if (nextFiles.length > existingFiles.length) {
+      console.log(incomingFile);
       dispatch(
         notify(
           getNotificationComponent(
@@ -301,12 +301,11 @@ function fetchFilesAndAdd(currentFilters: ?Object, total: number): Function {
       const search = stringify({
         filters: currentFilters && JSON.stringify(currentFilters),
         size: total,
-        fields: 'acl,state,access,file_id,file_size,cases.project.project_id',
+        fields: 'acl,state,access,file_id,file_size',
       });
       const { data } = await fetchApi(`files?${search}`);
       const files = data.hits.map(({ cases, ...rest }) => ({
-        ...rest,
-        projects: cases.map(({ project: { project_id } }) => project_id),
+        ...rest
       }));
       dispatch(addAllFilesInCart(files));
     } else {
@@ -432,12 +431,7 @@ export function reducer(state: Object = initialState, action: Object): Object {
             state: file.state,
             access: file.access,
             file_id: file.file_id,
-            file_size: file.file_size,
-            projects: file.cases
-              ? file.cases.hits.edges.map(
-                  ({ node: { project: { project_id } } }) => project_id,
-                )
-              : file.projects,
+            file_size: file.file_size
           })),
         ),
       };
@@ -453,12 +447,7 @@ export function reducer(state: Object = initialState, action: Object): Object {
           state: file.state,
           access: file.access,
           file_id: file.file_id,
-          file_size: file.file_size,
-          projects: file.cases
-            ? file.cases.hits.edges.map(
-                ({ node: { project: { project_id } } }) => project_id,
-              )
-            : file.projects,
+          file_size: file.file_size
         })),
       };
     case CART_FULL:
