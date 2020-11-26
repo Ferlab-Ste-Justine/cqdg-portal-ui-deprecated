@@ -2,21 +2,16 @@
 
 import React from 'react';
 import {
-  compose, setDisplayName, branch, renderComponent,
+  compose, setDisplayName, branch, renderComponent, withPropsOnChange,
 } from 'recompose';
-import debounce from 'lodash/debounce';
 import { connect } from 'react-redux';
-import { parse, stringify } from 'query-string';
 
 import FaFile from 'react-icons/lib/fa/file';
 
 import { Row } from '@ncigdc/uikit/Flex';
 import timestamp from '@ncigdc/utils/timestamp';
-import {
-  parseIntParam,
-} from '@ncigdc/utils/uri';
 
-
+import ScrollableTable from '@cqdg/components/table/ScrollableTable';
 import Table from '@cqdg/components/table/Table';
 import Tr from '@cqdg/components/table/Tr';
 
@@ -28,6 +23,11 @@ import './FilesTable.css';
 export default compose(
   setDisplayName('FilesTablePresentation'),
   connect(state => ({ tableColumns: state.tableColumns.files })),
+  withPropsOnChange(['variables'], ({ variables: { files_size } }) => {
+    return {
+      resetScroll: !(files_size > 20),
+    };
+  }),
   branch(
     ({ viewer }) =>
       !viewer.File.hits ||
@@ -39,12 +39,13 @@ export default compose(
     canAddToCart = true,
     downloadable,
     entityType = 'files',
-    history,
+    resetScroll = false,
     tableColumns,
     tableHeader,
     viewer: { File: { hits } },
   }) => {
     const tableInfo = tableColumns.slice().filter(x => !x.hidden);
+
     return (
       <div className="files-table">
         {tableHeader && (
@@ -69,26 +70,7 @@ export default compose(
             type="file"
             />
         </Row>
-        <div
-          className="table-container"
-          onScroll={(e) => {
-            e.persist();
-
-            if (!this.scrollHander) {
-              this.scrollHander = debounce(() => {
-                const isNearBottom = e.target.scrollHeight - e.target.scrollTop <= e.target.clientHeight + 50;
-                if (isNearBottom) {
-                  const q = parse(window.location.search);
-                  const offsetSize = parseIntParam(q.files_size, 20);
-                  q.files_size = offsetSize + 20;
-                  const stringified = stringify(q);
-                  history.push(`${window.location.pathname}?${stringified}`);
-                }
-              }, 150);
-            }
-            this.scrollHander();
-          }}
-          >
+        <ScrollableTable item="files_size" resetScroll={resetScroll}>
           <Table
             body={(
               <tbody>
@@ -117,7 +99,7 @@ export default compose(
             ]}
             id="repository-files-table"
             />
-        </div>
+        </ScrollableTable>
       </div>
     );
   }

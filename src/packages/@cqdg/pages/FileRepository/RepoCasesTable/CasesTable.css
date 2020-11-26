@@ -1,8 +1,14 @@
 .cases-table {
   padding: 24px;
+  background: #fff;
+  border: 1px solid #D8E1EB;
 }
 
-.cases-table .files-actions {
+.cases-table a {
+  text-decoration: underline;
+}
+
+.cases-table .cases-actions {
   justify-content: space-between;
   padding: 0 8px 24px;
 }

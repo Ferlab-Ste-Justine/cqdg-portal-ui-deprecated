@@ -308,8 +308,8 @@
       "by.facet.title": "Start searching by selecting a facet"
     },
     "tabs": {
-      "files": "Files ${count}",
-      "cases": "Donors ${count}"
+      "files": "Files (${count})",
+      "cases": "Donors (${count})"
     },
     "download": {
       "options.all.json": "All to JSON",

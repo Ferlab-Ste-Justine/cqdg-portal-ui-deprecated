@@ -3,6 +3,8 @@
   overflow: hidden;
 }
 
-/* #RepositoryPage * {
-  overflow: hidden;
-} */
+#RepositoryPage .tabs-icon{
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
+} 

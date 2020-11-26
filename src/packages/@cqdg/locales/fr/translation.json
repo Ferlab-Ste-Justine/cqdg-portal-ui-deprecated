@@ -310,8 +310,8 @@
       "by.facet.title": "Démarrer la recherche en selectionant une facette"
     },
     "tabs": {
-      "files": "Fichiers ${count}",
-      "cases": "Donneurs ${count}"
+      "files": "Fichiers (${count})",
+      "cases": "Donneurs (${count})"
     },
     "download": {
       "options.all.json": "Tout en JSON",

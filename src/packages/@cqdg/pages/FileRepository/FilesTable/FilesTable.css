@@ -1,5 +1,11 @@
 .files-table {
   padding: 24px;
+  background: #fff;
+  border: 1px solid #D8E1EB;
+}
+
+.files-table a {
+  text-decoration: underline;
 }
 
 .files-table .files-actions {
@@ -18,14 +24,4 @@
 
 .files-table-lock-open {
   color: #7CB305;
-}
-
-.files-table .table-container {
-  overflow: auto;
-  height: 465px;
-}
-
-.files-table .table-container .table-th {
-  position: sticky;
-  top: 0;
 }

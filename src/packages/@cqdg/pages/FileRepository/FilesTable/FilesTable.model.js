@@ -8,6 +8,9 @@ import MdLock from 'react-icons/lib/md/lock';
 import MdLockOutline from 'react-icons/lib/md/lock-outline';
 import MdLockOpen from 'react-icons/lib/md/lock-open';
 
+import { RepositoryCasesLink } from '@ncigdc/components/Links/RepositoryLink';
+import { makeFilter } from '@ncigdc/utils/filters';
+
 import Th from '@cqdg/components/table/Th';
 import Td from '@cqdg/components/table/Td';
 import TdNum from '@cqdg/components/table/TdNum';
@@ -138,7 +141,22 @@ const filesTableModel = [
     name: 'Number of donors',
     id: 'cases.hits.edges.submitter_donor_id',
     th: () => <ThNum className="table-th">{t('facet.cases.hits.edges.submitter_donor_id')}</ThNum>,
-    td: ({ node }) => <TdNum>{node.cases.hits.total}</TdNum>,
+    td: ({ node }) => (
+      <TdNum>
+        <RepositoryCasesLink
+          query={{
+            filters: makeFilter([
+              {
+                field: 'cases.submitter_donor_id',
+                value: [node.cases.hits.edges[0].node.submitter_donor_id],
+              },
+            ]),
+          }}
+          >
+          {node.cases.hits.total}
+        </RepositoryCasesLink>
+      </TdNum>
+    ),
     sortable: false,
     downloadable: true,
     hidden: false,

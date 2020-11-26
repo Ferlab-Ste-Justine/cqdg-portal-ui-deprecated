@@ -4,18 +4,18 @@ import React from 'react';
 import Relay from 'react-relay/classic';
 import { connect } from 'react-redux';
 import { compose, setDisplayName } from 'recompose';
-import { Row } from '@ncigdc/uikit/Flex';
+
+import FaFile from 'react-icons/lib/fa/file';
+import MdPeople from 'react-icons/lib/md/people';
+
 import QueryLayout from '@cqdg/components/layouts/QueryLayout';
-import TabbedLinks from '@ncigdc/components/TabbedLinks';
 import NoResultsMessage from '@ncigdc/components/NoResultsMessage';
 import RepoCasesTable from '@cqdg/pages/FileRepository/RepoCasesTable';
 import CaseAggregations from '@cqdg/pages/FileRepository/CaseAggregations';
 import FileAggregations from '@cqdg/pages/FileRepository/FileAggregations';
 
 import FilesTable from '@cqdg/pages/FileRepository/FilesTable';
-import { SaveIcon } from '@ncigdc/theme/icons';
 import withFilters from '@ncigdc/utils/withFilters';
-import formatFileSize from '@ncigdc/utils/formatFileSize';
 
 import RepoCasesCharts from '@cqdg/components/charts/RepoCasesCharts';
 import RepoFilesCharts from '@cqdg/components/charts/RepoFilesCharts';
@@ -23,6 +23,7 @@ import RepoFilesCharts from '@cqdg/components/charts/RepoFilesCharts';
 import withRouter from '@ncigdc/utils/withRouter';
 import t from '@cqdg/locales/intl';
 import Tabs from '@ferlab-ui/core/containers/tabs';
+import ScrollView from '@ferlab-ui/core/layouts/ScrollView';
 
 import features from '../../../../features.json';
 
@@ -97,12 +98,12 @@ export const RepositoryPageComponent = (props: TProps) => {
 
   const facetTabPanes: TabPanes = [
     {
-      component: <FileAggregations relay={relay} />,
+      component: <ScrollView><FileAggregations relay={relay} /></ScrollView>,
       id: 'files',
       text: t('global.files.title'),
     },
     {
-      component: <CaseAggregations relay={relay} />,
+      component: <ScrollView><CaseAggregations relay={relay} /></ScrollView>,
       id: 'participants',
       text: t('global.donors'),
     },
@@ -132,12 +133,18 @@ export const RepositoryPageComponent = (props: TProps) => {
               : query.searchTableTab === 'cases' && fileCount ? <RepoCasesCharts aggregations={viewer.Case.pies} />
               : <div />
             }
-            <TabbedLinks
+            <Tabs
               defaultIndex={0}
-              links={[
+              forceResetTable
+              panes={[
                 {
                   id: 'files',
-                  text: t('repo.tabs.files', { count: fileCount.toLocaleString() }),
+                  text: (
+                    <React.Fragment>
+                      <FaFile className="tabs-icon" />
+                      {t('repo.tabs.files', { count: fileCount.toLocaleString() })}
+                    </React.Fragment>
+                  ),
                   component: fileCount ? (
                     <div>
                       <FilesTable />
@@ -150,7 +157,12 @@ export const RepositoryPageComponent = (props: TProps) => {
                 },
                 {
                   id: 'cases',
-                  text: t('repo.tabs.cases', { count: caseCount.toLocaleString() }),
+                  text: (
+                    <React.Fragment>
+                      <MdPeople className="tabs-icon" />
+                      {t('repo.tabs.cases', { count: caseCount.toLocaleString() })}
+                    </React.Fragment>
+                  ),
                   component: caseCount ? (
                     <div>
                       <RepoCasesTable />
@@ -163,17 +175,7 @@ export const RepositoryPageComponent = (props: TProps) => {
                 },
               ]}
               queryParam="searchTableTab"
-              tabToolbar={
-                features.saveIcon && (
-                  <Row spacing="2rem" style={{ alignItems: 'center' }}>
-                    <span style={{ flex: 'none' }}>
-                      <SaveIcon style={{ marginRight: 5 }} />
-                      {' '}
-                      <strong>{formatFileSize(fileSize)}</strong>
-                    </span>
-                  </Row>
-              )
-              }
+              type="card"
               />
           </div>
         )}

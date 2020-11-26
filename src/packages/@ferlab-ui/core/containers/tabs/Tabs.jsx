@@ -13,6 +13,8 @@ const Tabs: TTabbedLinks = ({
   queryParam,
   side,
   tabToolbar,
+  type,
+  forceResetTable,
 } = {}) => (
   <LocationSubscriber>
     {(ctx: { pathname: string; query: IRawQuery }) => {
@@ -21,10 +23,12 @@ const Tabs: TTabbedLinks = ({
       return (
         <Tab
           activeKey={selectedTab.id}
+          forceResetTable={forceResetTable}
           panes={panes}
           side={side}
           tabsKey={queryParam}
           tabToolbar={tabToolbar}
+          type={type}
           >
           {selectedTab.component}
         </Tab>

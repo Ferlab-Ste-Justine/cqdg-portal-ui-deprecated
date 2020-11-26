@@ -2,22 +2,18 @@
 
 import React from 'react';
 import {
-  compose, setDisplayName, branch, renderComponent,
+  compose, setDisplayName, branch, renderComponent, withPropsOnChange,
 } from 'recompose';
 import { connect } from 'react-redux';
 import MdPeople from 'react-icons/lib/md/people';
 
-import Pagination from '@ncigdc/components/Pagination';
-import Showing from '@ncigdc/components/Pagination/Showing';
 import { Row } from '@ncigdc/uikit/Flex';
-import tableModels from '@ncigdc/tableModels';
-import { CreateRepositoryCaseSetButton, AppendRepositoryCaseSetButton, RemoveFromRepositoryCaseSetButton } from '@ncigdc/modern_components/withSetAction';
-
 
 import { theme } from '@ncigdc/theme';
 import withSelectIds from '@ncigdc/utils/withSelectIds';
 import timestamp from '@ncigdc/utils/timestamp';
 
+import ScrollableTable from '@cqdg/components/table/ScrollableTable';
 import TableActions from '@cqdg/components/table/TableActions';
 import InlineCount from '@cqdg/components/countWithIcon/InlineCount';
 import Table from '@cqdg/components/table/Table';
@@ -28,6 +24,11 @@ import './CasesTable.css';
 export default compose(
   setDisplayName('RepoCasesTablePresentation'),
   connect(state => ({ tableColumns: state.tableColumns.cases })),
+  withPropsOnChange(['variables'], ({ variables: { cases_size } }) => {
+    return {
+      resetScroll: !(cases_size > 20),
+    };
+  }),
   branch(
     ({ viewer }) =>
       !viewer.Case.hits ||
@@ -38,6 +39,7 @@ export default compose(
 )(
   ({
     entityType = 'cases',
+    resetScroll,
     selectedIds,
     setSelectedIds,
     tableColumns,
@@ -48,13 +50,7 @@ export default compose(
 
     return (
       <div className="cases-table">
-        <Row
-          style={{
-            backgroundColor: 'white',
-            padding: '1rem',
-            justifyContent: 'space-between',
-          }}
-          >
+        <Row className="cases-actions">
           <InlineCount Icon={MdPeople} label="global.cases" total={hits.total} />
           <TableActions
             arrangeColumnKey={entityType}
@@ -69,16 +65,13 @@ export default compose(
             selectedIds={selectedIds}
             sort={variables.cases_sort}
             sortOptions={tableInfo.filter(x => x.sortable)}
-            // CreateSetButton={CreateRepositoryCaseSetButton}
-            // AppendSetButton={AppendRepositoryCaseSetButton}
-            // RemoveFromSetButton={RemoveFromRepositoryCaseSetButton}
             total={hits.total}
             tsvFilename={`repository-cases-table.${timestamp()}.tsv`}
             tsvSelector="#repository-cases-table"
             type="case"
             />
         </Row>
-        <div style={{ overflowX: 'auto' }}>
+        <ScrollableTable item="cases_size" resetScroll={resetScroll}>
           <Table
             body={(
               <tbody>
@@ -124,7 +117,7 @@ export default compose(
               .filter(x => x.subHeading)
               .map(x => <x.th key={x.id} />)}
             />
-        </div>
+        </ScrollableTable>
       </div>
     );
   }

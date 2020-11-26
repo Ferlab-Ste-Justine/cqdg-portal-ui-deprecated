@@ -5,19 +5,20 @@
 import React from 'react';
 import { withTheme } from '@ncigdc/theme';
 import Link from '@ncigdc/components/Links/Link';
-import ScrollView from '@ferlab-ui/core/layouts/ScrollView';
 
 import './Tab.css';
 
 const Tabs = ({
   activeKey,
   children,
-  panes,
-  tabsKey, // should be removed and use a callback instead, leaky abstraction
+  forceResetTable = false,
+  panes, // should be removed and use a callback instead, leaky abstraction
+  tabsKey,
   tabToolbar,
+  type = 'default',
 }) => (
   <div className="containers-tab-layout">
-    <div className="containers-tab-nav">
+    <div className={`containers-tab-nav ${type}`}>
       {panes.map((pane) => {
         return (
           <div
@@ -26,6 +27,7 @@ const Tabs = ({
             >
             <Link
               className="containers-tab-link"
+              forceResetOffset={forceResetTable}
               key={pane.id}
               merge
               query={{
@@ -39,9 +41,7 @@ const Tabs = ({
       })}
       {tabToolbar && <span style={{ marginLeft: 'auto' }}>{tabToolbar}</span>}
     </div>
-    <ScrollView>
-      {children}
-    </ScrollView>
+    {children}
   </div>
 );
 

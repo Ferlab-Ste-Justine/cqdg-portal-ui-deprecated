@@ -1,0 +1,9 @@
+.table-scrollable {
+  overflow: auto;
+  height: 465px;
+}
+
+.table-scrollable .table-th {
+  position: sticky;
+  top: 0;
+}

@@ -3,13 +3,13 @@
 import { makeListLink } from './utils';
 
 export const RepositoryFilesLink = makeListLink({
-  pathname: '/repository',
+  pathname: '/files',
   children: 'repository',
   query: { searchTableTab: 'files' },
 });
 
 export const RepositoryCasesLink = makeListLink({
-  pathname: '/repository',
+  pathname: '/files',
   children: 'repository',
   query: { searchTableTab: 'cases' },
 });

@@ -13,15 +13,16 @@ import InternalLink from './InternalLink';
 import { TLinkProps } from './types';
 
 const InternalLinkWithContext = ({
-  pathname,
-  query,
+  forceResetOffset = false,
   merge,
   mergeQuery,
+  pathname,
+  query,
   whitelist,
   ...rest
 }: TLinkProps) => (
   <LocationSubscriber>
-    {(ctx: { pathname: string, query: IRawQuery }) => {
+    {(ctx: { pathname: string; query: IRawQuery }) => {
       const pn = pathname || ctx.pathname;
 
       const mergedQuery =
@@ -43,12 +44,12 @@ const InternalLinkWithContext = ({
         ),
       ]);
 
-      const queryWithOffsetsReset = hasFilterChanged
+      const queryWithOffsetsReset = hasFilterChanged && !forceResetOffset
         ? mergedQuery
         : _.mapValues(
-            mergedQuery,
-            (value, paramName) => (paramName.endsWith('offset') ? 0 : value),
-          );
+          mergedQuery,
+          (value, paramName) => (paramName.endsWith('offset') || paramName.endsWith('size') ? 0 : value),
+        );
 
       return (
         <InternalLink pathname={pn} query={queryWithOffsetsReset} {...rest} />

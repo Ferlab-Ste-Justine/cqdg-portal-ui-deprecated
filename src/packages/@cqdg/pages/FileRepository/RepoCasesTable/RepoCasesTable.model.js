@@ -1,26 +1,14 @@
 // @flow
 import React from 'react';
-import { RepositoryCasesLink, RepositoryFilesLink } from '@ncigdc/components/Links/RepositoryLink';
-import ProjectLink from '@ncigdc/components/Links/ProjectLink';
-import CaseLink from '@ncigdc/components/Links/CaseLink';
+import { RepositoryFilesLink } from '@ncigdc/components/Links/RepositoryLink';
 import { makeFilter } from '@ncigdc/utils/filters';
-import ageDisplay from '@ncigdc/utils/ageDisplay';
-import withRouter from '@ncigdc/utils/withRouter';
 import { createDataCategoryColumns } from '@ncigdc/tableModels/utils';
 
 import t from '@cqdg/locales/intl';
 import Th from '@cqdg/components/table/Th';
 import Td from '@cqdg/components/table/Td';
-import TdNum from '@cqdg/components/table/TdNum';
-import ThNum from '@cqdg/components/table/ThNum';
 
-const youngestDiagnosis = (
-  p: { age_at_diagnosis: number },
-  c: { age_at_diagnosis: number },
-): { age_at_diagnosis: number } =>
-  (c.age_at_diagnosis < p.age_at_diagnosis ? c : p);
-
-const dataCategoryColumns = createDataCategoryColumns({
+/* const dataCategoryColumns = createDataCategoryColumns({
   title: 'Available Files per Data Category',
   countKey: 'file_count',
   Link: RepositoryFilesLink,
@@ -31,37 +19,10 @@ const dataCategoryColumns = createDataCategoryColumns({
     },
   ],
   getTotalLinkFilters: hits => [],
-});
+}); */
 
-const FilesLink = ({ node, fields = [], children }) =>
-  (children === '0' ? (
-    <span>0</span>
-  ) : (
-    <RepositoryFilesLink
-      query={{
-        filters: makeFilter([
-          {
-            field: 'study.study_id',
-            value: [node.case_id],
-          },
-          ...fields,
-        ]),
-      }}
-      >
-      {children}
-    </RepositoryFilesLink>
-  ));
-
-const getProjectIdFilter = projects =>
-  makeFilter([
-    {
-      field: 'cases.study.study_id',
-      value: projects.edges.map(({ node: p }) => p.study.hits.edges.node.study_id),
-    },
-  ]);
 
 const casesTableModel = [
-  // ...dataCategoryColumns,
   {
     name: 'Study',
     id: 'study.study_id',
@@ -181,7 +142,24 @@ const casesTableModel = [
     downloadable: true,
     hidden: true,
     th: () => <Th>Number of Files</Th>,
-    td: ({ node }) => <Td>{node.files && node.files.hits ? node.files.hits.total : 0}</Td>,
+    td: ({ node }) => {
+      return (
+        <Td>
+          <RepositoryFilesLink
+            query={{
+              filters: makeFilter([
+                {
+                  field: 'cases.submitter_donor_id',
+                  value: [node.submitter_donor_id],
+                },
+              ]),
+            }}
+            >
+            {node.files.hits.total}
+          </RepositoryFilesLink>
+        </Td>
+      );
+    },
   },
 ];
 
