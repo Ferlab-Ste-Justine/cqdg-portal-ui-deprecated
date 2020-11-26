@@ -59,6 +59,15 @@ const HorizontalBarChart = ({
 
   const yG = svg.append('g').call(d3.axisLeft(y));
 
+  yG.selectAll('.tick')
+    .data(data)
+    .on('mouseenter', d => {
+      setTooltip(d.tooltip);
+    })
+    .on('mouseleave', () => {
+      setTooltip();
+    });
+
   // Configure the display of the X Axis
   const maxValue = d3.max(data, d => d.doc_count);
   const x = d3
@@ -75,15 +84,6 @@ const HorizontalBarChart = ({
   xG.selectAll('text')
     .attr("transform", "translate(-10,0)rotate(-45)")
     .style("text-anchor", "end");
-
-  xG.selectAll('.tick')
-    .data(data)
-    .on('mouseenter', d => {
-      setTooltip(d.tooltip);
-    })
-    .on('mouseleave', () => {
-      setTooltip();
-    });
 
   // Configure the bars
   const barGs = svg
