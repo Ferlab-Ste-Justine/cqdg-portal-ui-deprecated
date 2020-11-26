@@ -7,8 +7,6 @@ import {
 import { connect } from 'react-redux';
 import MdPeople from 'react-icons/lib/md/people';
 
-import { Row } from '@ncigdc/uikit/Flex';
-
 import { theme } from '@ncigdc/theme';
 import withSelectIds from '@ncigdc/utils/withSelectIds';
 import timestamp from '@ncigdc/utils/timestamp';
@@ -19,16 +17,16 @@ import InlineCount from '@cqdg/components/countWithIcon/InlineCount';
 import Table from '@cqdg/components/table/Table';
 import Tr from '@cqdg/components/table/Tr';
 
+import StackLayout from '@ferlab-ui/core/layouts/StackLayout';
+
 import './CasesTable.css';
 
 export default compose(
   setDisplayName('RepoCasesTablePresentation'),
   connect(state => ({ tableColumns: state.tableColumns.cases })),
-  withPropsOnChange(['variables'], ({ variables: { cases_size } }) => {
-    return {
-      resetScroll: !(cases_size > 20),
-    };
-  }),
+  withPropsOnChange(['variables'], ({ variables: { cases_size } }) => ({
+    resetScroll: !(cases_size > 20),
+  })),
   branch(
     ({ viewer }) =>
       !viewer.Case.hits ||
@@ -50,7 +48,7 @@ export default compose(
 
     return (
       <div className="cases-table">
-        <Row className="cases-actions">
+        <StackLayout className="cases-actions">
           <InlineCount Icon={MdPeople} label="global.cases" total={hits.total} />
           <TableActions
             arrangeColumnKey={entityType}
@@ -70,7 +68,7 @@ export default compose(
             tsvSelector="#repository-cases-table"
             type="case"
             />
-        </Row>
+        </StackLayout>
         <ScrollableTable item="cases_size" resetScroll={resetScroll}>
           <Table
             body={(

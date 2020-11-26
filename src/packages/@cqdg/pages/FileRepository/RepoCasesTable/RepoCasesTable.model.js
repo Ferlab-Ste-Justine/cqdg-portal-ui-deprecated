@@ -142,24 +142,22 @@ const casesTableModel = [
     downloadable: true,
     hidden: true,
     th: () => <Th>Number of Files</Th>,
-    td: ({ node }) => {
-      return (
-        <Td>
-          <RepositoryFilesLink
-            query={{
-              filters: makeFilter([
-                {
-                  field: 'cases.submitter_donor_id',
-                  value: [node.submitter_donor_id],
-                },
-              ]),
-            }}
-            >
-            {node.files.hits.total}
-          </RepositoryFilesLink>
-        </Td>
-      );
-    },
+    td: ({ node }) => (
+      <Td>
+        <RepositoryFilesLink
+          query={{
+            filters: makeFilter([
+              {
+                field: 'cases.submitter_donor_id',
+                value: [node.submitter_donor_id],
+              },
+            ]),
+          }}
+          >
+          {node.files.hits.total}
+        </RepositoryFilesLink>
+      </Td>
+    ),
   },
 ];
 

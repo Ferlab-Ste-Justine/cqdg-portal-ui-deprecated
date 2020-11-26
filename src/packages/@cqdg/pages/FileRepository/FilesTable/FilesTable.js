@@ -8,7 +8,6 @@ import { connect } from 'react-redux';
 
 import FaFile from 'react-icons/lib/fa/file';
 
-import { Row } from '@ncigdc/uikit/Flex';
 import timestamp from '@ncigdc/utils/timestamp';
 
 import ScrollableTable from '@cqdg/components/table/ScrollableTable';
@@ -17,6 +16,7 @@ import Tr from '@cqdg/components/table/Tr';
 
 import TableActions from '@cqdg/components/table/TableActions';
 import InlineCount from '@cqdg/components/countWithIcon/InlineCount';
+import StackLayout from '@ferlab-ui/core/layouts/StackLayout';
 
 import './FilesTable.css';
 
@@ -53,7 +53,7 @@ export default compose(
             {tableHeader}
           </h1>
         )}
-        <Row className="files-actions">
+        <StackLayout className="files-actions">
           <InlineCount Icon={FaFile} label="global.files" total={hits.total} />
           <TableActions
             arrangeColumnKey={entityType}
@@ -69,7 +69,7 @@ export default compose(
             tsvSelector="#repository-files-table"
             type="file"
             />
-        </Row>
+        </StackLayout>
         <ScrollableTable item="files_size" resetScroll={resetScroll}>
           <Table
             body={(
