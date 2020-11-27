@@ -59,7 +59,7 @@ export default (Component: ReactClass<*>) => compose(
       Component={Component}
       parentProps={props}
       query={graphql`
-          query SuggestionFacet_relayQuery($filters: JSON!, $showFiles: Boolean!, $showCases: Boolean!){
+          query FilterSearchInput_relayQuery($filters: JSON!, $showFiles: Boolean!, $showCases: Boolean!){
             facetSearchHits: viewer {  
               files: viewer @include(if: $showFiles) {
                 File{
