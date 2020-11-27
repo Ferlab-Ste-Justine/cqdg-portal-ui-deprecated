@@ -31,7 +31,8 @@ type TNotification = {
   extraText?: any,
   prepositon: string,
   undo: {
-    files: Array<TCartFile>
+    files: Array<TCartFile>,
+    addAllToCart: boolean
   },
 };
 
@@ -40,6 +41,8 @@ export const ADD_TO_CART = 'ADD_TO_CART';
 export const CLEAR_CART = 'CLEAR_CART';
 export const CART_FULL = 'CART_FULL';
 export const TOGGLE_ADD_ALL = 'TOGGLE_ADD_ALL';
+export const SAVE_ADD_ALL_STATE = 'SAVE_ADD_ALL_STATE';
+//export const UNDO_ADD_ALL = 'UNDO_ADD_ALL';
 
 export const MAX_CART_SIZE = 10000;
 const MAX_CART_WARNING = `The cart is limited to ${MAX_CART_SIZE.toLocaleString()} files.
@@ -82,8 +85,9 @@ const getNotificationComponent = (
                 textDecoration: 'underline',
               }}
               onClick={() => {
-                dispatch(toggleAddAllToCart());
                 dispatch(toggleFilesInCart(notification.undo.files));
+                console.log('Setting add all to cart to : ', notification.undo.addAllToCart);
+                dispatch(setAddAllToCart(notification.undo.addAllToCart));
               }}
             >
               Undo
@@ -117,6 +121,7 @@ function toggleFilesInCart(
   incomingFile: TCartFile | Array<TCartFile>,
 ): Function {
   return (dispatch, getState) => {
+    console.log("toggleFilesInCart : ", getState().cart.addAllToCart);
     const incomingFileArray = Array.isArray(incomingFile)
       ? incomingFile
       : [incomingFile];
@@ -143,6 +148,7 @@ function toggleFilesInCart(
               prepositon: 'to',
               undo: {
                 files: incomingFile,
+                addAllToCart: getState().cart.addAllToCart
               },
             },
             dispatch,
@@ -164,6 +170,7 @@ function toggleFilesInCart(
               prepositon: 'from',
               undo: {
                 files: incomingFile,
+                addAllToCart: getState().cart.addAllToCart
               },
             },
             dispatch,
@@ -185,6 +192,7 @@ function removeFilesFromCart(files: Array<TCartFile> | TCartFile): Function {
     const existingFiles = getState().cart.files;
     const nextFiles = _.differenceBy(existingFiles, filesToRemove, 'file_id');
     const filesRemoved = existingFiles.length - nextFiles.length;
+
     dispatch(
       notify(
         getNotificationComponent(
@@ -197,6 +205,7 @@ function removeFilesFromCart(files: Array<TCartFile> | TCartFile): Function {
             prepositon: 'from',
             undo: {
               files: filesToRemove,
+              addAllToCart: getState().cart.addAllToCart
             },
           },
           dispatch,
@@ -238,6 +247,7 @@ function addAllFilesInCart(
       }
       return;
     }
+
     if (notifyUser === true && nextFiles && nextFiles.length < incomingFilesArray.length) {
       dispatch(
         notify(
@@ -257,7 +267,8 @@ function addAllFilesInCart(
               ),
               prepositon: 'to',
               undo: {
-                files: incomingFilesArray,
+                files: nextFiles,
+                addAllToCart: false
               },
             },
             dispatch,
@@ -277,7 +288,8 @@ function addAllFilesInCart(
                 fileText: 'files ',
                 prepositon: 'to',
                 undo: {
-                  files: incomingFilesArray,
+                  files: nextFiles,
+                  addAllToCart: false
                 },
               },
               dispatch,
@@ -385,6 +397,7 @@ function fetchFilesAndRemove(currentFilters: ?Object, size: number): Function {
 function removeAllInCart(): Function {
   return (dispatch, getState) => {
     const existingFiles = getState().cart.files;
+
     if (existingFiles.length) {
       dispatch(
         notify(
@@ -398,6 +411,7 @@ function removeAllInCart(): Function {
               prepositon: 'from',
               undo: {
                 files: existingFiles,
+                addAllToCart: getState().cart.addAllToCart
               },
             },
             dispatch,
@@ -433,6 +447,15 @@ function toggleAddAllToCart(): Function {
   }
 }
 
+function setAddAllToCart(val: Object): Function {
+  return dispatch => {
+    dispatch({
+      type: SAVE_ADD_ALL_STATE,
+      payload: val
+    })
+  }
+}
+
 const initialState = {
   files: [],
   addAllToCart: false
@@ -453,10 +476,15 @@ export function reducer(state: Object = initialState, action: Object): Object {
           })),
         ),
       };
+    case SAVE_ADD_ALL_STATE:
+      console.log("SAVE_ADD_ALL_STATE : ", action.payload);
+      return {
+        ...state,
+        addAllToCart: action.payload
+      };
     case TOGGLE_ADD_ALL:
       return {
         ...state,
-        undoAddAllToCart: state.addAllToCart,
         addAllToCart: !state.addAllToCart
       };
     case CLEAR_CART:

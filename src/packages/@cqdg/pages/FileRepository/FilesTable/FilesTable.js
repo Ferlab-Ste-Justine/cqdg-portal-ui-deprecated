@@ -58,12 +58,11 @@ export default compose(
     const fileInCart = (file) => cartFiles.some(f => f.file_id === file.file_id);
 
     if(addAllToCart === true && hits && hits.edges){
-
       const delta = hits.edges.map(e => e.node).filter(
         file =>
           !cartFiles.some(
-            cf => cf.file_id === file.file_id,
-          ),
+            cf => cf.file_id === file.file_id
+          )
       );
 
       if(delta && delta.length > 0){
@@ -104,7 +103,12 @@ export default compose(
                     {[
                       <Td key="add_to_cart">
                         <input type="checkbox"
-                               onChange={() => dispatch(toggleFilesInCart(e.node))}
+                               onChange={() => {
+                                 dispatch(toggleFilesInCart(e.node));
+                                 if(addAllToCart === true){
+                                   dispatch(toggleAddAllToCart());
+                                 }
+                               }}
                                checked={fileInCart(e.node)}
                         />
                       </Td>,
