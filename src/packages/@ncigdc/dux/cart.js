@@ -31,7 +31,7 @@ type TNotification = {
   extraText?: any,
   prepositon: string,
   undo: {
-    files: Array<TCartFile>,
+    files: Array<TCartFile>
   },
 };
 
@@ -39,6 +39,7 @@ export const UPDATE_CART = 'UPDATE_CART';
 export const ADD_TO_CART = 'ADD_TO_CART';
 export const CLEAR_CART = 'CLEAR_CART';
 export const CART_FULL = 'CART_FULL';
+export const TOGGLE_ADD_ALL = 'TOGGLE_ADD_ALL';
 
 export const MAX_CART_SIZE = 10000;
 const MAX_CART_WARNING = `The cart is limited to ${MAX_CART_SIZE.toLocaleString()} files.
@@ -80,8 +81,10 @@ const getNotificationComponent = (
               style={{
                 textDecoration: 'underline',
               }}
-              onClick={() =>
-                dispatch(toggleFilesInCart(notification.undo.files))}
+              onClick={() => {
+                dispatch(toggleAddAllToCart());
+                dispatch(toggleFilesInCart(notification.undo.files));
+              }}
             >
               Undo
             </UnstyledButton>
@@ -129,7 +132,6 @@ function toggleFilesInCart(
     }
 
     if (nextFiles.length > existingFiles.length) {
-      console.log(incomingFile);
       dispatch(
         notify(
           getNotificationComponent(
@@ -211,6 +213,7 @@ function removeFilesFromCart(files: Array<TCartFile> | TCartFile): Function {
 
 function addAllFilesInCart(
   incomingFiles: Array<TCartFile> | TCartFile,
+  notifyUser = true
 ): Function {
   return (dispatch, getState) => {
     const incomingFilesArray = Array.isArray(incomingFiles)
@@ -229,10 +232,13 @@ function addAllFilesInCart(
       dispatch({
         type: CART_FULL,
       });
-      messageNotificationDispatcher('warning', MAX_CART_WARNING, dispatch);
+
+      if(notifyUser === true){
+        messageNotificationDispatcher('warning', MAX_CART_WARNING, dispatch);
+      }
       return;
     }
-    if (nextFiles && nextFiles.length < incomingFilesArray.length) {
+    if (notifyUser === true && nextFiles && nextFiles.length < incomingFilesArray.length) {
       dispatch(
         notify(
           getNotificationComponent(
@@ -259,24 +265,26 @@ function addAllFilesInCart(
         ),
       );
     } else if (nextFiles) {
-      dispatch(
-        notify(
-          getNotificationComponent(
-            'add',
-            `add/all${new Date().getTime()}`,
-            {
-              action: 'Added',
-              file: nextFiles.length,
-              fileText: 'files ',
-              prepositon: 'to',
-              undo: {
-                files: incomingFilesArray,
+      if (notifyUser === true) {
+        dispatch(
+          notify(
+            getNotificationComponent(
+              'add',
+              `add/all${new Date().getTime()}`,
+              {
+                action: 'Added',
+                file: nextFiles.length,
+                fileText: 'files ',
+                prepositon: 'to',
+                undo: {
+                  files: incomingFilesArray,
+                },
               },
-            },
-            dispatch,
+              dispatch,
+            ),
           ),
-        ),
-      );
+        );
+      }
     }
     dispatch({
       type: ADD_TO_CART,
@@ -417,14 +425,24 @@ function removeAllInCart(): Function {
   };
 }
 
+function toggleAddAllToCart(): Function {
+  return dispatch => {
+    dispatch({
+      type: TOGGLE_ADD_ALL,
+    })
+  }
+}
+
 const initialState = {
   files: [],
+  addAllToCart: false
 };
 
 export function reducer(state: Object = initialState, action: Object): Object {
   switch (action.type) {
     case ADD_TO_CART:
       return {
+        ...state,
         files: state.files.concat(
           action.payload.map(file => ({
             acl: file.acl,
@@ -435,8 +453,15 @@ export function reducer(state: Object = initialState, action: Object): Object {
           })),
         ),
       };
+    case TOGGLE_ADD_ALL:
+      return {
+        ...state,
+        undoAddAllToCart: state.addAllToCart,
+        addAllToCart: !state.addAllToCart
+      };
     case CLEAR_CART:
       return {
+        ...state,
         files: [],
       };
     case UPDATE_CART:
@@ -461,6 +486,7 @@ export function reducer(state: Object = initialState, action: Object): Object {
 
 export {
   toggleFilesInCart,
+  toggleAddAllToCart,
   addAllFilesInCart,
   removeAllInCart,
   removeFilesFromCart,

@@ -2,7 +2,7 @@
 
 import React from 'react';
 import {
-  compose, setDisplayName, branch, renderComponent, withPropsOnChange,
+  compose, setDisplayName, branch, renderComponent, withPropsOnChange, withState,
 } from 'recompose';
 import { connect } from 'react-redux';
 
@@ -20,13 +20,17 @@ import StackLayout from '@ferlab-ui/core/layouts/StackLayout';
 
 import './FilesTable.css';
 import Td from "../../../components/table/Td";
-import {toggleFilesInCart} from "../../../../@ncigdc/dux/cart";
+import {addAllFilesInCart, removeAllInCart, toggleFilesInCart, toggleAddAllToCart} from "../../../../@ncigdc/dux/cart";
 import Th from "../../../components/table/Th";
+
 
 export default compose(
   setDisplayName('FilesTablePresentation'),
-  connect(state => ({ tableColumns: state.tableColumns.files })),
-  connect(state => state.cart),
+  connect(state => ({
+      tableColumns: state.tableColumns.files,
+      cartFiles: state.cart.files,
+      addAllToCart: state.cart.addAllToCart
+  })),
   withPropsOnChange(['variables'], ({ variables: { files_size } }) => {
     return {
       resetScroll: !(files_size > 20),
@@ -40,19 +44,32 @@ export default compose(
   )
 )(
   ({
-    dispatch,
-    files,
-    downloadable,
-    entityType = 'files',
-    resetScroll = false,
-    tableColumns,
-    tableHeader,
-    viewer: { File: { hits } },
+     dispatch,
+     cartFiles,
+     addAllToCart,
+     downloadable,
+     entityType = 'files',
+     resetScroll = false,
+     tableColumns,
+     tableHeader,
+     viewer: { File: { hits } },
   }) => {
     const tableInfo = tableColumns.slice().filter(x => !x.hidden);
+    const fileInCart = (file) => cartFiles.some(f => f.file_id === file.file_id);
 
-    console.log("Cart size: ", files.length);
-    const fileInCart = (file) => files.some(f => f.file_id === file.file_id);
+    if(addAllToCart === true && hits && hits.edges){
+
+      const delta = hits.edges.map(e => e.node).filter(
+        file =>
+          !cartFiles.some(
+            cf => cf.file_id === file.file_id,
+          ),
+      );
+
+      if(delta && delta.length > 0){
+        dispatch(addAllFilesInCart(delta, false));
+      }
+    }
 
     return (
       <div className="files-table">
@@ -107,8 +124,15 @@ export default compose(
               </tbody>
             )}
             headings={[
-              <Th key="cart-toggle-all">
-                <input type="checkbox" onChange={() => dispatch(toggleFilesInCart(hits.edges.map(e => e.node)))} />
+              <Th key="cart-toggle-all" className="table-th">
+                <input type="checkbox"
+                       checked={addAllToCart}
+                       onChange={() => {
+                         dispatch(toggleAddAllToCart());
+                         dispatch(addAllToCart ?
+                           removeAllInCart() :
+                           addAllFilesInCart(hits.edges.map(e => e.node)));
+                       }} />
               </Th>,
               ...tableInfo.map(x => (
                 <x.th hits={hits} key={x.id}/>
