@@ -86,7 +86,6 @@ const getNotificationComponent = (
               }}
               onClick={() => {
                 dispatch(toggleFilesInCart(notification.undo.files));
-                console.log('Setting add all to cart to : ', notification.undo.addAllToCart);
                 dispatch(setAddAllToCart(notification.undo.addAllToCart));
               }}
             >
@@ -121,7 +120,6 @@ function toggleFilesInCart(
   incomingFile: TCartFile | Array<TCartFile>,
 ): Function {
   return (dispatch, getState) => {
-    console.log("toggleFilesInCart : ", getState().cart.addAllToCart);
     const incomingFileArray = Array.isArray(incomingFile)
       ? incomingFile
       : [incomingFile];
@@ -477,7 +475,6 @@ export function reducer(state: Object = initialState, action: Object): Object {
         ),
       };
     case SAVE_ADD_ALL_STATE:
-      console.log("SAVE_ADD_ALL_STATE : ", action.payload);
       return {
         ...state,
         addAllToCart: action.payload
