@@ -98,6 +98,7 @@ const ArrangeColumns = compose<IArrangeColumnsProps, JSX.Element>(
     setState,
     state,
   }) => {
+    console.log(filteredTableColumns);
     const subHeadings =
       localTableColumns.filter((tc: IColumnProps<boolean>) => tc.subHeading) ||
       [];

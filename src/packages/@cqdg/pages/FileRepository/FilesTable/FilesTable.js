@@ -45,7 +45,6 @@ export default compose(
     viewer: { File: { hits } },
   }) => {
     const tableInfo = tableColumns.slice().filter(x => !x.hidden);
-
     return (
       <div className="files-table">
         {tableHeader && (

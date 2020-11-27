@@ -6,7 +6,9 @@ import { createDataCategoryColumns } from '@ncigdc/tableModels/utils';
 
 import t from '@cqdg/locales/intl';
 import Th from '@cqdg/components/table/Th';
+import ThNum from '@cqdg/components/table/ThNum';
 import Td from '@cqdg/components/table/Td';
+import TdNum from '@cqdg/components/table/TdNum';
 
 /* const dataCategoryColumns = createDataCategoryColumns({
   title: 'Available Files per Data Category',
@@ -26,19 +28,19 @@ const casesTableModel = [
   {
     name: 'Study',
     id: 'study.study_id',
-    sortable: false,
+    sortable: true,
     downloadable: true,
-    hidden: true,
-    th: () => <Th>Study ID</Th>,
+    hidden: false,
+    th: () => <Th>{t('facet.study.study_id')}</Th>,
     td: ({ node }) => <Td>{node.study.hits.edges[0].node.study_id}</Td>,
   },
   {
     name: 'Donor',
     id: 'submitter_donor_id',
-    sortable: false,
+    sortable: true,
     downloadable: true,
-    hidden: true,
-    th: () => <Th>Donor ID</Th>,
+    hidden: false,
+    th: () => <Th>{t('facet.submitter_donor_id')}</Th>,
     td: ({ node }) => <Td>{node.submitter_donor_id}</Td>,
   },
   {
@@ -48,7 +50,7 @@ const casesTableModel = [
     downloadable: true,
     th: () => (
       <Th key="gender">
-        Gender
+        {t('facet.gender')}
       </Th>
     ),
     td: ({ node }) => (
@@ -60,10 +62,10 @@ const casesTableModel = [
   {
     name: 'Ethnicity',
     id: 'ethnicity',
-    sortable: false,
+    sortable: true,
     downloadable: true,
-    hidden: true,
-    th: () => <Th>Ethnicity</Th>,
+    hidden: false,
+    th: () => <Th>{t('facet.ethnicity')}</Th>,
     td: ({ node }) => (
       <Td>{(node.ethnicity) || '--'}</Td>
     ),
@@ -71,10 +73,10 @@ const casesTableModel = [
   {
     name: 'Vital Status',
     id: 'vital_status',
-    sortable: false,
+    sortable: true,
     downloadable: true,
     hidden: true,
-    th: () => <Th>Vital Status</Th>,
+    th: () => <Th>{t('facet.vital_status')}</Th>,
     td: ({ node }) => {
       return <Td>{node.vital_status}</Td>;
     },
@@ -82,19 +84,19 @@ const casesTableModel = [
   {
     name: 'Age at recruitment',
     id: 'age_at_recruitment',
-    sortable: false,
+    sortable: true,
     downloadable: true,
-    hidden: true,
-    th: () => <Th>Age at recruitment (years)</Th>,
+    hidden: false,
+    th: () => <Th>{t('facet.age_at_recruitment')}</Th>,
     td: ({ node }) => <Td>{node.age_at_recruitment}</Td>,
   },
   {
     name: 'Age at diagnosis',
     id: 'diagnoses.age_at_diagnosis',
-    sortable: false,
+    sortable: true,
     downloadable: true,
-    hidden: true,
-    th: () => <Th>Age at diagnosis (years)</Th>,
+    hidden: false,
+    th: () => <Th>{t('facet.diagnoses.age_at_diagnosis')}</Th>,
     td: ({ node }) => {
       // PLA - What if 2 diagnosis on the same year?
       // Use diagnosis with minimum age
@@ -107,10 +109,10 @@ const casesTableModel = [
   {
     name: 'Diagnosis ICD Term',
     id: 'diagnoses.icd_term',
-    sortable: false,
+    sortable: true,
     downloadable: true,
     hidden: true,
-    th: () => <Th>Diagnosis ICD Term</Th>,
+    th: () => <Th>{t('facet.diagnoses.icd_term')}</Th>,
     td: ({ node }) => {
       // Use diagnosis with minimum age
       if (node) {
@@ -129,21 +131,21 @@ const casesTableModel = [
   {
     name: 'Phenotype',
     id: 'phenotypes.hpo_term',
-    sortable: false,
+    sortable: true,
     downloadable: true,
     hidden: true,
-    th: () => <Th>Phenotype HPO Term</Th>,
+    th: () => <Th>{t('facet.phenotypes.hpo_term')}</Th>,
     td: ({ node }) => <Td>{node.phenotypes ? node.phenotypes.hits.edges[0].node.hpo_term : '--'}</Td>,
   },
   {
     name: 'Number of files',
     id: 'files.count',
-    sortable: false,
+    sortable: true,
     downloadable: true,
-    hidden: true,
-    th: () => <Th>Number of Files</Th>,
+    hidden: false,
+    th: () => <ThNum>{t('facet.files.count')}</ThNum>,
     td: ({ node }) => (
-      <Td>
+      <TdNum>
         <RepositoryFilesLink
           query={{
             filters: makeFilter([
@@ -156,7 +158,7 @@ const casesTableModel = [
           >
           {node.files.hits.total}
         </RepositoryFilesLink>
-      </Td>
+      </TdNum>
     ),
   },
 ];

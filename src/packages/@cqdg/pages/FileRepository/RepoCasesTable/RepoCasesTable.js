@@ -45,6 +45,7 @@ export default compose(
     viewer: { Case: { hits } },
   }) => {
     const tableInfo = tableColumns.slice().filter(x => !x.hidden);
+    console.log(tableInfo);
 
     return (
       <div className="cases-table">
