@@ -9,7 +9,7 @@ import PieChart from '@cqdg/components/charts/PieChart';
 import { Row, Column } from '@ncigdc/uikit/Flex';
 import { stringifyJSONParam } from '@ncigdc/utils/uri';
 import removeEmptyKeys from '@ncigdc/utils/removeEmptyKeys';
-import HorizontalBarChart from "./HorizontalBarChart";
+import HorizontalBarChart from './HorizontalBarChart';
 
 const toPieData = (clickHandler, docTypeSingular) => bucket => ({
   id: bucket.key,
@@ -19,7 +19,9 @@ const toPieData = (clickHandler, docTypeSingular) => bucket => ({
     <span>
       <b>{bucket.key}</b>
       <br />
-      {bucket.doc_count.toLocaleString()} {docTypeSingular}
+      {bucket.doc_count.toLocaleString()}
+      {' '}
+      {docTypeSingular}
       {bucket.doc_count > 1 ? 's' : ''}
     </span>
   ),
@@ -38,14 +40,18 @@ export const ShowToggleBox = styled.div({
 export const PieTitle = styled.div({
   color: ({ theme }) => theme.primary || 'inherit',
   paddingTop: '1rem',
+  fontWeight: '600',
 });
 
-function addFilter(query: Object, push: Function): Function {
+function addFilter(query: Record<string, any>, push: Function): Function {
   return (field, values) => {
     const newQuery = mergeQuery(
       {
         filters: makeFilter([
-          { field, value: Array.isArray(values) ? values : [values] },
+          {
+            field,
+            value: Array.isArray(values) ? values : [values],
+          },
         ]),
       },
       query,
@@ -62,13 +68,13 @@ function addFilter(query: Object, push: Function): Function {
 }
 
 export const SelfFilteringPie = ({
-  docTypeSingular,
   buckets,
-  query,
-  push,
-  fieldName,
   currentFieldNames,
   currentFilters,
+  docTypeSingular,
+  fieldName,
+  push,
+  query,
   ...props
 }) => (
   <PieChart
@@ -76,46 +82,46 @@ export const SelfFilteringPie = ({
       .filter(bucket => bucket.key !== '__missing__')
       .filter(
         bucket =>
-          currentFieldNames.includes(fieldName)
+          (currentFieldNames.includes(fieldName)
             ? inCurrentFilters({
-                key: bucket.key,
-                dotField: fieldName,
-                currentFilters,
-              })
-            : true,
+              key: bucket.key,
+              dotField: fieldName,
+              currentFilters,
+            })
+            : true),
       )
       .map(
         toPieData(
           ({ data }) => addFilter(query, push)(fieldName, data.id),
           docTypeSingular,
         ),
-      )}
+    )}
     {...props}
-  />
+    />
 );
 
 export const SelfFilteringBars = ({
-                                   docTypeSingular,
-                                   buckets,
-                                   query,
-                                   push,
-                                   fieldName,
-                                   currentFieldNames,
-                                   currentFilters,
-                                   ...props
-                                 }) => (
+  buckets,
+  currentFieldNames,
+  currentFilters,
+  docTypeSingular,
+  fieldName,
+  push,
+  query,
+  ...props
+}) => (
   <HorizontalBarChart
     data={(buckets || [])
       .filter(bucket => bucket.key !== '__missing__')
       .filter(
         bucket =>
-          currentFieldNames.includes(fieldName)
+          (currentFieldNames.includes(fieldName)
             ? inCurrentFilters({
               key: bucket.key,
               dotField: fieldName,
               currentFilters,
             })
-            : true,
+            : true),
       )
       .slice(0, 10)
       .map(
@@ -123,7 +129,7 @@ export const SelfFilteringBars = ({
           (data) => addFilter(query, push)(fieldName, data.id),
           docTypeSingular,
         ),
-      )}
+    )}
     {...props}
-  />
+    />
 );

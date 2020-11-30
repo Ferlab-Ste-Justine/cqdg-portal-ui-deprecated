@@ -5,7 +5,7 @@ import React from 'react';
 import take from 'lodash/take';
 import LeftArrow from 'react-icons/lib/fa/long-arrow-left';
 
-import UnionIcon from './UnionIcon';
+import UnionIcon from '../icons/UnionIcon';
 
 import './AggregatedFilter.css';
 
@@ -28,7 +28,7 @@ const AggregatedFilter = ({
               : (
                 <React.Fragment key={`aggregated-filter-${filter}`}>
                   <span className="filter-name">{filter}</span>
-                  <UnionIcon />
+                  <span><UnionIcon /></span>
                 </React.Fragment>
               )
             );

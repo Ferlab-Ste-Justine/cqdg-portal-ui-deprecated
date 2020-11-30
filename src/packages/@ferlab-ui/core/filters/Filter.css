@@ -16,6 +16,7 @@
 .filter .filter-separator{
   color: #453700;
   font-size: 18px;
+  opacity: .5;
 }
 
 .filter .aggregated-container{
@@ -24,4 +25,5 @@
 
 .filter .inner-close-icon {
   fill: #453700;
+  opacity: .5;
 }

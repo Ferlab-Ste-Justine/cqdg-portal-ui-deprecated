@@ -3,4 +3,6 @@
   font-size: 18px;
   font-weight: bold;
   margin: 0 7px;
+  opacity: .5;
+  vertical-align: middle;
 }

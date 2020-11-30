@@ -70,6 +70,7 @@ const filesTableModel = [
     td: ({ node }) => (
       <Td>
         <CopyToClipboardButton text={node.file_name_keyword} />
+        {' '}
         {features.fileLinking ? (
           <FileLink
             style={{
