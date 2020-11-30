@@ -22,6 +22,8 @@ import './FilesTable.css';
 import Td from "../../../components/table/Td";
 import {addAllFilesInCart, removeAllInCart, toggleFilesInCart, toggleAddAllToCart} from "../../../../@ncigdc/dux/cart";
 import Th from "../../../components/table/Th";
+import Button from "../../../../@ferlab-ui/core/buttons/button";
+import CartIcon from "../../../components/icons/CartIcon";
 
 
 export default compose(
@@ -102,15 +104,16 @@ export default compose(
                   <Tr index={i} key={e.node.id}>
                     {[
                       <Td key="add_to_cart">
-                        <input type="checkbox"
-                               onChange={() => {
-                                 dispatch(toggleFilesInCart(e.node));
-                                 if(addAllToCart === true){
-                                   dispatch(toggleAddAllToCart());
-                                 }
-                               }}
-                               checked={fileInCart(e.node)}
-                        />
+                        <Button onClick={() => {
+                                    dispatch(toggleFilesInCart(e.node));
+                                    if(addAllToCart === true){
+                                      dispatch(toggleAddAllToCart());
+                                    }
+                                  }}
+                                active={fileInCart(e.node)}
+                                className="cart-btn">
+                          <CartIcon/>
+                        </Button>
                       </Td>,
                       ...tableInfo
                         .filter(x => x.td)
@@ -129,14 +132,16 @@ export default compose(
             )}
             headings={[
               <Th key="cart-toggle-all" className="table-th">
-                <input type="checkbox"
-                       checked={addAllToCart}
-                       onChange={() => {
-                         dispatch(toggleAddAllToCart());
-                         dispatch(addAllToCart ?
-                           removeAllInCart() :
-                           addAllFilesInCart(hits.edges.map(e => e.node)));
-                       }} />
+                <Button onClick={() => {
+                          dispatch(toggleAddAllToCart());
+                          dispatch(addAllToCart ?
+                            removeAllInCart() :
+                            addAllFilesInCart(hits.edges.map(e => e.node)));
+                        }}
+                        active={addAllToCart}
+                        className="cart-btn">
+                  <CartIcon/>
+                </Button>
               </Th>,
               ...tableInfo.map(x => (
                 <x.th hits={hits} key={x.id}/>

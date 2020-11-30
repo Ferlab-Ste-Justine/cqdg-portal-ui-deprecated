@@ -11,9 +11,10 @@ const Button = ({
   onClick,
   shape = 'rect',
   type = 'normal',
+  className,
 }) => {
   const buttonAttr = {
-    className: `${type} ${shape} ${active ? 'active' : ''}`,
+    className: `${type} ${shape} ${active ? 'active' : ''} ${className}`,
     disabled,
     onClick,
   };

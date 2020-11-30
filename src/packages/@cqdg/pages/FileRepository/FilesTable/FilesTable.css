@@ -25,3 +25,15 @@
 .files-table-lock-open {
   color: #7CB305;
 }
+
+.cart-btn{
+  height: auto;
+  color: #18486B;
+  margin: 0;
+  padding: 3px;
+}
+
+.cart-btn.active {
+  background-color: #008FC7;
+  color: #fff;
+}

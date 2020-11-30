@@ -42,7 +42,6 @@ export const CLEAR_CART = 'CLEAR_CART';
 export const CART_FULL = 'CART_FULL';
 export const TOGGLE_ADD_ALL = 'TOGGLE_ADD_ALL';
 export const SAVE_ADD_ALL_STATE = 'SAVE_ADD_ALL_STATE';
-//export const UNDO_ADD_ALL = 'UNDO_ADD_ALL';
 
 export const MAX_CART_SIZE = 10000;
 const MAX_CART_WARNING = `The cart is limited to ${MAX_CART_SIZE.toLocaleString()} files.
