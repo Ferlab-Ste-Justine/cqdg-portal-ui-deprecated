@@ -4,7 +4,8 @@
     "files.title": "Fichiers",
     "files": "fichiers",
     "cases": "cas",
-    "donors": "Donneurs",
+    "donors": "donneurs",
+    "studies": "études",
     "login": "Connexion",
     "total": "Total",
     "more": "Voir +",
@@ -33,6 +34,9 @@
       },
       "columns": {
       }
+    },
+    "cards": {
+      "details": "Détails"
     },
     "app": {
       "description": "Le Centre québécois de données génomiques est une plateforme d'harmonisation et de diffusion des données génomiques générées par les études cliniques et de recherche du Québec."
@@ -193,10 +197,14 @@
     "no-data":"no-data",
     "germline":"Germline",
     "somatic":"Somatic",
-    "st1":"Study 1",
-    "st2":"Study 2",
-    "st3":"Study 3",
-    "st4":"Study 4",
+    "st1":"Étude 1",
+    "st2":"Étude 2",
+    "st3":"Étude 3",
+    "st4":"Étude 4",
+    "st1.desc":"Cohorte basée sur la population axée sur des conditions complexes.",
+    "st2.desc":"Résultats des tests génomiques.",
+    "st3.desc":"Étude sur les phénotypes de cancer inhabituels.",
+    "st4.desc":"Une biobanque multicentrique dédiée à la recherche sur le cancer de la prostate.",
     "rare.cancers":"Cancers rare",
     "procure":"Procure",
     "general.health":"General Health",

@@ -15,8 +15,8 @@ const RepositoryRoute = LoadableWithLoading({
   loader: () => import('@cqdg/pages/FileRepository/RelayRoute'),
 });
 
-const ProjectsRoute = LoadableWithLoading({
-  loader: () => import('@ncigdc/routes/ProjectsRoute'),
+const StudyRoute = LoadableWithLoading({
+  loader: () => import('@cqdg/pages/Study/StudyPage'),
 });
 
 const Routes = () => (
@@ -28,7 +28,7 @@ const Routes = () => (
       <Route component={() => (<Redirect to="/home" />)} exact path="/" />
       <Route component={CartRoute} exact path="/cart" />
       <Route component={RepositoryRoute} exact path="/files" />
-      <Route component={ProjectsRoute} exact path="/projects" />
+      <Route component={StudyRoute} exact path="/studies" />
       <Route component={HomePage} exact path="/home" />
     </Switch>
   </Fragment>

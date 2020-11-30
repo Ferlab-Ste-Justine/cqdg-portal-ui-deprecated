@@ -1,0 +1,74 @@
+.studies-cards .separator {
+  background: #D8E1EB;
+  margin: 0 16px;
+}
+
+.studies-cards .cards-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+}
+
+.studies-cards .card-container {
+  max-width: 300px;
+}
+
+.studies-cards  .action-bar {
+  margin-bottom: 16px;
+}
+
+.studies-cards .card-padding {
+  padding: 0 16px;
+}
+
+.studies-cards h2, .studies-cards p {
+  color: #18486B;
+  font-size: 14px;
+}
+
+.studies-cards header .card-padding {
+  display: flex;
+  transform: translateY(-50%);
+}
+
+.studies-cards header .card-padding a {
+  margin-left: auto;
+  font-size: 14px;
+  line-height: 22px;
+  color: #18486B;
+}
+
+.studies-cards .header-title {
+  font-weight: 600;
+  font-size: 14px;
+  margin: 0;
+}
+
+.studies-cards .card-footer {
+  display: flex;
+}
+
+.studies-cards .card-footer > * {
+  border: 1px solid #B5C6D8;
+  border-radius: 2px;
+  background: #fff;
+  padding: 4px 8px;
+}
+
+.studies-cards .card-footer .countwithicon-count, .studies-cards .card-footer .countwithicon-label {
+  font-size: 12px;
+  line-height: 20px;
+}
+
+.studies-cards .card-footer .countwithicon-label {
+  text-transform: capitalize;
+}
+
+.studies-cards .card-footer img {
+  width: 36px;
+}
+
+.studies-cards .card-footer > *:not(:last-child) {
+  margin-right: 16px;
+}
+

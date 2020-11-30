@@ -4,7 +4,8 @@
     "files.title": "Files",
     "files": "files",
     "cases": "cases",
-    "donors": "Donors",
+    "donors": "donors",
+    "studies": "studies",
     "login": "Login",
     "total": "Total",
     "more": "More",
@@ -31,6 +32,9 @@
         "filter.columns": "Filter Columns",
         "restore.defaults": "Restore Defaults"
       }
+    },
+    "cards": {
+      "details": "Details"
     },
     "app": {
       "description": "The Quebec Genomic Data Center is a data harmonization and sharing platform for clinical and genomic datasets produced by Québec’s clinical and research studies."
@@ -191,10 +195,14 @@
     "no-data":"no-data",
     "germline":"Germline",
     "somatic":"Somatic",
-    "st1":"Étude 1",
-    "st2":"Étude 2",
-    "st3":"Étude 3",
-    "st4":"Étude 4",
+    "st1":"Study 1",
+    "st2":"Study 2",
+    "st3":"Study 3",
+    "st4":"Study 4",
+    "st1.desc":"Population-based cohort focusing on complex conditions.",
+    "st2.desc":"Genomic testing results.",
+    "st3.desc":"Study on unusual cancer phenotypes.",
+    "st4.desc":"A multicenter biobank dedicated to prostate cancer research.",
     "rare.cancers":"Rare Cancers",
     "procure":"Procure",
     "general.health":"General Health",

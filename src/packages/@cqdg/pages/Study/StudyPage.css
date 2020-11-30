@@ -1,0 +1,17 @@
+#StudyPage {
+  background-color: #f0f3f8;
+  flex-grow: 1;
+  overflow: hidden;
+}
+
+.container-results {
+  background: #fff;
+  border: 1px solid #D8E1EB;
+  box-sizing: border-box;
+  border-radius: 2px;
+  padding: 24px;
+}
+
+#StudyPage .side-panel, #StudyPage .query-builder {
+  display: none;
+}

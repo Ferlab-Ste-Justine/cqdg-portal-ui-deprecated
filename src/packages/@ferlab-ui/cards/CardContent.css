@@ -4,6 +4,13 @@
     grid-auto-flow: row;
 }
 
+.headerFooter {
+    display: grid;
+    grid-gap: 10px;
+    grid-template-rows: 22px 1fr 50px;
+    height: 100%;
+}
+
 .stack-center {
     justify-items: center;
 }
