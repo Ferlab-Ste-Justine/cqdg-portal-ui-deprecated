@@ -10,11 +10,12 @@ button {
 
   height: 32px;
 
-  /* flex-direction: row; */
   padding: 0px 8px 0px 8px;
   
   box-sizing: border-box;
   border-radius: 2px;
+
+  font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, segoe ui, Roboto, Oxygen, Ubuntu, Cantarell, open sans, helvetica neue, sans-serif;
 
 
   white-space: nowrap;

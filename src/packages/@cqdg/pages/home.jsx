@@ -40,12 +40,12 @@ const HomePage = () => {
                     <h2>{t('home.hero.data.header')}</h2>
                     <span>{t('home.hero.data.subtitle')}</span>
                   </div>
-                  <CountWithIcon count="3" iconType="study" label={t('home.hero.data.groups.study')} />
-                  <CountWithIcon count="3" iconType="donor" label={t('home.hero.data.groups.donor')} />
-                  <CountWithIcon count="3" iconType="genome" label={t('home.hero.data.groups.genome')} />
-                  <CountWithIcon count="3" iconType="exome" label={t('home.hero.data.groups.exome')} />
-                  <CountWithIcon count="3" iconType="file" label={t('home.hero.data.groups.file')} />
-                  <CountWithIcon count="3" iconType="storage" label={t('home.hero.data.groups.size')} />
+                  <CountWithIcon count="4" iconType="study" label={t('home.hero.data.groups.study')} />
+                  <CountWithIcon count="999" iconType="donor" label={t('home.hero.data.groups.donor')} />
+                  <CountWithIcon count="102" iconType="genome" label={t('home.hero.data.groups.genome')} />
+                  <CountWithIcon count="800" iconType="exome" label={t('home.hero.data.groups.exome')} />
+                  <CountWithIcon count="15 551" iconType="file" label={t('home.hero.data.groups.file')} />
+                  <CountWithIcon count="897.4" iconType="storage" label={t('home.hero.data.groups.size')} />
                 </CardContent>
               </CardContainerNotched>
             </div>

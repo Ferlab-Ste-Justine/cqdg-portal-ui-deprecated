@@ -36,7 +36,6 @@ section.hero:before {
     top: 0;
     bottom: 0;
     background: url(/img/pills_bg.svg) no-repeat, linear-gradient(268deg,#28aae2,#006095 98%);
-    background-size: cover;
     background-position: 50%;
     width: 200%;
     left: -50%;
@@ -143,7 +142,8 @@ section.bottom-links {
 section.bottom-links .bottom-links-cards {
     display: grid;
     grid-template-columns: repeat(3, 260px);
-    justify-content: space-evenly;
+    gap: 48px;
+    justify-content: center;
 }
 
 section.bottom-links .bottom-links-cards a {
@@ -153,11 +153,15 @@ section.bottom-links .bottom-links-cards a {
 }
 
 section.bottom-links .bottom-links-cards .card-container p {
-    font-size: 12px;
+    font-size: 14px;
     line-height: 20px;
     margin: 0;
     color: #486F90;
     text-align: center;
+}
+
+section.bottom-links .bottom-links-cards .notch-content {
+    padding: 8px 24px;
 }
 
 /* FOOTER */
