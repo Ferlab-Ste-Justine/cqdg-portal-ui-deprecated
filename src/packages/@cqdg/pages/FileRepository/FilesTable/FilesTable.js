@@ -2,7 +2,7 @@
 
 import React from 'react';
 import {
-  compose, setDisplayName, branch, renderComponent, withPropsOnChange, withState,
+  compose, setDisplayName, branch, renderComponent, withPropsOnChange,
 } from 'recompose';
 import { connect } from 'react-redux';
 
@@ -19,11 +19,11 @@ import InlineCount from '@cqdg/components/countWithIcon/InlineCount';
 import StackLayout from '@ferlab-ui/core/layouts/StackLayout';
 
 import './FilesTable.css';
-import Td from "../../../components/table/Td";
-import {addAllFilesInCart, removeAllInCart, toggleFilesInCart, toggleAddAllToCart} from "../../../../@ncigdc/dux/cart";
-import Th from "../../../components/table/Th";
-import Button from "../../../../@ferlab-ui/core/buttons/button";
-import CartIcon from "../../../components/icons/CartIcon";
+import Td from "@cqdg/components/table/Td";
+import {addAllFilesInCart, removeAllInCart, toggleFilesInCart, toggleAddAllToCart} from "@ncigdc/dux/cart";
+import Th from "@cqdg/components/table/Th";
+import Button from "@ferlab-ui/core/buttons/button";
+import CartIcon from "@cqdg/components/icons/CartIcon";
 
 
 export default compose(
