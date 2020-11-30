@@ -8,14 +8,14 @@ import AggregatedFilter from './AggregatedFilter';
 import './Filter.css';
 
 const Filter = ({
-  filters, filterType, isFilterExpanded, onToggle, query,
+  filters, filterType, isFilterExpanded, onToggle, query, onClick = () => {}
 }) => {
   return (
     <span className="filter">
       <span className="filter-type">{filterType}</span>
       <span className="filter-separator">=</span>
       <AggregatedFilter className="aggregated-container" filters={filters} isFilterExpanded={isFilterExpanded} onToggle={onToggle} />
-      <Link className="filter-close-link" merge="toggle" query={query}>
+      <Link className="filter-close-link" merge="toggle" query={query} onClick={onClick}>
         <IoIosClose className="inner-close-icon" />
       </Link>
 

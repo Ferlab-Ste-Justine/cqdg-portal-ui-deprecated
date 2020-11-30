@@ -8,6 +8,7 @@ import {
   compose, withState, withPropsOnChange, pure,
 } from 'recompose';
 
+import { toggleAddAllToCart } from "@ncigdc/dux/cart";
 import CloseIcon from '@ncigdc/theme/icons/CloseIcon';
 
 import { IRawQuery } from '@ncigdc/utils/uri/types';
@@ -25,6 +26,7 @@ import t from '@cqdg/locales/intl';
 import StackLayout from '@ferlab-ui/core/layouts/StackLayout';
 
 import './MultipleChoice.css';
+import {connect} from "react-redux";
 
 type TProps = {
   buckets: [IBucket];
@@ -43,22 +45,23 @@ type TProps = {
 
 const getCurrentFilters = (ctx) => ((ctx.query &&
   parseFilterParam((ctx.query || {}).filters, {}).content) ||
-[])
+  [])
   .map(filter => ({
-    ...filter,
-    content: {
-      ...filter.content,
-      value: typeof filter.content.value === 'string'
-      ? filter.content.value.toLowerCase()
-      : filter.content.value.map(val => val.toLowerCase()),
-    },
-  }
+      ...filter,
+      content: {
+        ...filter.content,
+        value: typeof filter.content.value === 'string'
+          ? filter.content.value.toLowerCase()
+          : filter.content.value.map(val => val.toLowerCase()),
+      },
+    }
   ));
 
 let input;
 const MultipleChoice = (props: TProps) => {
+
   const {
-    field, filteredBuckets, maxShowing, setShowingMore, showingMore,
+    field, filteredBuckets, maxShowing, setShowingMore, showingMore, dispatch, addAllToCart
   } = props;
 
   const dotField = field.replace(/__/g, '.');
@@ -84,7 +87,7 @@ const MultipleChoice = (props: TProps) => {
                     borderRadius: '4px',
                     marginBottom: '6px',
                   }}
-                  />
+                />
                 {input && input.value && (
                   <CloseIcon
                     onClick={() => {
@@ -98,7 +101,7 @@ const MultipleChoice = (props: TProps) => {
                       transition: 'all 0.3s ease',
                       outline: 0,
                     }}
-                    />
+                  />
                 )}
               </StackLayout>
             )}
@@ -131,7 +134,12 @@ const MultipleChoice = (props: TProps) => {
                             ],
                           },
                         }}
-                        >
+                        onClick={() => {
+                          if(addAllToCart === true){
+                            dispatch(toggleAddAllToCart());
+                          }
+                        }}
+                      >
                         <input
                           checked={inCurrentFilters({
                             key: bucket.name.toLowerCase(),
@@ -154,7 +162,7 @@ const MultipleChoice = (props: TProps) => {
                             verticalAlign: 'middle',
                           }}
                           type="checkbox"
-                          />
+                        />
                         <OverflowTooltippedLabel
                           htmlFor={`input-${props.title}-${bucket.name.replace(
                             /\s/g,
@@ -164,7 +172,7 @@ const MultipleChoice = (props: TProps) => {
                             marginLeft: '0.3rem',
                             verticalAlign: 'middle',
                           }}
-                          >
+                        >
                           {props.searchValue
                             ? internalHighlight(
                               props.searchValue,
@@ -188,11 +196,11 @@ const MultipleChoice = (props: TProps) => {
                     onKeyPress={() => setShowingMore(!props.showingMore)}
                     role="button"
                     tabIndex="0"
-                    >
+                  >
                     {showingMore
-                        ? t('global.less')
-                        : filteredBuckets.length - 5 &&
-                        `${filteredBuckets.length - 5} ${t('global.total')}...`}
+                      ? t('global.less')
+                      : filteredBuckets.length - 5 &&
+                      `${filteredBuckets.length - 5} ${t('global.total')}...`}
                   </div>
                 )}
 
@@ -215,6 +223,9 @@ const MultipleChoice = (props: TProps) => {
 const enhance = compose(
   withState('showingMore', 'setShowingMore', false),
   withState('filter', 'setFilter', ''),
+  connect(state => ({
+    addAllToCart: state.cart.addAllToCart
+  })),
   withPropsOnChange(
     [
       'buckets',
@@ -222,8 +233,8 @@ const enhance = compose(
       'searchValue',
     ],
     ({
-      buckets, filter, isMatchingSearchValue, searchValue = '',
-    }) => ({
+       buckets, filter, isMatchingSearchValue, searchValue = '',
+     }) => ({
       filteredBuckets: buckets.filter(
         b => b.key !== '_missing' &&
           (b.key || '').length &&

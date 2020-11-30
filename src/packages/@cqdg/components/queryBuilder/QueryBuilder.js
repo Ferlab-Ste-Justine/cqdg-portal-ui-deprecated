@@ -26,6 +26,8 @@ import LeftArrow from 'react-icons/lib/fa/angle-left';
 import Filter from '@ferlab-ui/core/filters/Filter';
 
 import './QueryBuilder.css';
+import { toggleAddAllToCart } from "@ncigdc/dux/cart";
+import {connect} from "react-redux";
 
 /*----------------------------------------------------------------------------*/
 
@@ -34,6 +36,7 @@ type TProps = {
   currentFilters: Array<Record<string, any>>;
   onLessClicked: Function;
   isFilterExpanded: Function;
+  addAllToCart: boolean;
 };
 
 const enhance = compose(
@@ -45,6 +48,9 @@ const enhance = compose(
     currentFilters: (filters && filters.content) || [],
   })),
   withState('expandedFilters', 'setExpandedFilters', []),
+  connect(state => ({
+    addAllToCart: state.cart.addAllToCart
+  })),
   withProps(({ expandedFilters }) => ({
     isFilterExpanded: filter => expandedFilters.includes(filter),
   })),
@@ -62,6 +68,8 @@ const QueryBuilder = (
     isFilterExpanded,
     onLessClicked,
     query,
+    addAllToCart,
+    dispatch,
   }: TProps = {},
 ) => {
   const hasCurrentFilters = currentFilters.length > 0;
@@ -92,6 +100,11 @@ const QueryBuilder = (
                     isFilterExpanded={isFilterExpanded(filter)}
                     key={`${filter.content.field}.${filter.op}.${value.join()}`}
                     onToggle={() => onLessClicked(filter)}
+                    onClick={() => {
+                      if(addAllToCart === true){
+                        dispatch(toggleAddAllToCart());
+                      }
+                    }}
                     query={{
                       filters: {
                         content: [filter],
