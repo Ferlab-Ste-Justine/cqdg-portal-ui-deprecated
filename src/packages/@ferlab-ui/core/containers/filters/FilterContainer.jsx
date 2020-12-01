@@ -3,7 +3,8 @@
 /* @flow */
 
 import React from 'react';
-import _ from 'lodash';
+import includes from 'lodash/includes';
+import some from 'lodash/some';
 
 import {
   compose,
@@ -17,10 +18,10 @@ import { withTheme } from '@ncigdc/theme';
 import Header from '@ferlab-ui/core/containers/filters/FilterContainerHeader';
 
 import DateFacet from '@ncigdc/components/Aggregations/DateFacet';
-import RangeFacet from '@ncigdc/components/Aggregations/RangeFacet';
 import ExactMatchFacet from '@ncigdc/components/Aggregations/ExactMatchFacet';
 import StackLayout from '@ferlab-ui/core/layouts/StackLayout';
 import MultipleChoice from '@ferlab-ui/core/containers/filters/types/MultipleChoice';
+import RangeFilter from '@ferlab-ui/core/containers/filters/types/RangeFilter';
 
 import './FilterContainer.css';
 
@@ -54,7 +55,7 @@ const fieldNameToTitle = fieldName => fieldName
   .join(' ');
 
 const getFacetType = facet => {
-  if (_.includes(facet.field, 'datetime')) {
+  if (includes(facet.field, 'datetime')) {
     return 'datetime';
   } if (facet.type === 'terms') {
     // on Annotations & Repo pages project_id is a terms facet
@@ -63,12 +64,12 @@ const getFacetType = facet => {
   } if (facet.type === 'exact') {
     return 'exact';
   } if (
-    _.some([
+    some([
       '_id',
       '_uuid',
       'md5sum',
       'file_name',
-    ], idSuffix => _.includes(facet.field, idSuffix))
+    ], idSuffix => includes(facet.field, idSuffix))
   ) {
     return 'exact';
   } if (facet.type === 'long' || facet.type === 'float') {
@@ -116,7 +117,7 @@ export const WrapperComponent = compose(withTheme)(({
       <DateFacet field={facet.full} {...commonProps} {...additionalProps} />
     ),
     range: () => (
-      <RangeFacet
+      <RangeFilter
         convertDays={false}
         field={facet.full}
         max={(aggregation.stats || { max: 0 }).max}
@@ -143,7 +144,6 @@ export const WrapperComponent = compose(withTheme)(({
     facetType === 'terms' &&
     (aggregation || { buckets: [] }).buckets.filter(b => b.key !== '_missing')
       .length >= 20;
-
   return (
     <div className="filter-container">
       <StackLayout vertical>
@@ -174,7 +174,7 @@ export const WrapperComponent = compose(withTheme)(({
 const FilterContainer = compose(
   setDisplayName('EnhancedFilterContainer'),
   defaultProps({
-    onRequestRemove: _.noop,
+    onRequestRemove: () => {},
     isRemovable: false,
   }),
   renameProps({

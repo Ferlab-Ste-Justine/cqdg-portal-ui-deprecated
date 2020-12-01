@@ -156,10 +156,15 @@
     "file": "File",
     "range": {
       "from": "From",
-      "to": "To"
+      "to": "To",
+      "years": "Years",
+      "days": "days",
+      "min": "Min",
+      "max": "Max"
     },
     "actions": {
-      "go": "Go!"
+      "apply": "Apply",
+      "reset": "Reset"
     }
   },
   "aggregation": {

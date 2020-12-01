@@ -14,7 +14,6 @@ import styled from '@ncigdc/theme/styled';
 
 import FacetResetButton from '@ncigdc/components/Aggregations/FacetResetButton';
 import CloseIcon from '@ncigdc/theme/icons/CloseIcon';
-import SearchIcon from '@ncigdc/theme/icons/SearchIcon';
 import AngleIcon from '@ncigdc/theme/icons/AngleIcon';
 import QuestionIcon from '@ncigdc/theme/icons/Question';
 import GoSearch from 'react-icons/lib/go/search';
@@ -51,12 +50,6 @@ const RemoveIcon = styled(CloseIcon, {
   },
   color: ({ theme }) => theme.greyScale7,
   paddingLeft: '2px',
-});
-
-const MagnifyingGlass = styled(SearchIcon, {
-  ':hover::before': {
-    textShadow: ({ theme }) => theme.textShadow,
-  },
 });
 
 const FacetHeader = ({

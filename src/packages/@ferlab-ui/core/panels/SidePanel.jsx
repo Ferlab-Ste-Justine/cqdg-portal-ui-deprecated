@@ -23,7 +23,7 @@ const SidePanel = ({
         <Link defaultIcon={false} href="mailto:support@cqdg.ca">{t('short_footer.info')}</Link>
         <div className="spacer" />
         <Link defaultIcon={false} href={t('footer.logo.genome.link')} target="_blank">
-          Genome Québec
+          Génome Québec
         </Link>
         <div className="spacer" />
         <Link defaultIcon={false} href={t('footer.logo.chusj.link')} target="_blank">

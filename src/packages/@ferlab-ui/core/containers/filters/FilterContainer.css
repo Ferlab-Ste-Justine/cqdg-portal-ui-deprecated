@@ -12,5 +12,8 @@
 
 .filter-container > div > * {
   background-color: #fff;
+}
+
+.filter-container-content > * { 
   padding: 8px 14px;
 }

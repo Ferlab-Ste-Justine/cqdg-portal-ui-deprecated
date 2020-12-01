@@ -158,10 +158,15 @@
     "file": "Fichier",
     "range": {
       "from": "De",
-      "to": "À"
+      "to": "À",
+      "years": "Années",
+      "days": "Jours",
+      "min": "Min",
+      "max": "Max"
     },
     "actions": {
-      "go": "Go!"
+      "apply": "Appliquer",
+      "reset": "Effacer"
     }
   },
   "aggregation": {
