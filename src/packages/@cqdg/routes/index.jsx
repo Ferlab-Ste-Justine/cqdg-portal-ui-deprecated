@@ -8,7 +8,7 @@ const HomePage = LoadableWithLoading({
 });
 
 const CartRoute = LoadableWithLoading({
-  loader: () => import('@ncigdc/routes/CartRoute'),
+  loader: () => import('@cqdg/pages/Cart/RelayRoute'),
 });
 
 const RepositoryRoute = LoadableWithLoading({

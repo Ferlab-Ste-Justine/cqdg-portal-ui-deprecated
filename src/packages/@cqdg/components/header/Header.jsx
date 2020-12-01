@@ -13,6 +13,7 @@ import Link from '@ferlab-ui/core/buttons/link';
 import { withRouter } from 'react-router-dom';
 import { setLanguageAction } from '@cqdg/store/intl';
 import './Header.css';
+import CartIcon from "../icons/CartIcon";
 
 const Header = (props) => {
   const { history, intl, setLanguage } = props;
@@ -48,6 +49,11 @@ const Header = (props) => {
         <Link className="big" defaultIcon={false} href="/">
           <UserLock className="big" />
           {t('global.login')}
+        </Link>
+        <div className="separator" />
+        <Link href="/cart" className="big" defaultIcon={false}>
+          <CartIcon className="big cart"/>
+          {t('global.cart')}
         </Link>
         <div className="separator" />
         <Link href="https://docs.qa.cqdg.ferlab.bio/">
