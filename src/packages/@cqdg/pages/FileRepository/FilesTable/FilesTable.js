@@ -111,7 +111,7 @@ export default compose(
                                     }
                                   }}
                                 active={fileInCart(e.node)}
-                                className="cart-btn">
+                                className="files-table-cart-btn">
                           <CartIcon/>
                         </Button>
                       </Td>,
@@ -139,7 +139,7 @@ export default compose(
                             addAllFilesInCart(hits.edges.map(e => e.node)));
                         }}
                         active={addAllToCart}
-                        className="cart-btn">
+                        className="files-table-cart-btn">
                   <CartIcon/>
                 </Button>
               </Th>,

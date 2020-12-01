@@ -12,3 +12,20 @@
   justify-content: space-between;
   padding: 0 8px 24px;
 }
+
+.cases-table-cart-btn{
+  height: auto;
+  color: #18486B;
+  margin: 0;
+  padding: 3px;
+}
+
+.cases-table-cart-btn.active {
+  background-color: #008FC7;
+  color: #fff;
+}
+
+.cases-table-cart-btn.active.partial-match {
+  background-color: #fff;
+  color: #008FC7;
+}

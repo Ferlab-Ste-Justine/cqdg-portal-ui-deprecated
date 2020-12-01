@@ -114,8 +114,17 @@ export default (Component: React.Class<*>) =>
                             total
                             edges{
                               node{
-                                data_type
+                                file_id
+                                file_name
+                                file_name_keyword
+                                file_size
+                                data_access
                                 data_category
+                                file_format
+                                data_type
+                                experimental_strategy
+                                platform
+                                is_harmonized
                               }
                             }
                           }

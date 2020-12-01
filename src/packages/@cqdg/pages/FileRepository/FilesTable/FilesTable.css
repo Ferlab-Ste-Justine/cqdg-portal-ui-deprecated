@@ -26,14 +26,14 @@
   color: #7CB305;
 }
 
-.cart-btn{
+.files-table-cart-btn{
   height: auto;
   color: #18486B;
   margin: 0;
   padding: 3px;
 }
 
-.cart-btn.active {
+.files-table-cart-btn.active {
   background-color: #008FC7;
   color: #fff;
 }

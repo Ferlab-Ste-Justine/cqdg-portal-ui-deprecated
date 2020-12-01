@@ -2911,6 +2911,8 @@ type CaseFile {
   experimental_strategy: String
   is_harmonized: Boolean
 
+  file_format: String
+
   # The name (or part of a name) of a file (of any type).
   file_name: String
   file_name_keyword: String
