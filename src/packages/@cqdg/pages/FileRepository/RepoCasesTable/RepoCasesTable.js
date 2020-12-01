@@ -62,14 +62,9 @@ export default compose(
   }) => {
 
     const tableInfo = tableColumns.slice().filter(x => !x.hidden);
-    const filesInCart = (files) => {
-      const nbOfMatches = cartFiles.filter(cartFile => files.map(f => f.file_id).includes(cartFile.file_id)).length;
-      return nbOfMatches === files.length ?
-        CART_EXACT_MATCH :
-        nbOfMatches > 0 ?
-          CART_PARTIAL_MATCH :
-          CART_NO_MATCH;
-    };
+
+    const getNbFilesMatchInCart= (files) => cartFiles.filter(cartFile => files.map(f => f.file_id).includes(cartFile.file_id)).length;
+    const getCartState = (count, files) => count === files.length ? CART_EXACT_MATCH : count > 0 ? CART_PARTIAL_MATCH : CART_NO_MATCH;
 
     return (
       <div className="cases-table">
@@ -98,8 +93,12 @@ export default compose(
           <Table
             body={(
               <tbody>
-                {hits.edges.map((e, i) => (
-                  <Tr
+                {hits.edges.map((e, i) => {
+                  const fileHits = get(e.node, 'files.hits.edges', []).map(e => e.node);
+                  const nbOfFilesMatchInCart = getNbFilesMatchInCart(fileHits);
+                  const cartState = getCartState(nbOfFilesMatchInCart, fileHits);
+
+                  return (<Tr
                     index={i}
                     key={e.node.id}
                     style={{
@@ -107,18 +106,12 @@ export default compose(
                         backgroundColor: theme.tableHighlight,
                       }),
                     }}
-                    >
+                  >
                     {[
                       <Td key="add_to_cart">
-                        <Button onClick={() => {
-                                  if(filesInCart(get(e.node, 'files.hits.edges', []).map(e => e.node)) === CART_PARTIAL_MATCH){
-                                    dispatch(addAllFilesInCart(get(e.node, 'files.hits.edges', []).map(e => e.node)));
-                                  }else{
-                                    dispatch(toggleFilesInCart(get(e.node, 'files.hits.edges', []).map(e => e.node)));
-                                  }
-                                }}
-                                active={filesInCart(get(e.node, 'files.hits.edges', []).map(e => e.node)) !== CART_NO_MATCH}
-                                className={`cases-table-cart-btn ${filesInCart(get(e.node, 'files.hits.edges', []).map(e => e.node)) === CART_PARTIAL_MATCH ? 'partial-match': ''}`}>
+                        <Button onClick={() => dispatch(cartState === CART_PARTIAL_MATCH ? addAllFilesInCart(fileHits) : toggleFilesInCart(fileHits))}
+                                active={cartState !== CART_NO_MATCH}
+                                className={`cases-table-cart-btn ${cartState === CART_PARTIAL_MATCH ? 'partial-match' : ''}`}>
                           <CartIcon/>
                         </Button>
                       </Td>,
@@ -133,10 +126,10 @@ export default compose(
                             selectedIds={selectedIds}
                             setSelectedIds={setSelectedIds}
                             total={hits.total}
-                            />
-                      ))]}
-                  </Tr>
-                ))}
+                          />
+                        ))]}
+                  </Tr>);
+                })}
               </tbody>
             )}
             headings={[
