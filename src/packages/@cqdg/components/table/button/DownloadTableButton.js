@@ -12,12 +12,6 @@ import DropdownItem from '@ncigdc/uikit/DropdownItem';
 
 import t from '@cqdg/locales/intl';
 
-type TProps = {
-  selector: string;
-  filename: string;
-  style?: Record<string, any>;
-};
-
 const getSingleHeader = (headThs: Array<NodeList>) => reduce(
   headThs[0],
   (acc, th) => (th.rowSpan === 2 ? [...acc, th] : [...acc, ...map(headThs[1], t => t)]),
@@ -26,10 +20,11 @@ const getSingleHeader = (headThs: Array<NodeList>) => reduce(
 
 export const downloadToTSV = ({
   excludedColumns = [
+    'Cart',
     'Add all files to cart',
     'Remove all files from cart',
     'Select column',
-  ], filename, selector,
+  ], filename, selector, portionData = 'all',
 }) => {
   const tableEl = document.querySelector(selector);
   const headTrs = tableEl.querySelector('thead').querySelectorAll('tr');
@@ -40,7 +35,10 @@ export const downloadToTSV = ({
       : tableEl.querySelectorAll('th');
   const thText = map(thEls, el => el.innerText).map(t => t.replace(/\s+/g, ' '));
   const trs = tableEl.querySelector('tbody').querySelectorAll('tr');
-  const tdText = map(trs, t => {
+  let tdText = map(trs, (t, i) => {
+    if (portionData !== 'all' && !portionData.includes(i)) {
+      return [];
+    }
     const tds = t.querySelectorAll('td');
     return reduce(
       tds,
@@ -64,6 +62,7 @@ export const downloadToTSV = ({
     );
   });
 
+  tdText = tdText.filter(td => td.length > 0);
   const excludedIndices = excludedColumns.reduce((acc, curr) => {
     const normalizedCurr = curr.toLowerCase().trim();
     const normalizedThText = thText.map(th => th.toLowerCase().trim());
@@ -84,18 +83,21 @@ export const downloadToTSV = ({
   });
 };
 
-const DownloadTableToTsvButton =
+const DownloadTableButton =
   ({
     filename,
     selector,
     leftIcon,
     style = {},
     className = '',
-  }: TProps) => (
+    children,
+    isDisabled = false,
+    portionData,
+  }) => (
     <Dropdown
       button={(
         <Button
-          className={className}
+          className={`${className} ${isDisabled ? 'disabled' : ''}`}
           leftIcon={leftIcon}
           style={{
             ...visualizingButton,
@@ -103,25 +105,11 @@ const DownloadTableToTsvButton =
           }}
           >
           <MdFileDownload />
+          {children}
         </Button>
       )}
+      isDisabled={isDisabled}
       >
-      <DropdownItem
-        style={{
-          color: '#18486B',
-          lineHeight: '1.5',
-          ':hover': {
-            cursor: 'pointer',
-            color: '#18486B',
-          },
-        }}
-        >
-        <div onClick={() => console.log('TO JSON')}>
-          <span>
-            {t('repo.download.options.all.json')}
-          </span>
-        </div>
-      </DropdownItem>
       <DropdownItem
         style={{
           color: '#18486B',
@@ -136,6 +124,7 @@ const DownloadTableToTsvButton =
           onClick={() => downloadToTSV({
             filename,
             selector,
+            portionData,
           })}
           >
           <span>
@@ -147,7 +136,7 @@ const DownloadTableToTsvButton =
 
   );
 
-export default DownloadTableToTsvButton;
+export default DownloadTableButton;
 
 export const ForTsvExport = ({ children }: { children: string }) => (
   <span className="for-tsv-export" style={{ display: 'none' }}>

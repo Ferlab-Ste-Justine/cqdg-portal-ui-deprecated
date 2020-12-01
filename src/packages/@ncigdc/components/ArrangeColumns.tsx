@@ -185,7 +185,14 @@ const ArrangeColumns = compose<IArrangeColumnsProps, JSX.Element>(
                     style={{ pointerEvents: 'none' }}
                     type="checkbox"
                     />
-                  <span style={{ marginLeft: '0.3rem' }}>{t(`facet.${column.id}`)}</span>
+                  <span
+                    style={{
+                      marginLeft: '0.3rem',
+                      color: '#18486B',
+                    }}
+                    >
+                    {t(`facet.${column.id}`)}
+                  </span>
                 </Row>
                 <ArrangeIcon
                   style={{

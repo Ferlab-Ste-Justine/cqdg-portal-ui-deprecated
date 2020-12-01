@@ -1,8 +1,11 @@
+/* eslint-disable sort-keys */
+/* eslint-disable react/no-multi-comp */
+/* eslint-disable react/display-name */
+
 // @flow
 import React from 'react';
 import { RepositoryFilesLink } from '@ncigdc/components/Links/RepositoryLink';
 import { makeFilter } from '@ncigdc/utils/filters';
-import { createDataCategoryColumns } from '@ncigdc/tableModels/utils';
 
 import t from '@cqdg/locales/intl';
 import Th from '@cqdg/components/table/Th';
@@ -10,25 +13,11 @@ import ThNum from '@cqdg/components/table/ThNum';
 import Td from '@cqdg/components/table/Td';
 import TdNum from '@cqdg/components/table/TdNum';
 
-/* const dataCategoryColumns = createDataCategoryColumns({
-  title: 'Available Files per Data Category',
-  countKey: 'file_count',
-  Link: RepositoryFilesLink,
-  getCellLinkFilters: node => [
-    {
-      field: 'cases.case_id',
-      value: node.case_id,
-    },
-  ],
-  getTotalLinkFilters: hits => [],
-}); */
-
-
 const casesTableModel = [
   {
     name: 'Study',
     id: 'study.study_id',
-    sortable: true,
+    sortable: false,
     downloadable: true,
     hidden: false,
     th: () => <Th>{t('facet.study.study_id')}</Th>,
@@ -140,7 +129,7 @@ const casesTableModel = [
   {
     name: 'Number of files',
     id: 'files.count',
-    sortable: true,
+    sortable: false,
     downloadable: true,
     hidden: false,
     th: () => <ThNum>{t('facet.files.count')}</ThNum>,

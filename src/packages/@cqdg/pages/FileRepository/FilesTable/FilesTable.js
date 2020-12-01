@@ -19,19 +19,21 @@ import InlineCount from '@cqdg/components/countWithIcon/InlineCount';
 import StackLayout from '@ferlab-ui/core/layouts/StackLayout';
 
 import './FilesTable.css';
-import Td from "@cqdg/components/table/Td";
-import {addAllFilesInCart, removeAllInCart, toggleFilesInCart, toggleAddAllToCart} from "@ncigdc/dux/cart";
-import Th from "@cqdg/components/table/Th";
-import Button from "@ferlab-ui/core/buttons/button";
-import CartIcon from "@cqdg/components/icons/CartIcon";
+import Td from '@cqdg/components/table/Td';
+import {
+  addAllFilesInCart, removeAllInCart, toggleFilesInCart, toggleAddAllToCart,
+} from '@ncigdc/dux/cart';
+import Th from '@cqdg/components/table/Th';
+import Button from '@ferlab-ui/core/buttons/button';
+import CartIcon from '@cqdg/components/icons/CartIcon';
 
 
 export default compose(
   setDisplayName('FilesTablePresentation'),
   connect(state => ({
-      tableColumns: state.tableColumns.files,
-      cartFiles: state.cart.files,
-      addAllToCart: state.cart.addAllToCart
+    tableColumns: state.tableColumns.files,
+    cartFiles: state.cart.files,
+    addAllToCart: state.cart.addAllToCart,
   })),
   withPropsOnChange(['variables'], ({ variables: { files_size } }) => {
     return {
@@ -46,20 +48,20 @@ export default compose(
   )
 )(
   ({
-     dispatch,
-     cartFiles,
-     addAllToCart,
-     downloadable,
-     entityType = 'files',
-     resetScroll = false,
-     tableColumns,
-     tableHeader,
-     viewer: { File: { hits } },
+    addAllToCart,
+    cartFiles,
+    dispatch,
+    downloadable,
+    entityType = 'files',
+    resetScroll = false,
+    tableColumns,
+    tableHeader,
+    viewer: { File: { hits } },
   }) => {
     const tableInfo = tableColumns.slice().filter(x => !x.hidden);
     const fileInCart = (file) => cartFiles.some(f => f.file_id === file.file_id);
 
-    if(addAllToCart === true && hits && hits.edges){
+    if (addAllToCart === true && hits && hits.edges) {
       const delta = hits.edges.map(e => e.node).filter(
         file =>
           !cartFiles.some(
@@ -67,7 +69,7 @@ export default compose(
           )
       );
 
-      if(delta && delta.length > 0){
+      if (delta && delta.length > 0) {
         dispatch(addAllFilesInCart(delta, false));
       }
     }
@@ -104,15 +106,17 @@ export default compose(
                   <Tr index={i} key={e.node.id}>
                     {[
                       <Td key="add_to_cart">
-                        <Button onClick={() => {
-                                    dispatch(toggleFilesInCart(e.node));
-                                    if(addAllToCart === true){
-                                      dispatch(toggleAddAllToCart());
-                                    }
-                                  }}
-                                active={fileInCart(e.node)}
-                                className="files-table-cart-btn">
-                          <CartIcon/>
+                        <Button
+                          active={fileInCart(e.node)}
+                          className="files-table-cart-btn"
+                          onClick={() => {
+                            dispatch(toggleFilesInCart(e.node));
+                            if (addAllToCart === true) {
+                              dispatch(toggleAddAllToCart());
+                            }
+                          }}
+                          >
+                          <CartIcon />
                         </Button>
                       </Td>,
                       ...tableInfo
@@ -131,20 +135,22 @@ export default compose(
               </tbody>
             )}
             headings={[
-              <Th key="cart-toggle-all" className="table-th">
-                <Button onClick={() => {
-                          dispatch(toggleAddAllToCart());
-                          dispatch(addAllToCart ?
-                            removeAllInCart() :
-                            addAllFilesInCart(hits.edges.map(e => e.node)));
-                        }}
-                        active={addAllToCart}
-                        className="files-table-cart-btn">
-                  <CartIcon/>
+              <Th className="table-th" key="cart-toggle-all">
+                <Button
+                  active={addAllToCart}
+                  className="files-table-cart-btn"
+                  onClick={() => {
+                    dispatch(toggleAddAllToCart());
+                    dispatch(addAllToCart
+                            ? removeAllInCart()
+                            : addAllFilesInCart(hits.edges.map(e => e.node)));
+                  }}
+                  >
+                  <CartIcon />
                 </Button>
               </Th>,
               ...tableInfo.map(x => (
-                <x.th hits={hits} key={x.id}/>
+                <x.th hits={hits} key={x.id} />
               )),
             ]}
             id="repository-files-table"

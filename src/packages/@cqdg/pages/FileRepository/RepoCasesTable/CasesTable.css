@@ -29,3 +29,7 @@
   background-color: #fff;
   color: #008FC7;
 }
+
+.cases-table .clinical-checkbox {
+  vertical-align: middle;
+}

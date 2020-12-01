@@ -10,7 +10,6 @@ import {
 } from 'recompose';
 
 import Modal from '@ncigdc/uikit/Modal';
-import SuggestionFacet from '@ncigdc/modern_components/SuggestionFacet';
 import FacetSelection from '@ncigdc/modern_components/FacetSelection';
 import FilterSearchInput from '@cqdg/components/inputs/FilterSearchInput';
 

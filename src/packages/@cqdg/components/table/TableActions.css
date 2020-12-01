@@ -7,6 +7,7 @@
   border-radius: 2px;
   border: 1px solid #B5C6D8;
   color: #18486B;
+  margin-left: 4px;
 }
 
 .test-table-actions .table-actions-buttons:hover {
@@ -20,4 +21,22 @@
   color: #005673;
   background: #fff;
   outline: none;
+}
+
+.test-table-actions .table-actions-buttons.disabled {
+  border: 1px solid #B5C6D8;
+  color: #90A9C1;
+  background: #F0F3F8;
+  outline: none;
+  cursor: default;
+}
+
+.test-table-actions .clinical-download-text {
+  line-height: 14px;
+  font-size: 14px;
+  margin-left: 6px;
+}
+.test-table-actions .separator {
+  background: #D8E1EB;
+  margin: 0 12px 0 16px;
 }

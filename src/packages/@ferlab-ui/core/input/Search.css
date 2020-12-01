@@ -2,6 +2,12 @@
   position: relative;
 }
 
+.fui-input-search input {
+  width: 100%;
+  padding-left: 32px;
+  padding-right: 32px;
+}
+
 .fui-input-search .extra {
   position: absolute;
   bottom: 0;

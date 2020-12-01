@@ -27,6 +27,7 @@
         "entries": "Entries"
       },
       "actions": {
+        "clinical.data": "Clinical Data",
         "export": "Export Current View",
         "sort": "Sort Table",
         "arrange.columns": "Arrange Columns",

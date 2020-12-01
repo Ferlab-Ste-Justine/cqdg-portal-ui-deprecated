@@ -27,6 +27,7 @@
         "entries": "Entrées"
       },
       "actions": {
+        "clinical.data": "Données Cliniques",
         "export": "Export Current View",
         "sort": "Ordonner",
         "arrange.columns": "Modifier les colonnes",

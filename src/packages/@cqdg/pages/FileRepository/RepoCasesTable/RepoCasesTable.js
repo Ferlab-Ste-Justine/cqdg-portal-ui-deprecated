@@ -2,7 +2,7 @@
 
 import React from 'react';
 import {
-  compose, setDisplayName, branch, renderComponent, withPropsOnChange,
+  compose, setDisplayName, branch, renderComponent, withPropsOnChange, withState,
 } from 'recompose';
 import { connect } from 'react-redux';
 import MdPeople from 'react-icons/lib/md/people';
@@ -19,28 +19,32 @@ import Table from '@cqdg/components/table/Table';
 import Tr from '@cqdg/components/table/Tr';
 
 import StackLayout from '@ferlab-ui/core/layouts/StackLayout';
-import {addAllFilesInCart, toggleFilesInCart} from "@ncigdc/dux/cart";
-import Button from "@ferlab-ui/core/buttons/button";
-import CartIcon from "@cqdg/components/icons/CartIcon";
+import { addAllFilesInCart, toggleFilesInCart } from '@ncigdc/dux/cart';
+import Button from '@ferlab-ui/core/buttons/button';
+import CartIcon from '@cqdg/components/icons/CartIcon';
 
 import './CasesTable.css';
-import Td from "@cqdg/components/table/Td";
-import Th from "@cqdg/components/table/Th";
+import Td from '@cqdg/components/table/Td';
+import Th from '@cqdg/components/table/Th';
 import t from '@cqdg/locales/intl';
 
-export const CART_NO_MATCH = "NO_MATCH";
-export const CART_PARTIAL_MATCH = "PARTIAL";
-export const CART_EXACT_MATCH = "EXACT";
+export const CART_NO_MATCH = 'NO_MATCH';
+export const CART_PARTIAL_MATCH = 'PARTIAL';
+export const CART_EXACT_MATCH = 'EXACT';
 
 export default compose(
   setDisplayName('RepoCasesTablePresentation'),
   connect(state => ({
+    cartFiles: state.cart.files,
     tableColumns: state.tableColumns.cases,
-    cartFiles: state.cart.files
   })),
   withPropsOnChange(['variables'], ({ variables: { cases_size } }) => ({
     resetScroll: !(cases_size > 20),
   })),
+  withState('state', 'setState', {
+    clinicalDataToggled: [],
+    toggleAllClinicalFiles: false,
+  }),
   branch(
     ({ viewer }) =>
       !viewer.Case.hits ||
@@ -50,21 +54,22 @@ export default compose(
   withSelectIds
 )(
   ({
-    dispatch,
     cartFiles,
+    dispatch,
     entityType = 'cases',
     resetScroll,
     selectedIds,
     setSelectedIds,
+    setState,
+    state,
     tableColumns,
     variables,
     viewer: { Case: { hits } },
   }) => {
-
+    const { clinicalDataToggled, toggleAllClinicalFiles } = state;
     const tableInfo = tableColumns.slice().filter(x => !x.hidden);
-
-    const getNbFilesMatchInCart= (files) => cartFiles.filter(cartFile => files.map(f => f.file_id).includes(cartFile.file_id)).length;
-    const getCartState = (count, files) => count === files.length ? CART_EXACT_MATCH : count > 0 ? CART_PARTIAL_MATCH : CART_NO_MATCH;
+    const getNbFilesMatchInCart = (files) => cartFiles.filter(cartFile => files.map(f => f.file_id).includes(cartFile.file_id)).length;
+    const getCartState = (count, files) => (count === files.length ? CART_EXACT_MATCH : count > 0 ? CART_PARTIAL_MATCH : CART_NO_MATCH);
 
     return (
       <div className="cases-table">
@@ -72,7 +77,9 @@ export default compose(
           <InlineCount Icon={MdPeople} label="global.cases" total={hits.total} />
           <TableActions
             arrangeColumnKey={entityType}
+            clinicalData={toggleAllClinicalFiles ? 'all' : clinicalDataToggled}
             currentFilters={variables.filters}
+            downloadClinical={toggleAllClinicalFiles || clinicalDataToggled.length > 0}
             downloadFields={tableInfo
               .filter(x => x.downloadable)
               .map(x => x.field || x.id)}
@@ -97,43 +104,79 @@ export default compose(
                   const fileHits = get(e.node, 'files.hits.edges', []).map(e => e.node);
                   const nbOfFilesMatchInCart = getNbFilesMatchInCart(fileHits);
                   const cartState = getCartState(nbOfFilesMatchInCart, fileHits);
+                  return (
+                    <Tr
+                      index={i}
+                      key={e.node.id}
+                      style={{
+                        ...(selectedIds.includes(e.node.case_id) && {
+                          backgroundColor: theme.tableHighlight,
+                        }),
+                      }}
+                      >
+                      {[
+                        <Td key="download_clinical_data">
+                          <input
+                            checked={toggleAllClinicalFiles || clinicalDataToggled.includes(i)}
+                            className="clinical-checkbox"
+                            onChange={() => {
+                              let data = [...clinicalDataToggled];
+                              const isToggled = clinicalDataToggled.includes(i);
+                              if (isToggled) {
+                                data = clinicalDataToggled.filter((id) => id !== i);
+                              } else {
+                                data.push(i);
+                              }
 
-                  return (<Tr
-                    index={i}
-                    key={e.node.id}
-                    style={{
-                      ...(selectedIds.includes(e.node.case_id) && {
-                        backgroundColor: theme.tableHighlight,
-                      }),
-                    }}
-                  >
-                    {[
-                      <Td key="add_to_cart">
-                        <Button onClick={() => dispatch(cartState === CART_PARTIAL_MATCH ? addAllFilesInCart(fileHits) : toggleFilesInCart(fileHits))}
-                                active={cartState !== CART_NO_MATCH}
-                                className={`cases-table-cart-btn ${cartState === CART_PARTIAL_MATCH ? 'partial-match' : ''}`}>
-                          <CartIcon/>
-                        </Button>
-                      </Td>,
-                      ...tableInfo
-                        .filter(x => x.td)
-                        .map(x => (
-                          <x.td
-                            edges={hits.edges}
-                            index={i}
-                            key={x.id}
-                            node={e.node}
-                            selectedIds={selectedIds}
-                            setSelectedIds={setSelectedIds}
-                            total={hits.total}
-                          />
-                        ))]}
-                  </Tr>);
+                              setState({
+                                ...state,
+                                clinicalDataToggled: data,
+                              });
+                            }}
+                            type="checkbox"
+                            />
+                        </Td>,
+                        <Td key="add_to_cart">
+                          <Button
+                            active={cartState !== CART_NO_MATCH}
+                            className={`cases-table-cart-btn ${cartState === CART_PARTIAL_MATCH ? 'partial-match' : ''}`}
+                            onClick={() => dispatch(cartState === CART_PARTIAL_MATCH ? addAllFilesInCart(fileHits) : toggleFilesInCart(fileHits))}
+                            >
+                            <CartIcon />
+                          </Button>
+                        </Td>,
+                        ...tableInfo
+                          .filter(x => x.td)
+                          .map(x => (
+                            <x.td
+                              edges={hits.edges}
+                              index={i}
+                              key={x.id}
+                              node={e.node}
+                              selectedIds={selectedIds}
+                              setSelectedIds={setSelectedIds}
+                              total={hits.total}
+                              />
+                          )),
+                      ]}
+                    </Tr>
+                  );
                 })}
               </tbody>
             )}
             headings={[
-              <Th key="cart-toggle-all" className="table-th">{t('global.cart')}</Th>,
+              <Th key="download-clinical-toggle-all">
+                <input
+                  checked={toggleAllClinicalFiles}
+                  className="clinical-checkbox"
+                  onChange={() => setState({
+                    clinicalDataToggled: [],
+                    toggleAllClinicalFiles: !toggleAllClinicalFiles,
+                  })}
+                  type="checkbox"
+                  />
+              </Th>,
+              <Th key="cart-toggle-all">{t('global.cart')}</Th>,
               ...tableInfo
                 .filter(x => !x.subHeading)
                 .map(x => (
@@ -143,7 +186,8 @@ export default compose(
                     selectedIds={selectedIds}
                     setSelectedIds={setSelectedIds}
                     />
-                ))]}
+                )),
+            ]}
             id="repository-cases-table"
             subheadings={tableInfo
               .filter(x => x.subHeading)
