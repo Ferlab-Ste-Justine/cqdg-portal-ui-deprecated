@@ -33,3 +33,7 @@
 .cases-table .clinical-checkbox {
   vertical-align: middle;
 }
+
+.cases-table .tooltip {
+  display: inline-grid;
+}

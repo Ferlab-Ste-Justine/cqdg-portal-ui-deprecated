@@ -13,27 +13,33 @@ import { replaceFilters } from '@ncigdc/utils/filters';
 import UnstyledButton from '@ncigdc/uikit/UnstyledButton';
 import { API, IS_AUTH_PORTAL } from '@ncigdc/utils/constants';
 
+import IoIosCloseCircleOutline from 'react-icons/lib/io/ios-close';
+import FaExclamationCircle from 'react-icons/lib/fa/exclamation-circle';
+import FaCheckCircle from 'react-icons/lib/fa/check-circle';
+
+import t from '@cqdg/locales/intl';
+
 /*----------------------------------------------------------------------------*/
 
 export type TCartFile = {
-  file_name: string,
-  file_id: string,
-  acl: Array<string>,
-  state: string,
-  access: string,
-  file_size: number
+  file_name: string;
+  file_id: string;
+  acl: Array<string>;
+  state: string;
+  access: string;
+  file_size: number;
 };
 
 type TNotification = {
-  fileText?: string,
-  action: string,
-  file: string | number,
-  extraText?: any,
-  prepositon: string,
+  fileText?: string;
+  action: string;
+  file: string | number;
+  extraText?: any;
+  prepositon: string;
   undo: {
-    files: Array<TCartFile>,
-    addAllToCart: boolean
-  },
+    files: Array<TCartFile>;
+    addAllToCart: boolean;
+  };
 };
 
 export const UPDATE_CART = 'UPDATE_CART';
@@ -43,9 +49,7 @@ export const CART_FULL = 'CART_FULL';
 export const TOGGLE_ADD_ALL = 'TOGGLE_ADD_ALL';
 export const SAVE_ADD_ALL_STATE = 'SAVE_ADD_ALL_STATE';
 
-export const MAX_CART_SIZE = 10000;
-const MAX_CART_WARNING = `The cart is limited to ${MAX_CART_SIZE.toLocaleString()} files.
-  Please narrow the search criteria or remove some files from the cart to add more.`;
+export const MAX_CART_SIZE = 5;
 
 const DEFAULTS = {
   method: 'POST',
@@ -63,37 +67,71 @@ const getNotificationComponent = (
   action,
   id,
   component: (
-    <Column>
-      <span>
-        {notification.action}
-        <strong> {notification.file} </strong>
-        {notification.fileText}
-        {notification.prepositon} the cart. {notification.extraText}
+    <div>
+      <span
+        style={{
+          fontSize: '14px',
+          lineHeight: '22px',
+        }}
+        >
+        {action === 'add' && (
+          <FaCheckCircle
+            fill="#909500"
+            height="14"
+            style={{
+              position: 'relative',
+              top: '2px',
+              verticalAlign: 'baseline',
+              marginRight: '10px',
+            }}
+            width="14"
+            />
+        )}
+        {action === 'remove' && (
+          <FaExclamationCircle
+            fill="#D19900"
+            height="14"
+            style={{
+              position: 'relative',
+              top: '2px',
+              verticalAlign: 'baseline',
+              marginRight: '10px',
+            }}
+            width="14"
+            />
+        )}
+        <strong>
+          {`${notification.fileCount} ${t('global.files')}`}
+        </strong>
+        {' '}
+        {t(`cart.actions.${action}`)}
       </span>
       {notification.undo && (
-        <span style={center}>
+        <span style={{ marginLeft: '15px' }}>
           <strong>
-            <i
-              className="fa fa-undo"
-              style={{
-                marginRight: '0.3rem',
-              }}
-            />
             <UnstyledButton
-              style={{
-                textDecoration: 'underline',
-              }}
               onClick={() => {
                 dispatch(toggleFilesInCart(notification.undo.files));
                 dispatch(setAddAllToCart(notification.undo.addAllToCart));
               }}
-            >
-              Undo
+              style={{
+                display: 'inline-block',
+                textDecoration: 'underline',
+                textTransform: 'capitalize',
+              }}
+              >
+              {t('cart.actions.undo')}
             </UnstyledButton>
+            <i
+              className="fa fa-undo"
+              style={{
+                marginLeft: '5px',
+              }}
+              />
           </strong>
         </span>
       )}
-    </Column>
+    </div>
   ),
 });
 
@@ -108,7 +146,7 @@ const messageNotificationDispatcher = (
       id: `${new Date().getTime()}`,
       component: (
         <Column>
-          <span>{message}</span>
+          <div>{message}</div>
         </Column>
       ),
     }),
@@ -129,7 +167,34 @@ function toggleFilesInCart(
       dispatch({
         type: CART_FULL,
       });
-      messageNotificationDispatcher('warning', MAX_CART_WARNING, dispatch);
+      messageNotificationDispatcher(
+        'warning',
+        <div style={{ display: 'flex' }}>
+          <IoIosCloseCircleOutline fill="#C54B38" height="21" width="21" />
+          <div
+            style={{
+              marginLeft: '9px',
+            }}
+            >
+            <h2
+              style={{
+                margin: '0',
+                fontSize: '14px',
+              }}
+              >
+              {t('cart.messages.max_items', {
+                max: MAX_CART_SIZE,
+              })}
+            </h2>
+            <p style={{ margin: '0' }}>
+              {t('cart.messages.max_items.desc', {
+                max: MAX_CART_SIZE,
+              })}
+            </p>
+          </div>
+        </div>,
+        dispatch
+      );
       return;
     }
 
@@ -140,12 +205,10 @@ function toggleFilesInCart(
             'add',
             `add/${incomingFile.file_name}`,
             {
-              action: 'Added',
-              file: incomingFile.file_name,
-              prepositon: 'to',
+              fileCount: incomingFileArray.length,
               undo: {
                 files: incomingFile,
-                addAllToCart: getState().cart.addAllToCart
+                addAllToCart: getState().cart.addAllToCart,
               },
             },
             dispatch,
@@ -155,19 +218,17 @@ function toggleFilesInCart(
     }
 
     if (nextFiles.length < existingFiles.length) {
+      console.log('removing', incomingFileArray);
       dispatch(
         notify(
           getNotificationComponent(
             'remove',
             `remove/${incomingFile.file_name}`,
             {
-              action: 'Removed',
-              file: incomingFile.file_name || incomingFileArray.length,
-              fileText: incomingFile.file_name ? '' : 'files ',
-              prepositon: 'from',
+              fileCount: incomingFileArray.length,
               undo: {
                 files: incomingFile,
-                addAllToCart: getState().cart.addAllToCart
+                addAllToCart: getState().cart.addAllToCart,
               },
             },
             dispatch,
@@ -188,21 +249,16 @@ function removeFilesFromCart(files: Array<TCartFile> | TCartFile): Function {
     const filesToRemove = Array.isArray(files) ? files : [files];
     const existingFiles = getState().cart.files;
     const nextFiles = _.differenceBy(existingFiles, filesToRemove, 'file_id');
-    const filesRemoved = existingFiles.length - nextFiles.length;
-
     dispatch(
       notify(
         getNotificationComponent(
           'remove',
           `remove/${new Date().getTime()}`,
           {
-            action: 'Removed',
-            file: filesToRemove.file_name || filesRemoved,
-            fileText: filesToRemove.file_name ? '' : 'files ',
-            prepositon: 'from',
+            fileCount: filesToRemove.length,
             undo: {
               files: filesToRemove,
-              addAllToCart: getState().cart.addAllToCart
+              addAllToCart: getState().cart.addAllToCart,
             },
           },
           dispatch,
@@ -239,8 +295,26 @@ function addAllFilesInCart(
         type: CART_FULL,
       });
 
-      if(notifyUser === true){
-        messageNotificationDispatcher('warning', MAX_CART_WARNING, dispatch);
+      if (notifyUser === true) {
+        messageNotificationDispatcher(
+          'warning',
+          <div style={{ display: 'flex' }}>
+            <IoIosCloseCircleOutline fill="#C54B38" height="21" width="21" />
+            <div style={{ marginLeft: '18px' }}>
+              <h2 style={{ margin: '0' }}>
+                {t('cart.messages.max_items', {
+                  max: MAX_CART_SIZE,
+                })}
+              </h2>
+              <p>
+                {t('cart.messages.max_items.desc', {
+                  max: MAX_CART_SIZE,
+                })}
+              </p>
+            </div>
+          </div>,
+          dispatch
+        );
       }
       return;
     }
@@ -252,20 +326,10 @@ function addAllFilesInCart(
             'add',
             `add/some${new Date().getTime()}`,
             {
-              action: 'Added',
-              file: nextFiles.length,
-              fileText: nextFiles.length > 1 ? 'files ' : 'file ',
-              extraText: (
-                <span>
-                  <strong>{filesInCart}</strong>{' '}
-                  {filesInCart > 1 ? 'files' : 'file'} already in cart, not
-                  added.
-                </span>
-              ),
-              prepositon: 'to',
+              fileCount: nextFiles.length,
               undo: {
                 files: nextFiles,
-                addAllToCart: false
+                addAllToCart: false,
               },
             },
             dispatch,
@@ -280,13 +344,10 @@ function addAllFilesInCart(
               'add',
               `add/all${new Date().getTime()}`,
               {
-                action: 'Added',
-                file: nextFiles.length,
-                fileText: 'files ',
-                prepositon: 'to',
+                fileCount: nextFiles.length,
                 undo: {
                   files: nextFiles,
-                  addAllToCart: false
+                  addAllToCart: false,
                 },
               },
               dispatch,
@@ -302,7 +363,7 @@ function addAllFilesInCart(
   };
 }
 
-function fetchFilesAndAdd(currentFilters: ?Object, total: number): Function {
+function fetchFilesAndAdd(currentFilters: ?Record<string, any>, total: number): Function {
   return async dispatch => {
     // if the total requested in filters is larger than max cart then don't bother fetching
     // otherwise need the IDs to tell if they are already in the cart
@@ -310,7 +371,11 @@ function fetchFilesAndAdd(currentFilters: ?Object, total: number): Function {
       messageNotificationDispatcher(
         'info',
         <span>
-          Adding <b>{total}</b> files to cart
+          Adding
+          {' '}
+          <b>{total}</b>
+          {' '}
+files to cart
         </span>,
         dispatch,
       );
@@ -322,19 +387,37 @@ function fetchFilesAndAdd(currentFilters: ?Object, total: number): Function {
       });
       const { data } = await fetchApi(`files?${search}`);
       const files = data.hits.map(({ cases, ...rest }) => ({
-        ...rest
+        ...rest,
       }));
       dispatch(addAllFilesInCart(files));
     } else {
       dispatch({
         type: CART_FULL,
       });
-      messageNotificationDispatcher('warning', MAX_CART_WARNING, dispatch);
+      messageNotificationDispatcher(
+        'warning',
+        <div style={{ display: 'flex' }}>
+          <IoIosCloseCircleOutline fill="#C54B38" height="21" width="21" />
+          <div style={{ marginLeft: '18px' }}>
+            <h2 style={{ margin: '0' }}>
+              {t('cart.messages.max_items', {
+                max: MAX_CART_SIZE,
+              })}
+            </h2>
+            <p>
+              {t('cart.messages.max_items.desc', {
+                max: MAX_CART_SIZE,
+              })}
+            </p>
+          </div>
+        </div>,
+        dispatch
+      );
     }
   };
 }
 
-function fetchFilesAndRemove(currentFilters: ?Object, size: number): Function {
+function fetchFilesAndRemove(currentFilters: ?Record<string, any>, size: number): Function {
   return async (dispatch, getState) => {
     const existingFiles = getState().cart.files;
 
@@ -362,20 +445,20 @@ function fetchFilesAndRemove(currentFilters: ?Object, size: number): Function {
     const filters =
       size > MAX_CART_SIZE
         ? replaceFilters(
-            {
-              op: 'and',
-              content: [
-                {
-                  op: 'in',
-                  content: {
-                    field: 'files.file_id',
-                    value: existingFiles.map(f => f.file_id),
-                  },
+          {
+            op: 'and',
+            content: [
+              {
+                op: 'in',
+                content: {
+                  field: 'files.file_id',
+                  value: existingFiles.map(f => f.file_id),
                 },
-              ],
-            },
-            currentFilters,
-          )
+              },
+            ],
+          },
+          currentFilters,
+        )
         : currentFilters;
 
     const search = {
@@ -402,13 +485,10 @@ function removeAllInCart(): Function {
             'remove',
             `remove/all${new Date().getTime()}`,
             {
-              action: 'Removed',
-              file: existingFiles.length,
-              fileText: 'files ',
-              prepositon: 'from',
+              fileCount: existingFiles.length,
               undo: {
                 files: existingFiles,
-                addAllToCart: getState().cart.addAllToCart
+                addAllToCart: getState().cart.addAllToCart,
               },
             },
             dispatch,
@@ -440,25 +520,25 @@ function toggleAddAllToCart(): Function {
   return dispatch => {
     dispatch({
       type: TOGGLE_ADD_ALL,
-    })
-  }
+    });
+  };
 }
 
-function setAddAllToCart(val: Object): Function {
+function setAddAllToCart(val: Record<string, any>): Function {
   return dispatch => {
     dispatch({
       type: SAVE_ADD_ALL_STATE,
-      payload: val
-    })
-  }
+      payload: val,
+    });
+  };
 }
 
 const initialState = {
   files: [],
-  addAllToCart: false
+  addAllToCart: false,
 };
 
-export function reducer(state: Object = initialState, action: Object): Object {
+export function reducer(state: Record<string, any> = initialState, action: Record<string, any>): Record<string, any> {
   switch (action.type) {
     case ADD_TO_CART:
       return {
@@ -469,19 +549,19 @@ export function reducer(state: Object = initialState, action: Object): Object {
             state: file.state,
             access: file.access,
             file_id: file.file_id,
-            file_size: file.file_size
+            file_size: file.file_size,
           })),
         ),
       };
     case SAVE_ADD_ALL_STATE:
       return {
         ...state,
-        addAllToCart: action.payload
+        addAllToCart: action.payload,
       };
     case TOGGLE_ADD_ALL:
       return {
         ...state,
-        addAllToCart: !state.addAllToCart
+        addAllToCart: !state.addAllToCart,
       };
     case CLEAR_CART:
       return {
@@ -496,7 +576,7 @@ export function reducer(state: Object = initialState, action: Object): Object {
           state: file.state,
           access: file.access,
           file_id: file.file_id,
-          file_size: file.file_size
+          file_size: file.file_size,
         })),
       };
     case CART_FULL:

@@ -3,7 +3,9 @@
 // Vendor
 import React from 'react';
 import PropTypes from 'prop-types';
-import { compose, withState, shouldUpdate, mapProps } from 'recompose';
+import {
+  compose, withState, shouldUpdate, mapProps,
+} from 'recompose';
 import CloseIcon from 'react-icons/lib/md/close';
 
 // Custom
@@ -18,7 +20,7 @@ const styles = {
     width: '100vw',
     zIndex: 100,
     pointerEvents: 'none',
-    textAlign: 'center',
+    textAlign: 'left',
     wordBreak: 'break-word',
     overflow: 'hidden',
     ...center,
@@ -28,7 +30,7 @@ const styles = {
     transition: 'transform 0.25s ease',
   },
   inactive: {
-    transform: 'translateY(-140%)',
+    transform: 'translateY(-150px)',
   },
   active: {
     transform: 'translateY(0)',
@@ -39,23 +41,26 @@ const styles = {
     border: '1px solid #B4CCD4',
   },
   add: {
-    color: '#3c763d',
-    backgroundColor: '#dff0d8',
-    border: '1px solid #d6e9c6',
+    color: '#575A00',
+    backgroundColor: '#EAEBC2',
+    boxShadow: '0px 4px 12px rgba(47, 94, 125, 0.18)',
+    borderRadius: '2px',
   },
   remove: {
-    color: '#773c63',
-    backgroundColor: '#f0d8dd',
-    border: '1px solid #e9c6c6',
+    color: '#735A00',
+    backgroundColor: '#FFEEC2',
+    boxShadow: '0px 4px 12px rgba(47, 94, 125, 0.18)',
+    borderRadius: '2px',
   },
   warning: {
-    color: '#8a6d3b',
-    backgroundColor: '#fcf8e3',
-    border: '1px solid #faebcc',
+    color: '#86291B',
+    backgroundColor: '#F1D4CF',
+    boxShadow: '0px 4px 12px rgba(47, 94, 125, 0.18)',
+    borderRadius: '2px',
   },
   toast: {
     position: 'relative',
-    padding: '1.5rem',
+    padding: '8px 16px',
     width: '40rem',
     borderRadius: '10px',
     pointerEvents: 'all',
@@ -73,26 +78,31 @@ const styles = {
 };
 
 const Notification = ({
-  style,
-  visible,
   action,
-  close,
-  closed,
   children,
   className,
+  close,
+  closed,
+  style,
+  visible,
 }) => (
-  <div style={styles.wrapper} className={className}>
+  <div className={className} style={styles.wrapper}>
     <div
+      className="test-notification"
+      role="complementary"
       style={{
         ...styles.container,
         ...(visible && !closed ? styles.active : styles.inactive),
         ...style,
       }}
-      className="test-notification"
-      role="complementary"
-    >
-      <div style={{ ...styles.toast, ...(styles[action] || styles.add) }}>
-        <CloseIcon style={styles.closeIcon} onClick={close} />
+      >
+      <div
+        style={{
+          ...styles.toast,
+          ...(styles[action] || styles.add),
+        }}
+        >
+        <CloseIcon onClick={close} style={styles.closeIcon} />
         {children}
       </div>
     </div>
@@ -100,13 +110,13 @@ const Notification = ({
 );
 
 Notification.propTypes = {
-  style: PropTypes.object,
-  children: PropTypes.node,
-  id: PropTypes.string,
-  visible: PropTypes.bool,
   action: PropTypes.string,
+  children: PropTypes.node,
   close: PropTypes.func,
   delay: PropTypes.number,
+  id: PropTypes.string,
+  style: PropTypes.object,
+  visible: PropTypes.bool,
 };
 
 let timeoutId;

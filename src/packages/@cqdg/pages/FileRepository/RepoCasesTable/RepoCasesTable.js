@@ -11,6 +11,7 @@ import { get } from 'lodash';
 import { theme } from '@ncigdc/theme';
 import withSelectIds from '@ncigdc/utils/withSelectIds';
 import timestamp from '@ncigdc/utils/timestamp';
+import { Tooltip } from '@ncigdc/uikit/Tooltip';
 
 import ScrollableTable from '@cqdg/components/table/ScrollableTable';
 import TableActions from '@cqdg/components/table/TableActions';
@@ -142,7 +143,25 @@ export default compose(
                             className={`cases-table-cart-btn ${cartState === CART_PARTIAL_MATCH ? 'partial-match' : ''}`}
                             onClick={() => dispatch(cartState === CART_PARTIAL_MATCH ? addAllFilesInCart(fileHits) : toggleFilesInCart(fileHits))}
                             >
-                            <CartIcon />
+                            {
+                            cartState === CART_PARTIAL_MATCH
+                              ? (
+                                <Tooltip
+                                  className="tooltip"
+                                  Component={(
+                                    <div>
+                                      {t('cart.partial', {
+                                        nbFilesInCart: nbOfFilesMatchInCart,
+                                        nbFilesInSearchResult: fileHits.length,
+                                      })}
+                                    </div>
+                                  )}
+                                  >
+                                  <CartIcon />
+                                </Tooltip>
+)
+                              : <CartIcon />
+                          }
                           </Button>
                         </Td>,
                         ...tableInfo
@@ -176,7 +195,7 @@ export default compose(
                   type="checkbox"
                   />
               </Th>,
-              <Th key="cart-toggle-all">{t('global.cart')}</Th>,
+              <Th key="cart-toggle-all">{t('cart.title')}</Th>,
               ...tableInfo
                 .filter(x => !x.subHeading)
                 .map(x => (

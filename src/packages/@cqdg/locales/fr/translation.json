@@ -62,6 +62,19 @@
   "short_footer": {
     "info": "Info"
   },
+  "cart" : {
+    "title": "Panier",
+    "partial": "${nbFilesInCart} fichier sur ${nbFilesInSearchResult} déjà dans votre panier. Cliquer pour tout ajouter ou tout supprimer.",
+    "messages" : {
+      "max_items" : "Le panier est limité à ${max} fichiers.",
+      "max_items.desc" : "Veuillez affiner les critères de recherche ou supprimer certains fichiers du panier pour en ajouter d'autres."
+    },
+    "actions": {
+      "add": "ajoutés au panier",
+      "remove": "supprimés du panier",
+      "undo": "annuler"
+    }
+  },
   "home": {
     "hero": {
       "title": "Portail de données",

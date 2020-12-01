@@ -60,6 +60,19 @@
   "short_footer": {
     "info": "Info"
   },
+  "cart" : {
+    "title": "Cart",
+    "partial": "${nbFilesInCart} out of ${nbFilesInSearchResult} files already in your cart. Click to add or remove all the files.",
+    "messages" : {
+      "max_items" : "The cart is limited to ${max} files.",
+      "max_items.desc" : "Please narrow the search criteria or remove some files from the cart to add more."
+    },
+    "actions": {
+      "add": "added to the cart",
+      "remove": "removed from the cart",
+      "undo": "undo"
+    }
+  },
   "home": {
     "hero": {
       "title": "Portail de données",
