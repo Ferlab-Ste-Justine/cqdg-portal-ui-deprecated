@@ -3,35 +3,28 @@
 // Vendor
 import React from 'react';
 import {compose, setDisplayName} from 'recompose';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import FileIcon from 'react-icons/lib/fa/file-o';
 import CaseIcon from 'react-icons/lib/fa/user';
 import FileSizeIcon from 'react-icons/lib/fa/floppy-o';
 
 // Custom
-import { setFilter } from '@ncigdc/utils/filters';
 import formatFileSize from '@ncigdc/utils/formatFileSize';
-import { getAuthCounts } from '@ncigdc/utils/auth';
-import { Row, Column } from '@ncigdc/uikit/Flex';
-import { withTheme } from '@ncigdc/theme';
+import {withTheme} from '@ncigdc/theme';
 import FilesTable from '@cqdg/pages/FileRepository/FilesTable';
-import MetadataDownloadButton from '@ncigdc/components/MetadataDownloadButton';
-import SampleSheetDownloadButton from '@ncigdc/components/SampleSheetDownloadButton';
 import SummaryCard from '@ncigdc/components/SummaryCard';
-import HowToDownload from '@ncigdc/components/HowToDownload';
 import CountCard from '@ncigdc/components/CountCard';
 import CartDownloadDropdown from '@ncigdc/components/CartDownloadDropdown';
-import RemoveFromCartButton from '@ncigdc/components/RemoveFromCartButton';
 import SparkMeterWithTooltip from '@ncigdc/components/SparkMeterWithTooltip';
 import SampleSize from '@ncigdc/components/SampleSize';
-import DownloadClinicalDropdown from '@ncigdc/modern_components/DownloadClinicalDropdown';
-import DownloadBiospecimenDropdown from '@ncigdc/modern_components/DownloadBiospecimenDropdown/';
-import timestamp from '@ncigdc/utils/timestamp';
 import Relay from "react-relay/classic";
 import withFilters from "@ncigdc/utils/withFilters";
 import withRouter from "@ncigdc/utils/withRouter";
-
-/*----------------------------------------------------------------------------*/
+import StackLayout from "@ferlab-ui/core/layouts/StackLayout";
+import t from '@cqdg/locales/intl';
+import './CartPage.css';
+import CardContent from "../../../@ferlab-ui/cards/CardContent";
+import CardContainerNotched from "../../components/cards/CardContainerNotched";
 
 export type TProps = {
   files: Array<Object>,
@@ -40,10 +33,11 @@ export type TProps = {
   viewer: {
     File: {
       files_summary: {
-        study__study_id_keyword:{
-          buckets: {
-            doc_count: number
-          }
+        study__short_name_keyword:{
+          buckets: [{
+            doc_count: number,
+            key: string
+          }]
         },
         file_size: {
           stats: {
@@ -57,11 +51,11 @@ export type TProps = {
     },
     Case: {
       cases_summary: {
-        study__study_id_keyword: {
-          buckets: {
+        study__short_name_keyword: {
+          buckets: [{
             doc_count: number,
             key: string
-          }
+          }]
         }
       },
       hits: {
@@ -72,8 +66,49 @@ export type TProps = {
 };
 
 type TCartPage = (props: TProps) => React.Element<*>;
-const CartPageComponent: TCartPage = ({ viewer, files, user, theme } = {}) => {
-  const authCounts = getAuthCounts({ user, files });
+const CartPageComponent: TCartPage = (props: TProps) => {
+
+  const {
+    viewer, files, user, theme, cart_file_filters
+  } = props;
+
+  const capitalize = (s) => {
+    if (typeof s !== 'string') return ''
+    return s.charAt(0).toUpperCase() + s.slice(1)
+  }
+
+  const summaryData = new Map;
+  const nbOfStudies = viewer.File.files_summary.study__short_name_keyword.buckets.length;
+
+  viewer.Case.cases_summary.study__short_name_keyword.buckets.forEach(bucket => {
+    const item = {
+      study: bucket.key,
+      case_count: bucket.doc_count,
+      case_count_meter: (
+        <SparkMeterWithTooltip
+          part={bucket.doc_count}
+          whole={viewer.Case.hits.total}
+        />
+      )
+    }
+    summaryData.set(bucket.key, item);
+  });
+
+  viewer.File.files_summary.study__short_name_keyword.buckets.forEach(bucket => {
+    const item = summaryData.get(bucket.key);
+    if(item){
+      item.file_count = bucket.doc_count;
+      item.file_count_meter = (
+        <SparkMeterWithTooltip
+          part={bucket.doc_count}
+          whole={viewer.File.hits.total}
+        />
+      );
+      item.tooltip = `${bucket.key}: ${bucket.doc_count} files`;
+
+      summaryData.set(bucket.key, item);
+    }
+  });
 
   const styles = {
     container: {
@@ -86,264 +121,111 @@ const CartPageComponent: TCartPage = ({ viewer, files, user, theme } = {}) => {
     },
   };
 
-
   const caseCount = viewer.Case.hits.total;
-
   const fileSize = viewer.File.files_summary.file_size.stats.sum;
 
-  const filters = files.length
-    ? setFilter({
-        field: 'files.file_id',
-        value: files.map(f => f.file_id),
-      })
-    : null;
-
   return (
-    <Column style={styles.container} className="test-cart-page">
+    <div style={styles.container} className="test-cart-page">
       {!files.length && <h1>Your cart is empty.</h1>}
       {!!files.length && (
-        <Column>
-          {/*<Row style={{ marginBottom: '2rem', flexWrap: 'wrap' }}>*/}
-          {/*  <Column spacing="0.8rem" style={{ marginRight: '1rem' }}>*/}
-          {/*    <CountCard*/}
-          {/*      title="FILES"*/}
-          {/*      count={files.length}*/}
-          {/*      icon={<FileIcon style={{ width: '4rem', height: '4rem' }} />}*/}
-          {/*      style={{ backgroundColor: 'transparent' }}*/}
-          {/*    />*/}
-          {/*    <CountCard*/}
-          {/*      title="CASES"*/}
-          {/*      count={caseCount}*/}
-          {/*      icon={<CaseIcon style={{ width: '4rem', height: '4rem' }} />}*/}
-          {/*      style={{ backgroundColor: 'transparent' }}*/}
-          {/*    />*/}
-          {/*    <CountCard*/}
-          {/*      title="FILE SIZE"*/}
-          {/*      count={formatFileSize(fileSize)}*/}
-          {/*      icon={*/}
-          {/*        <FileSizeIcon style={{ width: '4rem', height: '4rem' }} />*/}
-          {/*      }*/}
-          {/*      style={{ backgroundColor: 'transparent' }}*/}
-          {/*    />*/}
-          {/*  </Column>*/}
-          {/*  <SummaryCard*/}
-          {/*    style={{*/}
-          {/*      flex: 1,*/}
-          {/*      backgroundColor: 'transparent',*/}
-          {/*      height: '19em',*/}
-          {/*      overflow: 'auto',*/}
-          {/*      minWidth: '30em',*/}
-          {/*      flexShrink: 0,*/}
-          {/*      marginLeft: '1rem',*/}
-          {/*      marginRight: '1rem',*/}
-          {/*    }}*/}
-          {/*    tableTitle="File Counts by Project"*/}
-          {/*    pieChartTitle="File Counts by Project"*/}
-          {/*    data={viewer.summary.aggregations.project__project_id.buckets.map(*/}
-          {/*      item => ({*/}
-          {/*        project: item.key,*/}
-          {/*        case_count: item.case_count,*/}
-          {/*        case_count_meter: (*/}
-          {/*          <SparkMeterWithTooltip*/}
-          {/*            part={item.case_count}*/}
-          {/*            whole={caseCount}*/}
-          {/*          />*/}
-          {/*        ),*/}
-          {/*        file_count: item.doc_count.toLocaleString(),*/}
-          {/*        file_count_meter: (*/}
-          {/*          <SparkMeterWithTooltip*/}
-          {/*            part={item.doc_count}*/}
-          {/*            whole={files.length}*/}
-          {/*          />*/}
-          {/*        ),*/}
-          {/*        file_size: formatFileSize(item.file_size),*/}
-          {/*        file_size_meter: (*/}
-          {/*          <SparkMeterWithTooltip*/}
-          {/*            part={item.file_size}*/}
-          {/*            whole={fileSize}*/}
-          {/*          />*/}
-          {/*        ),*/}
-          {/*        tooltip: `${item.key}: ${item.doc_count.toLocaleString()}`,*/}
-          {/*      }),*/}
-          {/*    )}*/}
-          {/*    footer={`${viewer.summary.aggregations.project__project_id.buckets*/}
-          {/*      .length} Projects `}*/}
-          {/*    path="file_count"*/}
-          {/*    headings={[*/}
-          {/*      { key: 'project', title: 'Project', color: true },*/}
-          {/*      {*/}
-          {/*        key: 'case_count',*/}
-          {/*        title: 'Cases',*/}
-          {/*        style: { textAlign: 'right' },*/}
-          {/*      },*/}
-          {/*      {*/}
-          {/*        key: 'case_count_meter',*/}
-          {/*        title: <SampleSize n={caseCount} />,*/}
-          {/*        thStyle: {*/}
-          {/*          width: 1,*/}
-          {/*          textAlign: 'center',*/}
-          {/*        },*/}
-          {/*        style: { textAlign: 'left' },*/}
-          {/*      },*/}
-          {/*      {*/}
-          {/*        key: 'file_count',*/}
-          {/*        title: 'Files',*/}
-          {/*        style: { textAlign: 'right' },*/}
-          {/*      },*/}
-          {/*      {*/}
-          {/*        key: 'file_count_meter',*/}
-          {/*        title: <SampleSize n={files.length} />,*/}
-          {/*        thStyle: {*/}
-          {/*          width: 1,*/}
-          {/*          textAlign: 'center',*/}
-          {/*        },*/}
-          {/*        style: { textAlign: 'left' },*/}
-          {/*      },*/}
-          {/*      {*/}
-          {/*        key: 'file_size',*/}
-          {/*        title: 'File Size',*/}
-          {/*        style: { textAlign: 'right' },*/}
-          {/*      },*/}
-          {/*      {*/}
-          {/*        key: 'file_size_meter',*/}
-          {/*        title: (*/}
-          {/*          <SampleSize*/}
-          {/*            n={fileSize}*/}
-          {/*            formatter={formatFileSize}*/}
-          {/*            symbol="∑"*/}
-          {/*          />*/}
-          {/*        ),*/}
-          {/*        thStyle: {*/}
-          {/*          width: 1,*/}
-          {/*          textAlign: 'center',*/}
-          {/*        },*/}
-          {/*        style: { textAlign: 'left' },*/}
-          {/*      },*/}
-          {/*    ]}*/}
-          {/*  />*/}
-          {/*  <SummaryCard*/}
-          {/*    style={{*/}
-          {/*      flex: 1,*/}
-          {/*      backgroundColor: 'transparent',*/}
-          {/*      height: '19em',*/}
-          {/*      overflow: 'auto',*/}
-          {/*      minWidth: '23em',*/}
-          {/*      flexShrink: 0,*/}
-          {/*      marginLeft: '1rem',*/}
-          {/*      marginRight: '1rem',*/}
-          {/*    }}*/}
-          {/*    tableTitle="File Counts by Authorization Level"*/}
-          {/*    pieChartTitle="File Counts by Authorization Level"*/}
-          {/*    data={authCounts.map(x => ({*/}
-          {/*      ...x,*/}
-          {/*      file_count_meter: (*/}
-          {/*        <SparkMeterWithTooltip*/}
-          {/*          part={x.doc_count}*/}
-          {/*          whole={files.length}*/}
-          {/*        />*/}
-          {/*      ),*/}
-          {/*      file_size: formatFileSize(x.file_size),*/}
-          {/*      file_size_meter: (*/}
-          {/*        <SparkMeterWithTooltip part={x.file_size} whole={fileSize} />*/}
-          {/*      ),*/}
-          {/*      tooltip: `${x.key}: ${formatFileSize(x.file_size)}`,*/}
-          {/*    }))}*/}
-          {/*    footer={`${authCounts.length} Authorization Levels`}*/}
-          {/*    path="doc_count"*/}
-          {/*    headings={[*/}
-          {/*      {*/}
-          {/*        key: 'key',*/}
-          {/*        title: 'Level',*/}
-          {/*        color: true,*/}
-          {/*        tdStyle: { textTransform: 'capitalize' },*/}
-          {/*      },*/}
-          {/*      {*/}
-          {/*        key: 'doc_count',*/}
-          {/*        title: 'Files',*/}
-          {/*        style: { textAlign: 'right' },*/}
-          {/*      },*/}
-          {/*      {*/}
-          {/*        key: 'file_count_meter',*/}
-          {/*        title: <SampleSize n={files.length} />,*/}
-          {/*        thStyle: {*/}
-          {/*          width: 1,*/}
-          {/*          textAlign: 'center',*/}
-          {/*        },*/}
-          {/*        style: { textAlign: 'left' },*/}
-          {/*      },*/}
-          {/*      {*/}
-          {/*        key: 'file_size',*/}
-          {/*        title: 'File Size',*/}
-          {/*        style: { textAlign: 'right' },*/}
-          {/*      },*/}
-          {/*      {*/}
-          {/*        key: 'file_size_meter',*/}
-          {/*        title: (*/}
-          {/*          <SampleSize*/}
-          {/*            n={fileSize}*/}
-          {/*            formatter={formatFileSize}*/}
-          {/*            symbol="∑"*/}
-          {/*          />*/}
-          {/*        ),*/}
-          {/*        thStyle: {*/}
-          {/*          width: 1,*/}
-          {/*          textAlign: 'center',*/}
-          {/*        },*/}
-          {/*        style: { textAlign: 'left' },*/}
-          {/*      },*/}
-          {/*    ]}*/}
-          {/*  />*/}
-          {/*  <HowToDownload*/}
-          {/*    style={{*/}
-          {/*      flex: 1,*/}
-          {/*      backgroundColor: 'transparent',*/}
-          {/*      minWidth: '18em',*/}
-          {/*      flexShrink: 0,*/}
-          {/*    }}*/}
-          {/*  />*/}
-          {/*</Row>*/}
-          {/*<Row style={{ marginBottom: '6rem' }}>*/}
-          {/*  <Row style={{ marginLeft: 'auto' }} spacing="1rem">*/}
-          {/*    <DownloadBiospecimenDropdown*/}
-          {/*      buttonStyles={{ marginLeft: '1em' }}*/}
-          {/*      dropdownStyles={{*/}
-          {/*        minWidth: '126px',*/}
-          {/*        width: '126px',*/}
-          {/*        left: '14px',*/}
-          {/*        marginTop: '2px',*/}
-          {/*      }}*/}
-          {/*      filters={filters}*/}
-          {/*      tsvFilename={`biospecimen.cart.${timestamp()}.tar.gz`}*/}
-          {/*      jsonFilename={`biospecimen.cart.${timestamp()}.json`}*/}
-          {/*      inactiveText={'Biospecimen'}*/}
-          {/*    />*/}
-          {/*    <DownloadClinicalDropdown*/}
-          {/*      dropdownStyles={{*/}
-          {/*        width: '90px',*/}
-          {/*        left: '13px',*/}
-          {/*        marginTop: '2px',*/}
-          {/*      }}*/}
-          {/*      buttonStyles={{ margin: '0 1em' }}*/}
-          {/*      filters={filters}*/}
-          {/*      tsvFilename={`clinical.cart.${timestamp()}.tar.gz`}*/}
-          {/*      jsonFilename={`clinical.cart.${timestamp()}.json`}*/}
-          {/*      inactiveText={'Clinical'}*/}
-          {/*    />*/}
-          {/*    <SampleSheetDownloadButton files={{ files }} />*/}
-          {/*    <MetadataDownloadButton files={{ files }} />*/}
-          {/*    <CartDownloadDropdown files={files} user={user} />*/}
-          {/*    <RemoveFromCartButton user={user} />*/}
-          {/*  </Row>*/}
-          {/*</Row>*/}
+        <div>
+          <StackLayout className="cart-statistics" horizontal={true}>
+            <StackLayout className="cart-statistics" vertical={true}>
+              <CountCard
+                title={String(t('global.files')).toUpperCase()}
+                count={files.length}
+                icon={<FileIcon style={{ width: '2rem', height: '2rem' }} />}
+                style={{ backgroundColor: 'transparent', padding: '0 1rem 1rem 1rem' }}
+              />
+              <CountCard
+                title={String(t('global.donors')).toUpperCase()}
+                count={caseCount}
+                icon={<CaseIcon style={{ width: '2rem', height: '2rem' }} />}
+                style={{ backgroundColor: 'transparent' }}
+              />
+              <CountCard
+                title={String(t('cart.details.summary.file_size')).toUpperCase()}
+                count={formatFileSize(fileSize*1000000, {exponent: 2})}
+                icon={
+                  <FileSizeIcon style={{ width: '2rem', height: '2rem' }} />
+                }
+                style={{ backgroundColor: 'transparent' }}
+              />
+            </StackLayout>
+            <SummaryCard
+              style={{
+                flex: 1,
+                backgroundColor: 'transparent',
+                height: '20em',
+                overflow: 'auto',
+                minWidth: '20em',
+                flexShrink: 0,
+                marginLeft: '3rem',
+                marginRight: '3rem',
+              }}
+              tableTitle={t('cart.details.summary.count_per_study')}
+              data={Array.from(summaryData.values())}
+              footer={`${nbOfStudies} ${nbOfStudies > 1 ? t('global.studies') : t('global.study')}`}
+              headings={[
+                {
+                  key: 'study',
+                  title: capitalize(t('global.study')),
+                  color: true
+                },
+                {
+                  key: 'case_count',
+                  title: capitalize(t('global.cases')),
+                  style: { textAlign: 'right' },
+                },
+                {
+                  key: 'case_count_meter',
+                  title: <SampleSize n={caseCount} />,
+                  thStyle: {
+                    width: 1,
+                    textAlign: 'center',
+                  },
+                  style: { textAlign: 'left' },
+                },
+                {
+                  key: 'file_count',
+                  title: capitalize(t('global.files')),
+                  style: { textAlign: 'right' },
+                },
+                {
+                  key: 'file_count_meter',
+                  title: <SampleSize n={files.length} />,
+                  thStyle: {
+                    width: 1,
+                    textAlign: 'center',
+                  },
+                  style: { textAlign: 'left' },
+                }
+              ]}
+            />
+            <CardContainerNotched type="hovered" className="how-to-download">
+              <CardContent cardType="stack">
+                  <h2>{t('cart.details.how_to_download.title')}</h2>
+                  <strong>{t('cart.details.how_to_download.manifest.title')}</strong>
+                  {t('cart.details.how_to_download.manifest.description')}
+                  <br/>
+                  <strong>{t('cart.details.how_to_download.cart.title')}</strong>
+                {t('cart.details.how_to_download.cart.description')}
+              </CardContent>
+            </CardContainerNotched>
+          </StackLayout>
+
+          <StackLayout className="cart-actions" horizontal={true}>
+            <CartDownloadDropdown files={files} user={user} />
+          </StackLayout>
+
           <FilesTable
             downloadable={false}
             canAddToCart={false}
-            tableHeader={'Cart Items'}
-            filters={filters}
+            filters={cart_file_filters}
           />
-        </Column>
+        </div>
       )}
-    </Column>
+    </div>
   );
 };
 
@@ -355,17 +237,18 @@ export const CartPageQuery = {
     files_offset: null,
     files_size: null,
     files_sort: null,
-    fileFilters: null,
-    caseFilters: null,
+    cart_file_filters: null,
+    cart_case_filters: null,
   },
   fragments: {
     viewer: () => Relay.QL`
         fragment on Root {
             File {
-                files_summary: aggregations(filters: $fileFilters, aggregations_filter_themselves: true) {
-                    study__study_id_keyword{
+                files_summary: aggregations(filters: $cart_file_filters, aggregations_filter_themselves: true) {
+                    study__short_name_keyword{
                         buckets{
                             doc_count
+                            key
                         }
                     }
                     file_size{
@@ -374,20 +257,20 @@ export const CartPageQuery = {
                         }
                     }
                 }
-                hits(first: $files_size offset: $files_offset, filters: $fileFilters, sort: $files_sort) {
+                hits(first: $files_size offset: $files_offset, filters: $cart_file_filters, sort: $files_sort) {
                     total
                 }
             }
             Case {
-                cases_summary: aggregations(filters: $caseFilters, aggregations_filter_themselves: true) {
-                    study__study_id_keyword{
+                cases_summary: aggregations(filters: $cart_case_filters, aggregations_filter_themselves: true) {
+                    study__short_name_keyword{
                         buckets{
                             doc_count
                             key
                         }
                     }
                 }
-                hits(first: $files_size offset: $files_offset, filters: $caseFilters, sort: $files_sort) {
+                hits(first: $files_size offset: $files_offset, filters: $cart_case_filters, sort: $files_sort) {
                     total
                 }
             }

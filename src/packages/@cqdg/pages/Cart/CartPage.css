@@ -1,0 +1,12 @@
+.cart-actions{
+    justify-content: flex-end;
+    padding-bottom: 1rem;
+    padding-top: 1rem;
+}
+.how-to-download{
+    max-height: 20rem;
+    overflow: auto;
+    max-width: 30rem;
+    margin-left: 2rem;
+    margin-right: 2rem;
+}

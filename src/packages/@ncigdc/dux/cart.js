@@ -49,7 +49,7 @@ export const CART_FULL = 'CART_FULL';
 export const TOGGLE_ADD_ALL = 'TOGGLE_ADD_ALL';
 export const SAVE_ADD_ALL_STATE = 'SAVE_ADD_ALL_STATE';
 
-export const MAX_CART_SIZE = 10000;
+export const MAX_CART_SIZE = 5000;
 
 const DEFAULTS = {
   method: 'POST',
@@ -394,7 +394,7 @@ function fetchFilesAndAdd(currentFilters: ?Record<string, any>, total: number): 
           {' '}
           <b>{total}</b>
           {' '}
-files to cart
+          files to cart
         </span>,
         dispatch,
       );

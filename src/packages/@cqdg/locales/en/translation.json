@@ -6,6 +6,7 @@
     "cases": "cases",
     "donors": "donors",
     "studies": "studies",
+    "study": "study",
     "login": "Login",
     "total": "Total",
     "show": "show",
@@ -73,6 +74,24 @@
       "add": "added to the cart",
       "remove": "removed from the cart",
       "undo": "undo"
+    },
+    "details": {
+      "empty": "Your cart is empty.",
+      "summary": {
+        "file_size": "Total Size",
+        "count_per_study": "Distribution per study"
+      },
+      "how_to_download": {
+        "title": "How to download files in my cart?",
+        "manifest": {
+          "title": "Download Manifest",
+          "description": "Download a manifest for use with the CQDG Download Tool. The CQDG Download Tool is recommended for transferring large volumes of data."
+        },
+        "cart": {
+          "title": "Download Cart",
+          "description": "Download files in your cart directly from your web browser."
+        }
+      }
     }
   },
   "home": {

@@ -16,7 +16,7 @@ import NoResultsMessage from '@ncigdc/components/NoResultsMessage';
 /*----------------------------------------------------------------------------*/
 
 const Header = styled(Row, {
-  padding: '1rem',
+  paddingBottom: '1rem',
   color: ({ theme }) => theme.greyScale7 || 'silver',
 });
 

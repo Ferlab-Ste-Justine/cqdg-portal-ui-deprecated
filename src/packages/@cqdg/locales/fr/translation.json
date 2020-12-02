@@ -6,6 +6,7 @@
     "cases": "cas",
     "donors": "donneurs",
     "studies": "études",
+    "study": "étude",
     "login": "Connexion",
     "total": "Total",
     "show": "voir",
@@ -75,6 +76,24 @@
       "add": "ajoutés au panier",
       "remove": "supprimés du panier",
       "undo": "annuler"
+    },
+    "details": {
+      "empty": "Aucun item dans votre panier.",
+      "summary": {
+        "file_size": "Taille totale",
+        "count_per_study": "Répartition par étude"
+      },
+      "how_to_download": {
+        "title": "Comment télécharger les fichiers de mon panier?",
+        "manifest": {
+          "title": "Télécharger le Manifest",
+          "description": "Télécharger le manifest à utiliser avec l'outils de téléchargement du CQDG.  Nous recommandons d'utiliser l'outils de téléchargement du CQDG pour tranférer de gros volumes de données."
+        },
+        "cart": {
+          "title": "Télécharger le Panier",
+          "description": "Télécharger les fichiers de votre panier directement à partir de votre navigateur."
+        }
+      }
     }
   },
   "home": {

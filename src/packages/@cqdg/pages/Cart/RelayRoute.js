@@ -18,16 +18,23 @@ class CartRoute extends Relay.Route {
   };
   static prepareParams = ({ location: { search }, files }) => {
     const q = parse(search);
+    const fileIds = files.map(f => f.file_id);
 
     return {
       files_offset: parseIntParam(q.files_offset, 0),
       files_size: parseIntParam(q.files_size, 20),
       files_sort: parseJSONParam(q.files_sort, null),
-      filters: files.length
+      cart_file_filters: files.length
         ? setFilter({
-            field: 'files.file_id',
-            value: files.map(f => f.file_id),
+            field: 'file_id',
+            value: fileIds,
           })
+        : null,
+      cart_case_filters: files.length
+        ? setFilter({
+          field: 'files.file_id',
+          value: fileIds,
+        })
         : null,
     };
   };
