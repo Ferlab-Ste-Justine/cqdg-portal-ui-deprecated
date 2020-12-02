@@ -12,8 +12,8 @@ import t from '@cqdg/locales/intl';
 import Link from '@ferlab-ui/core/buttons/link';
 import { withRouter } from 'react-router-dom';
 import { setLanguageAction } from '@cqdg/store/intl';
-import './Header.css';
-import CartIcon from "../icons/CartIcon";
+import '@cqdg/components/header/Header.css';
+import CartIcon from "@cqdg/components/icons/CartIcon";
 
 const Header = (props) => {
   const { history, intl, setLanguage } = props;
