@@ -49,7 +49,7 @@ export const CART_FULL = 'CART_FULL';
 export const TOGGLE_ADD_ALL = 'TOGGLE_ADD_ALL';
 export const SAVE_ADD_ALL_STATE = 'SAVE_ADD_ALL_STATE';
 
-export const MAX_CART_SIZE = 10000;
+export const MAX_CART_SIZE = 5;
 
 const DEFAULTS = {
   method: 'POST',
@@ -186,7 +186,12 @@ function toggleFilesInCart(
                 max: MAX_CART_SIZE,
               })}
             </h2>
-            <p style={{ margin: '0' }}>
+            <p
+              style={{
+                margin: '0',
+                fontSize: '14px',
+              }}
+              >
               {t('cart.messages.max_items.desc', {
                 max: MAX_CART_SIZE,
               })}
@@ -300,13 +305,27 @@ function addAllFilesInCart(
           'warning',
           <div style={{ display: 'flex' }}>
             <IoIosCloseCircleOutline fill="#C54B38" height="21" width="21" />
-            <div style={{ marginLeft: '18px' }}>
-              <h2 style={{ margin: '0' }}>
+            <div
+              style={{
+                marginLeft: '9px',
+              }}
+              >
+              <h2
+                style={{
+                  margin: '0',
+                  fontSize: '14px',
+                }}
+                >
                 {t('cart.messages.max_items', {
                   max: MAX_CART_SIZE,
                 })}
               </h2>
-              <p>
+              <p
+                style={{
+                  margin: '0',
+                  fontSize: '14px',
+                }}
+                >
                 {t('cart.messages.max_items.desc', {
                   max: MAX_CART_SIZE,
                 })}
@@ -398,13 +417,27 @@ files to cart
         'warning',
         <div style={{ display: 'flex' }}>
           <IoIosCloseCircleOutline fill="#C54B38" height="21" width="21" />
-          <div style={{ marginLeft: '18px' }}>
-            <h2 style={{ margin: '0' }}>
+          <div
+            style={{
+              marginLeft: '9px',
+            }}
+            >
+            <h2
+              style={{
+                margin: '0',
+                fontSize: '14px',
+              }}
+              >
               {t('cart.messages.max_items', {
                 max: MAX_CART_SIZE,
               })}
             </h2>
-            <p>
+            <p
+              style={{
+                margin: '0',
+                fontSize: '14px',
+              }}
+              >
               {t('cart.messages.max_items.desc', {
                 max: MAX_CART_SIZE,
               })}

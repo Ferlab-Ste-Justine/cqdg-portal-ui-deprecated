@@ -6,14 +6,15 @@ import {
   compose,
 } from 'recompose';
 
-import Header from '@cqdg/components/header/Header';
-import NotificationContainer from '@ncigdc/components/NotificationContainer';
 import RelayLoadingContainer from '@ncigdc/components/RelayLoadingContainer';
 import ProgressContainer from '@ncigdc/components/ProgressContainer';
 import ModalContainer from '@ncigdc/components/ModalContainer';
-import Routes from '@cqdg/routes';
 import withRouter from '@ncigdc/utils/withRouter';
 import { GlobalTooltip } from '@ncigdc/uikit/Tooltip';
+
+import Routes from '@cqdg/routes';
+import NotificationContainer from '@cqdg/components/notification/NotificationContainer';
+import Header from '@cqdg/components/header/Header';
 import { setLanguageAction } from '@cqdg/store/intl';
 import { getBrowserLanguage } from '@cqdg/locales/intl';
 
