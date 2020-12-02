@@ -45,7 +45,6 @@ export default (Component: React.Class<*>) =>
     return (
       <Query
         Component={Component}
-        minHeight={387}
         name="RepoCasesTable"
         parentProps={props}
         query={graphql`
@@ -136,6 +135,11 @@ export default (Component: React.Class<*>) =>
               }
             }
         `}
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          overflow: 'hidden',
+        }}
         variables={props.variables}
         />
     );

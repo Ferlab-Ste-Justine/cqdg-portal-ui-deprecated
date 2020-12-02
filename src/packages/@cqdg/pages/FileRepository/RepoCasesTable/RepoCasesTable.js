@@ -89,6 +89,7 @@ export default compose(
             scope="repository"
             score={variables.score}
             selectedIds={selectedIds}
+            showClinicalDownload
             sort={variables.cases_sort}
             sortOptions={tableInfo.filter(x => x.sortable)}
             total={hits.total}

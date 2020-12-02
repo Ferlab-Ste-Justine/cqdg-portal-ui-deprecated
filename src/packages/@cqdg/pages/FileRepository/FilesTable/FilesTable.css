@@ -2,6 +2,9 @@
   padding: 24px;
   background: #fff;
   border: 1px solid #D8E1EB;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
 .files-table a {

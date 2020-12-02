@@ -11,13 +11,14 @@ import './Tab.css';
 const Tabs = ({
   activeKey,
   children,
-  forceResetTable = false,
-  panes, // should be removed and use a callback instead, leaky abstraction
+  containerClassName = '',
+  forceResetTable = false, // should be removed and use a callback instead, leaky abstraction
+  panes,
   tabsKey,
   tabToolbar,
   type = 'default',
 }) => (
-  <div className="containers-tab-layout">
+  <div className={`containers-tab-layout ${containerClassName}`}>
     <div className={`containers-tab-nav ${type}`}>
       {panes.map((pane) => {
         return (

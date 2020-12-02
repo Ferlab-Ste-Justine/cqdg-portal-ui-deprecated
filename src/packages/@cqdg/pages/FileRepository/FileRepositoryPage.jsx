@@ -126,13 +126,14 @@ export const RepositoryPageComponent = (props: TProps) => {
           linkText: t('search.advanced.search'),
         }}
         results={(
-          <div>
+          <div className="content-results">
             {
               query.searchTableTab === 'cases' && caseCount ? <RepoCasesCharts aggregations={viewer.Case.pies} />
                 : fileCount ? <RepoFilesCharts aggregations={viewer.File.pies} />
                 : <div />
             }
             <Tabs
+              containerClassName="content-tabs"
               defaultIndex={0}
               forceResetTable
               panes={[
@@ -145,9 +146,7 @@ export const RepositoryPageComponent = (props: TProps) => {
                     </React.Fragment>
                   ),
                   component: fileCount ? (
-                    <div>
-                      <FilesTable />
-                    </div>
+                    <FilesTable />
                   ) : (
                     <NoResultsMessage>
                       {t('search.no.results')}
@@ -163,9 +162,7 @@ export const RepositoryPageComponent = (props: TProps) => {
                     </React.Fragment>
                   ),
                   component: caseCount ? (
-                    <div>
-                      <RepoCasesTable />
-                    </div>
+                    <RepoCasesTable />
                   ) : (
                     <NoResultsMessage>
                       {t('search.no.results')}

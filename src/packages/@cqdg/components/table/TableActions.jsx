@@ -51,20 +51,25 @@ const TableActions = ({
   query = {},
   push = () => {},
   downloadClinical = false,
+  showClinicalDownload = false,
   clinicalData,
   hideColumns,
 }) => (
   <Row className="test-table-actions" style={style}>
-    <DownloadTableButton
-      className="table-actions-buttons"
-      filename={`clinical.cases_selection.${timestamp()}.tsv`}
-      isDisabled={!downloadClinical}
-      portionData={clinicalData}
-      selector={tsvSelector}
-      >
-      <span className="clinical-download-text">{t('global.tables.actions.clinical.data')}</span>
-    </DownloadTableButton>
-    <div className="separator" />
+    {showClinicalDownload && (
+      <React.Fragment>
+        <DownloadTableButton
+          className="table-actions-buttons"
+          filename={`clinical.cases_selection.${timestamp()}.tsv`}
+          isDisabled={!downloadClinical}
+          portionData={clinicalData}
+          selector={tsvSelector}
+          >
+          <span className="clinical-download-text">{t('global.tables.actions.clinical.data')}</span>
+        </DownloadTableButton>
+        <div className="separator" />
+      </React.Fragment>
+    )}
     {arrangeColumnKey && (
       <ArrangeColumnsButton
         buttonClassName="table-actions-buttons"

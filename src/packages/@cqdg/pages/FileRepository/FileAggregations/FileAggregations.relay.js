@@ -50,7 +50,6 @@ export default (Component: ReactClass<*>) =>
     return (
       <Query
         Component={Component}
-        minHeight={578}
         parentProps={props}
         query={graphql`
           query FileAggregations_relayQuery(
