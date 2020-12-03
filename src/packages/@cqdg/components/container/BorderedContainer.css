@@ -1,0 +1,8 @@
+.bordered-container {
+  padding: 24px;
+  background: #fff;
+  border: 1px solid #D8E1EB;
+  flex-direction: column;
+  overflow: hidden;
+  flex-grow: 1;
+}
