@@ -27,10 +27,13 @@
 }
 
 .fui-filters-actions .separator {
-  height: 10px;
+  height: 11px;
   align-self: center;
   background: #90A9C1;
-  margin: 0 4px;
+  margin: 0 5px;
+}
+.fui-filters-actions {
+  margin-bottom: 13px;
 }
 
 .fui-filters-actions .fui-filters-links {
