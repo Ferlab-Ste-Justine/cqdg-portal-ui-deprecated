@@ -28,7 +28,7 @@ const toPieData = (clickHandler, docTypeSingular) => bucket => ({
 });
 
 export const ShowToggleBox = styled.div({
-  border: ({ theme }) => `1px solid ${theme.greyScale4}`,
+  border: '1px solid #B5C6D8',
   padding: '0.25rem 0.5rem',
   marginBottom: '0.75rem',
   marginTop: '0.5rem',
@@ -95,7 +95,7 @@ export const SelfFilteringPie = ({
           ({ data }) => addFilter(query, push)(fieldName, data.id),
           docTypeSingular,
         ),
-    )}
+      )}
     {...props}
     />
 );
@@ -129,7 +129,7 @@ export const SelfFilteringBars = ({
           (data) => addFilter(query, push)(fieldName, data.id),
           docTypeSingular,
         ),
-    )}
+      )}
     {...props}
     />
 );

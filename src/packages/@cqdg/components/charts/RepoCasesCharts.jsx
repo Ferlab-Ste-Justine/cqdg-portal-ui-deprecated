@@ -4,6 +4,9 @@ import Relay from 'react-relay/classic';
 import _ from 'lodash';
 import { compose, withState } from 'recompose';
 
+import PlusSign from 'react-icons/lib/go/plus';
+import MinusSign from 'react-icons/lib/go/dash';
+
 import withSize from '@ncigdc/utils/withSize';
 import { IBucket } from '@ncigdc/components/Aggregations/types';
 import withRouter from '@ncigdc/utils/withRouter';
@@ -11,6 +14,7 @@ import { parseFilterParam } from '@ncigdc/utils/uri';
 import { withTheme } from '@ncigdc/theme';
 import Column from '@ncigdc/uikit/Flex/Column';
 import Row from '@ncigdc/uikit/Flex/Row';
+
 import t from '@cqdg/locales/intl';
 import {
   PieTitle,
@@ -163,8 +167,9 @@ const RepoCasesChartsComponent = ({
         ]}
       </Row>
       <Row className="row-center">
-        <ShowToggleBox onClick={() => setShowingMore(!showingMore)}>
-          {showingMore ? t('global.less') : t('global.more')}
+        <ShowToggleBox className="show-toggle" onClick={() => setShowingMore(!showingMore)}>
+          <span className="show-more">{t('global.show')}</span>
+          {showingMore ? <MinusSign className="show-more-sign" /> : <PlusSign className="show-more-sign" />}
         </ShowToggleBox>
       </Row>
     </div>
