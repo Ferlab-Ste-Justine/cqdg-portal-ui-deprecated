@@ -11,8 +11,8 @@
     "more": "Voir +",
     "less": "Réduire",
     "cart": "Panier",
-    "select.all": "select all",
-    "none": "none",
+    "select.all": "tout sélectionner",
+    "none": "aucun",
     "query": {
       "IN": "DANS",
       "IS": "EST",
