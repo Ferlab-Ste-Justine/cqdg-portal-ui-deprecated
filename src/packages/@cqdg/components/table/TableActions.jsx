@@ -59,7 +59,7 @@ const TableActions = ({
     {showClinicalDownload && (
       <React.Fragment>
         <DownloadTableButton
-          className="table-actions-buttons"
+          className="table-actions-buttons clinical"
           filename={`clinical.cases_selection.${timestamp()}.tsv`}
           isDisabled={!downloadClinical}
           portionData={clinicalData}

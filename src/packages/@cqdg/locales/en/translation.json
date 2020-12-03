@@ -12,6 +12,8 @@
     "show": "show",
     "less": "Less",
     "cart": "Cart",
+    "manifest": "Manifest",
+    "download": "Download",
     "select.all": "select all",
     "none": "none",
     "query": {

@@ -7,7 +7,6 @@ import { connect } from 'react-redux';
 import urlJoin from 'url-join';
 
 import { authPartitionFiles } from '@ncigdc/utils/auth';
-import DownloadButton from '@ncigdc/components/DownloadButton';
 import BaseModal from '@ncigdc/components/Modals/BaseModal';
 import CheckBoxModal from '@ncigdc/components/Modals/CheckBoxModal';
 import LoginButton from '@ncigdc/components/LoginButton';
@@ -27,6 +26,9 @@ import Spinner from '@ncigdc/theme/icons/Spinner';
 
 import download from '@ncigdc/utils/download';
 import { AUTH_API } from '@ncigdc/utils/constants';
+import t from '@cqdg/locales/intl';
+import { downloadToTSV } from "@cqdg/components/table/button/DownloadTableButton";
+import timestamp from "@ncigdc/utils/timestamp";
 /*----------------------------------------------------------------------------*/
 
 const styles = {
@@ -233,30 +235,32 @@ const CartDownloadDropdown = ({
           }
           rightIcon={<DownCaretIcon />}
         >
-          Download
+          {t('global.download')}
         </Button>
       }
     >
+
       <Column>
-        <DownloadButton
-          size={files.length}
+        <Button
           className="test-download-manifest"
           style={styles.button(theme)}
-          endpoint="manifest"
-          activeText="Manifest"
-          inactiveText="Manifest"
-          altMessage={false}
-          setParentState={currentState =>
-            setState(s => ({ ...s, manifestDownloading: currentState }))}
-          active={state.manifestDownloading}
-          extraParams={{
-            ids: files.map(file => file.file_id),
-          }}
-        />
+          onClick={() =>
+            downloadToTSV({
+              filename: `cart-table.${timestamp()}.tsv`,
+              selector: "#repository-files-table",
+              excludedColumns: [
+                "th_cart_toggle_all", "data_access", "data_category", "file_format", "is_harmonized",
+                "data_type", "experimental_strategy", "platform", "cases.hits.edges.submitter_donor_id"
+              ]
+            })}
+          leftIcon={state.cartDownloading ? <Spinner /> : <DownloadIcon />}
+        >
+          {t('global.manifest')}
+        </Button>
         <Button
           className="test-download-cart"
           style={styles.button(theme)}
-          disabled={state.cartDownloading}
+          disabled={/*state.cartDownloading*/true}
           onClick={() =>
             downloadCart({
               user,
@@ -267,7 +271,7 @@ const CartDownloadDropdown = ({
             })}
           leftIcon={state.cartDownloading ? <Spinner /> : <DownloadIcon />}
         >
-          Cart
+          {t('global.cart')}
         </Button>
       </Column>
     </Dropdown>

@@ -8,5 +8,19 @@
     overflow: auto;
     max-width: 30rem;
     margin-left: 2rem;
-    margin-right: 2rem;
+}
+
+#cart-details button.test-download-cart:disabled{
+    opacity: 0.2;
+    cursor: not-allowed;
+}
+
+#cart-details div.test-table-actions .clinical{
+    display:none;
+    visibility: hidden;
+}
+
+#cart-details div.test-table-actions .separator{
+    display:none;
+    visibility: hidden;
 }

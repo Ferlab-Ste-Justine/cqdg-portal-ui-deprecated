@@ -28,7 +28,7 @@ const filesTableModel = [
   {
     name: 'File UUID',
     id: 'file_id',
-    th: () => <Th>{t('facet.file_id')}</Th>,
+    th: ({ id }) => <Th id={id}>{t('facet.file_id')}</Th>,
     td: ({ node }) => (
       <Td>
         {features.fileLinking ? (
@@ -53,7 +53,7 @@ const filesTableModel = [
     id: 'data_access',
     sortable: true,
     downloadable: true,
-    th: () => <Th><MdLock className="files-table-locks" /></Th>,
+    th: ({ id }) => <Th id={id}><MdLock className="files-table-locks" /></Th>,
     td: ({ node }) => (
       <Td>
         {node.data_access.toLowerCase() === 'open' && <MdLockOpen className="files-table-locks files-table-lock-open" />}
@@ -66,7 +66,7 @@ const filesTableModel = [
     id: 'file_name_keyword',
     sortable: true,
     downloadable: true,
-    th: () => <Th>{t('facet.file_name_keyword')}</Th>,
+    th: ({ id }) => <Th id={id}>{t('facet.file_name_keyword')}</Th>,
     td: ({ node }) => (
       <Td>
         <CopyToClipboardButton text={node.file_name_keyword} />
@@ -88,7 +88,7 @@ const filesTableModel = [
   {
     name: 'Data Category',
     id: 'data_category',
-    th: () => <Th>{t('facet.data_category')}</Th>,
+    th: ({ id }) => <Th id={id}>{t('facet.data_category')}</Th>,
     td: ({ node }) => <Td>{node.data_category || '--'}</Td>,
     sortable: true,
     downloadable: true,
@@ -96,7 +96,7 @@ const filesTableModel = [
   {
     name: 'Data Format',
     id: 'file_format',
-    th: () => <Th>{t('facet.file_format')}</Th>,
+    th: ({ id }) => <Th id={id}>{t('facet.file_format')}</Th>,
     td: ({ node }) => <Td>{node.file_format || '--'}</Td>,
     sortable: true,
     downloadable: true,
@@ -104,7 +104,7 @@ const filesTableModel = [
   {
     name: 'Harmonized',
     id: 'is_harmonized',
-    th: () => <Th>{t('facet.is_harmonized')}</Th>,
+    th: ({ id }) => <Th id={id}>{t('facet.is_harmonized')}</Th>,
     td: ({ node }) => (
       <Td>{node.is_harmonized ? 'true' : 'false'}</Td>
     ),
@@ -114,7 +114,7 @@ const filesTableModel = [
   {
     name: 'Data Type',
     id: 'data_type',
-    th: () => <Th>{t('facet.data_type')}</Th>,
+    th: ({ id }) => <Th id={id}>{t('facet.data_type')}</Th>,
     td: ({ node }) => <Td>{node.data_type || '--'}</Td>,
     sortable: true,
     downloadable: true,
@@ -123,7 +123,7 @@ const filesTableModel = [
   {
     name: 'Experimental Strategy',
     id: 'experimental_strategy',
-    th: () => <Th>{t('facet.data_category')}</Th>,
+    th: ({ id }) => <Th id={id}>{t('facet.data_category')}</Th>,
     td: ({ node }) => <Td>{node.experimental_strategy || '--'}</Td>,
     sortable: true,
     downloadable: true,
@@ -132,7 +132,7 @@ const filesTableModel = [
   {
     name: 'Platform',
     id: 'platform',
-    th: () => <Th>{t('facet.platform')}</Th>,
+    th: ({ id }) => <Th id={id}>{t('facet.platform')}</Th>,
     td: ({ node }) => <Td>{node.platform || '--'}</Td>,
     sortable: true,
     downloadable: true,
@@ -141,7 +141,7 @@ const filesTableModel = [
   {
     name: 'Number of donors',
     id: 'cases.hits.edges.submitter_donor_id',
-    th: () => <ThNum>{t('facet.cases.hits.edges.submitter_donor_id')}</ThNum>,
+    th: ({ id }) => <ThNum id={id}>{t('facet.cases.hits.edges.submitter_donor_id')}</ThNum>,
     td: ({ node }) => (
       <TdNum>
         <RepositoryCasesLink
@@ -165,7 +165,7 @@ const filesTableModel = [
   {
     name: 'Size',
     id: 'file_size',
-    th: () => <ThNum>{t('facet.file_size')}</ThNum>,
+    th: ({ id }) => <ThNum id={id}>{t('facet.file_size')}</ThNum>,
     td: ({ node }) => (
       <TdNum>
         <FileSize bytes={node.file_size * 1000000} />

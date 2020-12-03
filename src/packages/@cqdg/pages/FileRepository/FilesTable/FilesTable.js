@@ -49,6 +49,7 @@ export default compose(
 )(
   ({
     addAllToCart,
+    downloadClinical = false,
     cartFiles,
     dispatch,
     downloadable,
@@ -86,6 +87,7 @@ export default compose(
           <TableActions
             arrangeColumnKey={entityType}
             downloadable={downloadable}
+            downloadClinical={downloadClinical}
             downloadFields={tableInfo
               .filter(x => x.downloadable)
               .map(x => x.field || x.id)}
@@ -135,7 +137,7 @@ export default compose(
               </tbody>
             )}
             headings={[
-              <Th className="table-th" key="cart-toggle-all">
+              <Th id="th_cart_toggle_all" className="table-th" key="cart-toggle-all">
                 <Button
                   active={addAllToCart}
                   className="files-table-cart-btn"
@@ -149,9 +151,10 @@ export default compose(
                   <CartIcon />
                 </Button>
               </Th>,
-              ...tableInfo.map(x => (
-                <x.th hits={hits} key={x.id} />
-              )),
+              ...tableInfo.map(x => {
+                return (
+                <x.th hits={hits} key={x.id} id={x.id} />
+              )}),
             ]}
             id="repository-files-table"
             />

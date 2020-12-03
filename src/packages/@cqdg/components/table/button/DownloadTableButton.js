@@ -20,20 +20,25 @@ const getSingleHeader = (headThs: Array<NodeList>) => reduce(
 
 export const downloadToTSV = ({
   excludedColumns = [
-    'Cart',
-    'Add all files to cart',
-    'Remove all files from cart',
-    'Select column',
+    'th_cart',
+    'th_cart_toggle_all',
   ], filename, selector, portionData = 'all',
 }) => {
+
   const tableEl = document.querySelector(selector);
   const headTrs = tableEl.querySelector('thead').querySelectorAll('tr');
   const headThs = map(headTrs, h => h.querySelectorAll('th'));
+
   const thEls =
     headThs.length === 2
       ? getSingleHeader(headThs)
       : tableEl.querySelectorAll('th');
-  const thText = map(thEls, el => el.innerText).map(t => t.replace(/\s+/g, ' '));
+
+  const thText = map(thEls, el => ({
+    id: el.id,
+    innerText: el.innerText.replace(/\s+/g, ' ')
+  }));
+
   const trs = tableEl.querySelector('tbody').querySelectorAll('tr');
   let tdText = map(trs, (t, i) => {
     if (portionData !== 'all' && !portionData.includes(i)) {
@@ -63,14 +68,17 @@ export const downloadToTSV = ({
   });
 
   tdText = tdText.filter(td => td.length > 0);
+
+  const thIds = thText.map(th => th.id);
   const excludedIndices = excludedColumns.reduce((acc, curr) => {
-    const normalizedCurr = curr.toLowerCase().trim();
-    const normalizedThText = thText.map(th => th.toLowerCase().trim());
-    const index = normalizedThText.indexOf(normalizedCurr);
+    const index = thIds.indexOf(curr);
     return [...acc, ...(index >= 0 ? [index] : [])];
   }, []);
+
   const thFiltered = thText
-    .filter((th, idx) => excludedIndices.indexOf(idx) === -1);
+    .filter((th, idx) => excludedIndices.indexOf(idx) === -1)
+    .map(th => th.innerText);
+
   const tdFiltered = tdText.map(tr => tr
     .filter((td, idx) => excludedIndices.indexOf(idx) === -1));
 

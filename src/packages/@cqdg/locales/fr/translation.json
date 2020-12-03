@@ -14,6 +14,8 @@
     "cart": "Panier",
     "select.all": "tout sélectionner",
     "none": "aucun",
+    "manifest": "Manifest",
+    "download": "Téléchargement",
     "query": {
       "IN": "DANS",
       "IS": "EST",

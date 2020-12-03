@@ -46,7 +46,16 @@ export type TProps = {
         }
       },
       hits: {
-        total: number
+        total: number,
+        edges: {
+          node: [
+            {
+              file_id: string,
+              file_name: string,
+              file_size: number
+            }
+          ]
+        }
       }
     },
     Case: {
@@ -67,15 +76,9 @@ export type TProps = {
 
 type TCartPage = (props: TProps) => React.Element<*>;
 const CartPageComponent: TCartPage = (props: TProps) => {
-
   const {
     viewer, files, user, theme, cart_file_filters
   } = props;
-
-  const capitalize = (s) => {
-    if (typeof s !== 'string') return ''
-    return s.charAt(0).toUpperCase() + s.slice(1)
-  }
 
   const summaryData = new Map;
   const nbOfStudies = viewer.File.files_summary.study__short_name_keyword.buckets.length;
@@ -125,7 +128,7 @@ const CartPageComponent: TCartPage = (props: TProps) => {
   const fileSize = viewer.File.files_summary.file_size.stats.sum;
 
   return (
-    <div style={styles.container} className="test-cart-page">
+    <div id="cart-details" style={styles.container} className="test-cart-page">
       {!files.length && <h1>Your cart is empty.</h1>}
       {!!files.length && (
         <div>
@@ -169,13 +172,14 @@ const CartPageComponent: TCartPage = (props: TProps) => {
               headings={[
                 {
                   key: 'study',
-                  title: capitalize(t('global.study')),
-                  color: true
+                  title: t('global.study'),
+                  color: true,
+                  style: { textTransform: 'capitalize'}
                 },
                 {
                   key: 'case_count',
-                  title: capitalize(t('global.cases')),
-                  style: { textAlign: 'right' },
+                  title: t('global.cases'),
+                  style: { textAlign: 'right', textTransform: 'capitalize' },
                 },
                 {
                   key: 'case_count_meter',
@@ -188,8 +192,8 @@ const CartPageComponent: TCartPage = (props: TProps) => {
                 },
                 {
                   key: 'file_count',
-                  title: capitalize(t('global.files')),
-                  style: { textAlign: 'right' },
+                  title: t('global.files'),
+                  style: { textAlign: 'right', textTransform: 'capitalize' },
                 },
                 {
                   key: 'file_count_meter',
@@ -220,7 +224,7 @@ const CartPageComponent: TCartPage = (props: TProps) => {
 
           <FilesTable
             downloadable={false}
-            canAddToCart={false}
+            downloadClinical={false}
             filters={cart_file_filters}
           />
         </div>
@@ -259,6 +263,13 @@ export const CartPageQuery = {
                 }
                 hits(first: $files_size offset: $files_offset, filters: $cart_file_filters, sort: $files_sort) {
                     total
+                    edges{
+                        node{
+                            file_id
+                            file_name
+                            file_size
+                        }
+                    }
                 }
             }
             Case {

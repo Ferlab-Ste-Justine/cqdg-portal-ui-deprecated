@@ -76,7 +76,7 @@ const authPartitionFiles = ({
   };
 
   return files.reduce((result, file) => {
-    const canDownloadKey = userCanDownloadFile({ user, file })
+    const canDownloadKey = !user || userCanDownloadFile({ user, file })
       ? 'authorized'
       : 'unauthorized';
     result[canDownloadKey].doc_count += 1;
