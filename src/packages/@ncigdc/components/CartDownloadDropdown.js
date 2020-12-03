@@ -214,6 +214,7 @@ const CartDownloadDropdown = ({
   state,
   setState,
   dispatch,
+  excludedColumns,
 }) => (
   <Row>
     <Dropdown
@@ -248,10 +249,7 @@ const CartDownloadDropdown = ({
             downloadToTSV({
               filename: `cart-table.${timestamp()}.tsv`,
               selector: "#repository-files-table",
-              excludedColumns: [
-                "th_cart_toggle_all", "data_access", "data_category", "file_format", "is_harmonized",
-                "data_type", "experimental_strategy", "platform", "cases.hits.edges.submitter_donor_id"
-              ]
+              excludedColumns: excludedColumns
             })}
           leftIcon={state.cartDownloading ? <Spinner /> : <DownloadIcon />}
         >

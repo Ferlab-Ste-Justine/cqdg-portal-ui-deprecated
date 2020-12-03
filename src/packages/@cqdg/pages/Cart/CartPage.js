@@ -219,7 +219,13 @@ const CartPageComponent: TCartPage = (props: TProps) => {
           </StackLayout>
 
           <StackLayout className="cart-actions" horizontal={true}>
-            <CartDownloadDropdown files={files} user={user} />
+            <CartDownloadDropdown
+              files={files}
+              excludedColumns={[
+                "th_cart_toggle_all", "data_access", "data_category", "file_format", "is_harmonized",
+                "data_type", "experimental_strategy", "platform", "cases.hits.edges.submitter_donor_id"
+              ]}
+            />
           </StackLayout>
 
           <FilesTable
