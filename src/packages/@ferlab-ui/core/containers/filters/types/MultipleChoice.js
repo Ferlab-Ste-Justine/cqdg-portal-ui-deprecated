@@ -2,31 +2,30 @@
 /* @flow */
 
 import React from 'react';
+import { connect } from 'react-redux';
 import _ from 'lodash';
-import LocationSubscriber from '@ncigdc/components/LocationSubscriber';
 import {
   compose, withState, withPropsOnChange, pure,
 } from 'recompose';
 
-import { toggleAddAllToCart } from "@ncigdc/dux/cart";
+import { toggleAddAllToCart } from '@ncigdc/dux/cart';
 import CloseIcon from '@ncigdc/theme/icons/CloseIcon';
-
+import LocationSubscriber from '@ncigdc/components/LocationSubscriber';
 import { IRawQuery } from '@ncigdc/utils/uri/types';
 import { parseFilterParam } from '@ncigdc/utils/uri';
 import { inCurrentFilters } from '@ncigdc/utils/filters';
-
 import Input from '@ncigdc/uikit/Form/Input';
 import OverflowTooltippedLabel from '@ncigdc/uikit/OverflowTooltippedLabel';
 import Link from '@ncigdc/components/Links/Link';
-
 import { internalHighlight } from '@ncigdc/uikit/Highlight';
 
-import Tag from '@ferlab-ui/core/text/Tag';
 import t from '@cqdg/locales/intl';
+
+import Button from '@ferlab-ui/core/buttons/button';
+import Tag from '@ferlab-ui/core/text/Tag';
 import StackLayout from '@ferlab-ui/core/layouts/StackLayout';
 
 import './MultipleChoice.css';
-import {connect} from "react-redux";
 
 type TProps = {
   buckets: [IBucket];
@@ -47,29 +46,39 @@ const getCurrentFilters = (ctx) => ((ctx.query &&
   parseFilterParam((ctx.query || {}).filters, {}).content) ||
   [])
   .map(filter => ({
-      ...filter,
-      content: {
-        ...filter.content,
-        value: typeof filter.content.value === 'string'
+    ...filter,
+    content: {
+      ...filter.content,
+      value: typeof filter.content.value === 'string'
           ? filter.content.value.toLowerCase()
           : filter.content.value.map(val => val.toLowerCase()),
-      },
-    }
+    },
+  }
   ));
 
 let input;
 const MultipleChoice = (props: TProps) => {
-
   const {
-    field, filteredBuckets, maxShowing, setShowingMore, showingMore, dispatch, addAllToCart
+    addAllToCart, dispatch, field, filteredBuckets, maxShowing, setShowingMore, showingMore,
   } = props;
 
   const dotField = field.replace(/__/g, '.');
+
 
   return (
     <LocationSubscriber>
       {(ctx: { pathname: string; query: IRawQuery }) => {
         const currentFilters = getCurrentFilters(ctx);
+        const selectedFilters = filteredBuckets.map(b => {
+          const name = b.key_as_string || b.key;
+          if (inCurrentFilters({
+            key: name.toLowerCase(),
+            dotField,
+            currentFilters,
+          })) {
+            return name;
+          }
+        }).filter(v => v);
 
         return (
           <React.Fragment>
@@ -87,7 +96,7 @@ const MultipleChoice = (props: TProps) => {
                     borderRadius: '4px',
                     marginBottom: '6px',
                   }}
-                />
+                  />
                 {input && input.value && (
                   <CloseIcon
                     onClick={() => {
@@ -101,12 +110,59 @@ const MultipleChoice = (props: TProps) => {
                       transition: 'all 0.3s ease',
                       outline: 0,
                     }}
-                  />
+                    />
                 )}
               </StackLayout>
             )}
             {!props.collapsed && (
               <StackLayout vertical>
+                <StackLayout className="fui-filters-actions">
+                  <Link
+                    className="fui-filters-links"
+                    merge="add"
+                    query={{
+                      offset: 0,
+                      filters: {
+                        op: 'and',
+                        content: [
+                          {
+                            op: 'in',
+                            content: {
+                              field: dotField,
+                              value: filteredBuckets.map(b => b.key_as_string || b.key),
+                            },
+                          },
+                        ],
+                      },
+                    }}
+                    >
+                    {t('global.select.all')}
+                  </Link>
+                  <div className="separator" />
+                  <Link
+                    className="fui-filters-links"
+                    merge="toggle"
+                    query={selectedFilters.length > 0
+                      ? {
+                        offset: 0,
+                        filters: {
+                          op: 'and',
+                          content: [
+                            {
+                              op: 'in',
+                              content: {
+                                field: dotField,
+                                value: selectedFilters,
+                              },
+                            },
+                          ],
+                        },
+                      }
+                    : {}}
+                    >
+                    {t('global.none')}
+                  </Link>
+                </StackLayout>
                 {_.orderBy(filteredBuckets, 'doc_count', 'desc')
                   .slice(0, props.showingMore ? Infinity : maxShowing)
                   .map(b => ({
@@ -119,6 +175,11 @@ const MultipleChoice = (props: TProps) => {
                       <Link
                         className="fui-mv-item-checkbox"
                         merge="toggle"
+                        onClick={() => {
+                          if (addAllToCart === true) {
+                            dispatch(toggleAddAllToCart());
+                          }
+                        }}
                         query={{
                           offset: 0,
                           filters: {
@@ -134,12 +195,7 @@ const MultipleChoice = (props: TProps) => {
                             ],
                           },
                         }}
-                        onClick={() => {
-                          if(addAllToCart === true){
-                            dispatch(toggleAddAllToCart());
-                          }
-                        }}
-                      >
+                        >
                         <input
                           checked={inCurrentFilters({
                             key: bucket.name.toLowerCase(),
@@ -162,7 +218,7 @@ const MultipleChoice = (props: TProps) => {
                             verticalAlign: 'middle',
                           }}
                           type="checkbox"
-                        />
+                          />
                         <OverflowTooltippedLabel
                           htmlFor={`input-${props.title}-${bucket.name.replace(
                             /\s/g,
@@ -172,7 +228,7 @@ const MultipleChoice = (props: TProps) => {
                             marginLeft: '0.3rem',
                             verticalAlign: 'middle',
                           }}
-                        >
+                          >
                           {props.searchValue
                             ? internalHighlight(
                               props.searchValue,
@@ -190,18 +246,19 @@ const MultipleChoice = (props: TProps) => {
                     </StackLayout>
                   ))}
                 {filteredBuckets.length > maxShowing && (
-                  <div
+                  <Button
                     className="fui-filters-types-mc-footer"
                     onClick={() => setShowingMore(!props.showingMore)}
                     onKeyPress={() => setShowingMore(!props.showingMore)}
                     role="button"
                     tabIndex="0"
-                  >
+                    type="text"
+                    >
                     {showingMore
                       ? t('global.less')
                       : filteredBuckets.length - 5 &&
                       `${filteredBuckets.length - 5} ${t('global.total')}...`}
-                  </div>
+                  </Button>
                 )}
 
                 {filteredBuckets.length === 0 && (
@@ -224,7 +281,7 @@ const enhance = compose(
   withState('showingMore', 'setShowingMore', false),
   withState('filter', 'setFilter', ''),
   connect(state => ({
-    addAllToCart: state.cart.addAllToCart
+    addAllToCart: state.cart.addAllToCart,
   })),
   withPropsOnChange(
     [
@@ -233,8 +290,8 @@ const enhance = compose(
       'searchValue',
     ],
     ({
-       buckets, filter, isMatchingSearchValue, searchValue = '',
-     }) => ({
+      buckets, filter, isMatchingSearchValue, searchValue = '',
+    }) => ({
       filteredBuckets: buckets.filter(
         b => b.key !== '_missing' &&
           (b.key || '').length &&

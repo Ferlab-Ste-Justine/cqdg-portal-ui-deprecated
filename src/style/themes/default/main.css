@@ -67,6 +67,13 @@ pre, code {
   font-family: 'IBM Plex Mono', Menlo, Consolas, Monaco, Liberation Mono, Lucida Console, monospace;
 }
 
+button, input {
+  font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, segoe ui, Roboto, Oxygen, Ubuntu, Cantarell, open sans, helvetica neue, sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 20px;
+}
+
 /* ****************************
 INPUT
 ** ************************** */

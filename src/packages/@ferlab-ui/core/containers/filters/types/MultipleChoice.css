@@ -1,6 +1,9 @@
 .fui-filters-types-mc-footer {
   color: #008FC7; /* blue-7 */
   text-decoration: underline;
+  padding: 0;
+  text-align: left;
+  height: auto;
 }
 
 
@@ -21,4 +24,17 @@
   overflow: hidden;
   text-overflow: ellipsis;
   overflow: hidden;
+}
+
+.fui-filters-actions .separator {
+  height: 10px;
+  align-self: center;
+  background: #90A9C1;
+  margin: 0 4px;
+}
+
+.fui-filters-actions .fui-filters-links {
+  color: #008FC7; /* blue-7 */
+  text-decoration: underline;
+  text-transform: capitalize;
 }

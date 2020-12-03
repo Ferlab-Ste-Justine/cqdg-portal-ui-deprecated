@@ -11,6 +11,8 @@
     "more": "More",
     "less": "Less",
     "cart": "Cart",
+    "select.all": "select all",
+    "none": "none",
     "query": {
       "IN": "IN",
       "IS": "IS",

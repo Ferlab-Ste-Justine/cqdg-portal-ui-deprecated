@@ -26,8 +26,8 @@ import LeftArrow from 'react-icons/lib/fa/angle-left';
 import Filter from '@ferlab-ui/core/filters/Filter';
 
 import './QueryBuilder.css';
-import { toggleAddAllToCart } from "@ncigdc/dux/cart";
-import {connect} from "react-redux";
+import { toggleAddAllToCart } from '@ncigdc/dux/cart';
+import { connect } from 'react-redux';
 
 /*----------------------------------------------------------------------------*/
 
@@ -49,7 +49,7 @@ const enhance = compose(
   })),
   withState('expandedFilters', 'setExpandedFilters', []),
   connect(state => ({
-    addAllToCart: state.cart.addAllToCart
+    addAllToCart: state.cart.addAllToCart,
   })),
   withProps(({ expandedFilters }) => ({
     isFilterExpanded: filter => expandedFilters.includes(filter),
@@ -64,12 +64,12 @@ const enhance = compose(
 
 const QueryBuilder = (
   {
+    addAllToCart,
     currentFilters,
+    dispatch,
     isFilterExpanded,
     onLessClicked,
     query,
-    addAllToCart,
-    dispatch,
   }: TProps = {},
 ) => {
   const hasCurrentFilters = currentFilters.length > 0;
@@ -99,12 +99,12 @@ const QueryBuilder = (
                     filterType={humanify({ term: facetFieldDisplayMapper(filter.content.field) })}
                     isFilterExpanded={isFilterExpanded(filter)}
                     key={`${filter.content.field}.${filter.op}.${value.join()}`}
-                    onToggle={() => onLessClicked(filter)}
                     onClick={() => {
-                      if(addAllToCart === true){
+                      if (addAllToCart === true) {
                         dispatch(toggleAddAllToCart());
                       }
                     }}
+                    onToggle={() => onLessClicked(filter)}
                     query={{
                       filters: {
                         content: [filter],

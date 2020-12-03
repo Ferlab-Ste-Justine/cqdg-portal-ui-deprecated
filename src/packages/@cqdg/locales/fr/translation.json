@@ -11,6 +11,8 @@
     "more": "Voir +",
     "less": "Réduire",
     "cart": "Panier",
+    "select.all": "select all",
+    "none": "none",
     "query": {
       "IN": "DANS",
       "IS": "EST",
