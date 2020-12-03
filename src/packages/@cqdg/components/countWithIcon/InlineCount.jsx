@@ -5,12 +5,12 @@ import t from '@cqdg/locales/intl';
 import './InlineCount.css';
 
 const InlineCount = ({
-  className, Icon, label, total,
+  className, Icon, iconClassName, label, total,
 }) => {
   const labelTranslated = t(label) || label;
   return (
     <div className={`inline-count-container ${className}`}>
-      <Icon className="icon-count" />
+      <Icon className={`icon-count ${iconClassName}`} />
       <span>
         {total}
         {' '}

@@ -54,6 +54,15 @@ export default (Component: ReactClass<*>) =>
           ) {
             viewer {
                 File {
+                  aggregations(
+                    filters: $filters
+                  ) {
+                      file_size{
+                          stats{
+                           sum
+                          }
+                      }
+                  }
                   hits(
                     first: $files_size
                     offset: $files_offset

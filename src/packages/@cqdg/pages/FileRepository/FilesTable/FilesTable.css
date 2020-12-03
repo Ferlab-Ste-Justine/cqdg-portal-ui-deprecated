@@ -38,3 +38,13 @@
   background-color: #008FC7;
   color: #fff;
 }
+
+.files-table .files-actions .separator {
+  background: #D8E1EB;
+  margin: 0 16px;
+}
+
+.files-table .files-actions .save-icon {
+  width: 18px;
+  height: 18px;
+}

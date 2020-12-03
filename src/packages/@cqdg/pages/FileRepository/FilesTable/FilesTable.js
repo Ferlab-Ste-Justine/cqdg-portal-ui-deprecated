@@ -7,8 +7,10 @@ import {
 import { connect } from 'react-redux';
 
 import FaFile from 'react-icons/lib/fa/file';
+import SaveIcon from 'react-icons/lib/md/save';
 
 import timestamp from '@ncigdc/utils/timestamp';
+import formatFileSize, { EFileInputType } from '@cqdg/utils/formatFileSize';
 
 import ScrollableTable from '@cqdg/components/table/ScrollableTable';
 import Table from '@cqdg/components/table/Table';
@@ -56,11 +58,11 @@ export default compose(
     resetScroll = false,
     tableColumns,
     tableHeader,
-    viewer: { File: { hits } },
+    viewer: { File: { aggregations: fileSummary, hits } },
   }) => {
     const tableInfo = tableColumns.slice().filter(x => !x.hidden);
     const fileInCart = (file) => cartFiles.some(f => f.file_id === file.file_id);
-
+    console.log(fileSummary, formatFileSize(fileSummary.file_size.stats.sum, {}, EFileInputType.MB));
     if (addAllToCart === true && hits && hits.edges) {
       const delta = hits.edges.map(e => e.node).filter(
         file =>
@@ -82,7 +84,11 @@ export default compose(
           </h1>
         )}
         <StackLayout className="files-actions">
-          <InlineCount Icon={FaFile} label="global.files" total={hits.total} />
+          <StackLayout>
+            <InlineCount Icon={FaFile} label="global.files" total={hits.total} />
+            <div className="separator" />
+            <InlineCount Icon={SaveIcon} iconClassName="save-icon" total={formatFileSize(fileSummary.file_size.stats.sum, {}, EFileInputType.MB)} />
+          </StackLayout>
           <TableActions
             arrangeColumnKey={entityType}
             downloadable={downloadable}
