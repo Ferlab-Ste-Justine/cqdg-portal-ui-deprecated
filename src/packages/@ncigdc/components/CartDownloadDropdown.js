@@ -210,7 +210,6 @@ const CartDownloadDropdown = ({
   user,
   files,
   theme,
-  disabled = false,
   state,
   setState,
   dispatch,
@@ -258,7 +257,7 @@ const CartDownloadDropdown = ({
         <Button
           className="test-download-cart"
           style={styles.button(theme)}
-          disabled={/*state.cartDownloading*/true}
+          disabled={true}
           onClick={() =>
             downloadCart({
               user,

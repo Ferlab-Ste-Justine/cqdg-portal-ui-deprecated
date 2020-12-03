@@ -23,8 +23,8 @@ import withRouter from "@ncigdc/utils/withRouter";
 import StackLayout from "@ferlab-ui/core/layouts/StackLayout";
 import t from '@cqdg/locales/intl';
 import './CartPage.css';
-import CardContent from "../../../@ferlab-ui/cards/CardContent";
-import CardContainerNotched from "../../components/cards/CardContainerNotched";
+import CardContent from "@ferlab-ui/cards/CardContent";
+import CardContainerNotched from "@cqdg/components/cards/CardContainerNotched";
 
 export type TProps = {
   files: Array<Object>,
