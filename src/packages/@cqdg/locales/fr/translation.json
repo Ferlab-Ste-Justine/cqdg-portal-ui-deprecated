@@ -184,7 +184,8 @@
     "actions": {
       "apply": "Appliquer",
       "reset": "Effacer"
-    }
+    },
+    "no.result": "Aucune valeur pour cette requête"
   },
   "aggregation": {
     "0":"Faux","1":"Vrai",
@@ -344,7 +345,7 @@
   "search": {
     "search": "Recherche ...",
     "advanced.search": "Advanced Search",
-    "no.results": "No results found using those filters."
+    "no.results": "Aucun resultats trouvés avec ces filtres."
   },
   "repo": {
     "search": {

@@ -139,6 +139,7 @@ export default (Component: React.Class<*>) =>
           display: 'flex',
           flexDirection: 'column',
           overflow: 'hidden',
+          flexGrow: '1',
         }}
         variables={props.variables}
         />

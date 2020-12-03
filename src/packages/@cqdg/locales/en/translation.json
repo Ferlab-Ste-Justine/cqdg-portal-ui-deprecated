@@ -182,7 +182,8 @@
     "actions": {
       "apply": "Apply",
       "reset": "Reset"
-    }
+    },
+    "no.result": "No value for this request"
   },
   "aggregation": {
     "0":"False","1":"True",

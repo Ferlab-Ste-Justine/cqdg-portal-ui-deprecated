@@ -114,7 +114,7 @@ const MultipleChoice = (props: TProps) => {
                 )}
               </StackLayout>
             )}
-            {!props.collapsed && (
+            {!props.collapsed && filteredBuckets.length > 0 && (
               <StackLayout vertical>
                 <StackLayout className="fui-filters-actions">
                   <Link
@@ -270,6 +270,11 @@ const MultipleChoice = (props: TProps) => {
                 )}
               </StackLayout>
             )}
+            {!props.collapsed && filteredBuckets.length === 0 && (
+              <StackLayout className="fui-no-filters" vertical>
+                <span className="no-results-text">{t('facet.no.result')}</span>
+              </StackLayout>
+            )}
           </React.Fragment>
         );
       }}
@@ -282,6 +287,7 @@ const enhance = compose(
   withState('filter', 'setFilter', ''),
   connect(state => ({
     addAllToCart: state.cart.addAllToCart,
+    intl: state.intl,
   })),
   withPropsOnChange(
     [

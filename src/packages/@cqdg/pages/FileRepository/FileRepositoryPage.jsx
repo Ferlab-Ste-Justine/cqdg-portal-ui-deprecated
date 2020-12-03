@@ -24,6 +24,7 @@ import withRouter from '@ncigdc/utils/withRouter';
 import t from '@cqdg/locales/intl';
 import Tabs from '@ferlab-ui/core/containers/tabs';
 import ScrollView from '@ferlab-ui/core/layouts/ScrollView';
+import BorderedContainer from '@cqdg/components/container/BorderedContainer';
 
 import './FileRepositoryPage.css';
 
@@ -148,11 +149,15 @@ export const RepositoryPageComponent = (props: TProps) => {
                     </React.Fragment>
                   ),
                   component: fileCount ? (
-                    <FilesTable />
+                    <BorderedContainer>
+                      <FilesTable />
+                    </BorderedContainer>
                   ) : (
-                    <NoResultsMessage>
-                      {t('search.no.results')}
-                    </NoResultsMessage>
+                    <BorderedContainer>
+                      <NoResultsMessage>
+                        {t('search.no.results')}
+                      </NoResultsMessage>
+                    </BorderedContainer>
                   ),
                 },
                 {
@@ -164,11 +169,15 @@ export const RepositoryPageComponent = (props: TProps) => {
                     </React.Fragment>
                   ),
                   component: caseCount ? (
-                    <RepoCasesTable />
+                    <BorderedContainer>
+                      <RepoCasesTable />
+                    </BorderedContainer>
                   ) : (
-                    <NoResultsMessage>
-                      {t('search.no.results')}
-                    </NoResultsMessage>
+                    <BorderedContainer>
+                      <NoResultsMessage>
+                        {t('search.no.results')}
+                      </NoResultsMessage>
+                    </BorderedContainer>
                   ),
                 },
               ]}

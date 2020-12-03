@@ -11,6 +11,7 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  flex-grow: 1;
 }
 
 .table-scrollable-container .scroll-overlay {

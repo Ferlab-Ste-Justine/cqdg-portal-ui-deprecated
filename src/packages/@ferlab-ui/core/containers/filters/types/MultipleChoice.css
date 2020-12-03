@@ -6,6 +6,10 @@
   height: auto;
 }
 
+.fui-filters-types-mc-footer:hover, .fui-filters-actions .fui-filters-links:hover {
+  color: #0075A2;
+  text-decoration: none;
+}
 
 .fui-mc-item {
   display: flex;
@@ -40,4 +44,12 @@
   color: #008FC7; /* blue-7 */
   text-decoration: underline;
   text-transform: capitalize;
+}
+
+.fui-no-filters .no-results-text {
+  background: #F0F3F8;
+  color: #18486B;
+  font-size: 14px;
+  line-height: 22px;
+  padding: 8px 16px;
 }
