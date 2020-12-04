@@ -62,7 +62,6 @@ export default compose(
   }) => {
     const tableInfo = tableColumns.slice().filter(x => !x.hidden);
     const fileInCart = (file) => cartFiles.some(f => f.file_id === file.file_id);
-    console.log(fileSummary, formatFileSize(fileSummary.file_size.stats.sum, {}, EFileInputType.MB));
     if (addAllToCart === true && hits && hits.edges) {
       const delta = hits.edges.map(e => e.node).filter(
         file =>

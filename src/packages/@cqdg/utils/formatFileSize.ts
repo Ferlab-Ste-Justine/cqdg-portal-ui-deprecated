@@ -10,9 +10,8 @@ export enum EFileInputType {
 export type TFilesizeInput = (input?: number, options?: object, inputType?: EFileInputType) => void;
 export type TConvertFileSize = (input: number, inputType: EFileInputType) => number;
 
+const baseConversion = 1000;
 const convertInputBase: TConvertFileSize = (input, inputType) => {
-  const baseConversion = 1000;
-
   switch (inputType) {
     case EFileInputType.MB:
       return input * (baseConversion ** 2);

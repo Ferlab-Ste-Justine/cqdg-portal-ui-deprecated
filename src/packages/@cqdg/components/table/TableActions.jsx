@@ -50,8 +50,8 @@ const TableActions = ({
   style,
   query = {},
   push = () => {},
-  downloadClinical = false,
   showClinicalDownload = false,
+  downloadClinical = false,
   clinicalData,
   hideColumns,
 }) => (
