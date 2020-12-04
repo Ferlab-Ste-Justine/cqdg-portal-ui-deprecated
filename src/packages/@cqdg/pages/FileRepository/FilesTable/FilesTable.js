@@ -32,8 +32,8 @@ import CartIcon from '@cqdg/components/icons/CartIcon';
 
 export default compose(
   setDisplayName('FilesTablePresentation'),
-  connect(state => ({
-    tableColumns: state.tableColumns.files,
+  connect((state,props) => ({
+    tableColumns: props.tableColumns ? props.tableColumns : state.tableColumns.files,
     cartFiles: state.cart.files,
     addAllToCart: state.cart.addAllToCart,
   })),
@@ -50,18 +50,20 @@ export default compose(
   )
 )(
   ({
-    addAllToCart,
-    downloadClinical = false,
-    cartFiles,
-    dispatch,
-    downloadable,
-    entityType = 'files',
-    resetScroll = false,
-    tableColumns,
-    tableHeader,
-    viewer: { File: { aggregations: fileSummary, hits } },
-  }) => {
+     addAllToCart,
+     downloadClinical = false,
+     cartFiles,
+     dispatch,
+     downloadable,
+     entityType = 'files',
+     resetScroll = false,
+     tableColumns,
+     tableHeader,
+     viewer: { File: { aggregations: fileSummary, hits } },
+   }) => {
+
     const tableInfo = tableColumns.slice().filter(x => !x.hidden);
+
     const fileInCart = (file) => cartFiles.some(f => f.file_id === file.file_id);
     if (addAllToCart === true && hits && hits.edges) {
       const delta = hits.edges.map(e => e.node).filter(
@@ -157,9 +159,9 @@ export default compose(
                 </Button>
               </Th>,
               ...tableInfo.map(x => {
-                return (
-                <x.th hits={hits} key={x.id} id={x.id} />
-              )}),
+                  return (
+                  <x.th hits={hits} key={x.id} id={x.id} />
+                )}),
             ]}
             id="repository-files-table"
             />

@@ -77,11 +77,12 @@ export type TProps = {
 type TCartPage = (props: TProps) => React.Element<*>;
 const CartPageComponent: TCartPage = (props: TProps) => {
   const {
-    viewer, files, user, theme, cart_file_filters
+    viewer, files, theme, cart_file_filters, tableColumns
   } = props;
 
   const summaryData = new Map;
   const nbOfStudies = viewer.File.files_summary.study__short_name_keyword.buckets.length;
+  const tableInfo = tableColumns.slice().filter(x => !x.hidden);
 
   viewer.Case.cases_summary.study__short_name_keyword.buckets.forEach(bucket => {
     const item = {
@@ -232,6 +233,8 @@ const CartPageComponent: TCartPage = (props: TProps) => {
             downloadable={false}
             downloadClinical={false}
             filters={cart_file_filters}
+            tableColumns={tableInfo}
+            entityType="cartTableFiles"
           />
         </div>
       )}
@@ -301,6 +304,7 @@ const enhance = compose(
   connect(state => ({
     ...state.cart,
     ...state.auth,
+    tableColumns: state.tableColumns.cartTableFiles,
   })),
   withFilters(),
   withRouter,
