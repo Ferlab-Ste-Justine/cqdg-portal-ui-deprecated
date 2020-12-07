@@ -116,18 +116,18 @@ const FileAggregations = ({
           />
       )}
       {reject(presetFacets, { full: 'file_id' }).map(facet => {
-        return (
+        return aggregations ? (
           <FilterContainer
             additionalProps={facet.additionalProps}
             aggregation={
-          aggregations[escapeForRelay(facet.field)]
-        }
+              aggregations[escapeForRelay(facet.field)] || {}
+            }
             facet={facet}
             key={facet.full}
             relay={relay}
             title={facet.title || t(`facet.${facet.field}`)}
             />
-        );
+        ) : (<div/>);
       })}
     </div>
   );

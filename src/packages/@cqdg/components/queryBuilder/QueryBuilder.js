@@ -93,10 +93,11 @@ const QueryBuilder = (
             <div className="wrapper-filters">
               {currentFilters.map((filter) => {
                 const value = [].concat(filter.content.value || []);
+
                 return (
                   <Filter
                     filters={value}
-                    filterType={humanify({ term: facetFieldDisplayMapper(filter.content.field) })}
+                    filterType={humanify({ term: facetFieldDisplayMapper(filter.content.field), capitalize: false })}
                     isFilterExpanded={isFilterExpanded(filter)}
                     key={`${filter.content.field}.${filter.op}.${value.join()}`}
                     onClick={() => {
