@@ -361,7 +361,19 @@
     "laryngeal.hypoplasia":" Laryngeal hypoplasia",
     "melanoma":" Melanoma",
     "portal.vein.thrombosis":" Portal vein thrombosis",
-    "small.cell.lung.carcinoma":" Small cell lung carcinoma"
+    "small.cell.lung.carcinoma":" Small cell lung carcinoma",
+    "study.short_name_keyword": "Study",
+    "study.domain": "Domain",
+    "gender": "Gender",
+    "ethnicity": "Ethnicity",
+    "age_at_recruitment": "Age At Recruitment",
+    "diagnoses.age_at_diagnosis": "Age At Diagnosis",
+    "diagnoses.icd_category_keyword": "ICD Category",
+    "diagnoses.mondo_term_keyword": "Mondo Term",
+    "phenotypes.hpo_category_keyword": "HPO Category",
+    "phenotypes.hpo_term_keyword": "HPO Term",
+    "vital_status": "Vital Status"
+
   },
   "search": {
     "search": "Search ...",

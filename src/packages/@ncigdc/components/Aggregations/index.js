@@ -50,9 +50,10 @@ export const facetFieldDisplayMapper = field => {
   const map = {
     'genes.symbol': 'Gene Symbol',
     'genes.gene_id': 'Gene',
-    'cases.case_id': 'Case',
+    'cases.case_id': 'Case'
   };
-  return map[field] || t(`aggregation.${field}`) || field;
+  console.log(">>>>>>>>>>>>>>>>>>>>>> ", `aggregation.${field}`);
+  return t(`aggregation.${map[field]}`) || t(`aggregation.${field}`) || map[field] || field;
 };
 
 export const BucketLink = styled(Link, {
