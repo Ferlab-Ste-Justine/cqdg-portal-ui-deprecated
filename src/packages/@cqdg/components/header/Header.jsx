@@ -13,7 +13,7 @@ import Link from '@ferlab-ui/core/buttons/link';
 import { withRouter } from 'react-router-dom';
 import { setLanguageAction } from '@cqdg/store/intl';
 import '@cqdg/components/header/Header.css';
-import CartIcon from "@cqdg/components/icons/CartIcon";
+import CartIcon from '@cqdg/components/icons/CartIcon';
 
 const Header = (props) => {
   const { history, intl, setLanguage } = props;
@@ -21,12 +21,12 @@ const Header = (props) => {
   const { location } = window;
   return (
     <header id="header" role="banner">
-      <img
-        alt={t('global.cqdg')}
-        className="logo"
-        onClick={() => push('/home')}
-        src="img/logo.svg"
-        />
+      <Button className="logo" onClick={() => push('/home')} type="text">
+        <img
+          alt={t('global.cqdg')}
+          src="img/logo.svg"
+          />
+      </Button>
       <div className="nav">
         <Button
           active={location.pathname === '/files'}
@@ -46,15 +46,15 @@ const Header = (props) => {
         </Button>
       </div>
       <div className="actions">
-        <Link className="big" defaultIcon={false} href="/">
+        <Button className="big" onClick={() => push('/')} type="text">
           <UserLock className="big" />
           {t('global.login')}
-        </Link>
+        </Button>
         <div className="separator" />
-        <Link href="/cart" className="big" defaultIcon={false}>
-          <CartIcon className="big cart"/>
+        <Button active={location.pathname === '/cart'} className="big" onClick={() => push('/cart')} type="text">
+          <CartIcon className="big cart" />
           {t('global.cart')}
-        </Link>
+        </Button>
         <div className="separator" />
         <Link href="https://docs.qa.cqdg.ferlab.bio/">
           {t('global.documentation')}
