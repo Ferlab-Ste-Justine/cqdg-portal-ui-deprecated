@@ -257,7 +257,7 @@ const MultipleChoice = (props: TProps) => {
                     {showingMore
                       ? t('global.less')
                       : filteredBuckets.length - 5 &&
-                      `${filteredBuckets.length - 5} ${t('global.total')}...`}
+                      `${filteredBuckets.length - 5} ${t('global.more')}...`}
                   </Button>
                 )}
 
