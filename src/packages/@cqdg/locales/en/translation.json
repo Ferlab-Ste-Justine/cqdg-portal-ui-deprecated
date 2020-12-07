@@ -109,11 +109,11 @@
         "header": "Jeux de données",
         "subtitle": "Version 3.0 | 7 octobre, 2020",
         "groups": {
-          "study": "Études",
-          "donor": "Donneurs",
-          "genome": "Génomes",
-          "exome": "Éxomes",
-          "file": "Fichiers",
+          "study": "Studies",
+          "donor": "Donors",
+          "genome": "Genomes",
+          "exome": "Exomes",
+          "file": "Files",
           "size": "TB"
         }
       }
