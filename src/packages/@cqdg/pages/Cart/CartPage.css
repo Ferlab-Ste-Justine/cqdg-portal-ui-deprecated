@@ -1,3 +1,9 @@
+.cart-page {
+    padding: 16px;
+    flex-grow: 1;
+    overflow: hidden;
+}
+
 .cart-actions{
     justify-content: flex-end;
     padding-bottom: 1rem;

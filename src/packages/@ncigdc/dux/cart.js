@@ -223,7 +223,6 @@ function toggleFilesInCart(
     }
 
     if (nextFiles.length < existingFiles.length) {
-      console.log('removing', incomingFileArray);
       dispatch(
         notify(
           getNotificationComponent(

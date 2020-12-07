@@ -2,85 +2,89 @@
 
 // Vendor
 import React from 'react';
-import {compose, setDisplayName} from 'recompose';
-import {connect} from 'react-redux';
+import { compose, setDisplayName } from 'recompose';
+import { connect } from 'react-redux';
+import Relay from 'react-relay/classic';
+
 import FileIcon from 'react-icons/lib/fa/file-o';
 import CaseIcon from 'react-icons/lib/fa/user';
 import FileSizeIcon from 'react-icons/lib/fa/floppy-o';
 
 // Custom
 import formatFileSize from '@ncigdc/utils/formatFileSize';
-import {withTheme} from '@ncigdc/theme';
+import { withTheme } from '@ncigdc/theme';
 import FilesTable from '@cqdg/pages/FileRepository/FilesTable';
 import SummaryCard from '@ncigdc/components/SummaryCard';
 import CountCard from '@ncigdc/components/CountCard';
 import CartDownloadDropdown from '@ncigdc/components/CartDownloadDropdown';
 import SparkMeterWithTooltip from '@ncigdc/components/SparkMeterWithTooltip';
 import SampleSize from '@ncigdc/components/SampleSize';
-import Relay from "react-relay/classic";
-import withFilters from "@ncigdc/utils/withFilters";
-import withRouter from "@ncigdc/utils/withRouter";
-import StackLayout from "@ferlab-ui/core/layouts/StackLayout";
+import withFilters from '@ncigdc/utils/withFilters';
+import withRouter from '@ncigdc/utils/withRouter';
+
 import t from '@cqdg/locales/intl';
+import CardContainerNotched from '@cqdg/components/cards/CardContainerNotched';
+
+import StackLayout from '@ferlab-ui/core/layouts/StackLayout';
+import CardContent from '@ferlab-ui/cards/CardContent';
+
 import './CartPage.css';
-import CardContent from "@ferlab-ui/cards/CardContent";
-import CardContainerNotched from "@cqdg/components/cards/CardContainerNotched";
 
 export type TProps = {
-  files: Array<Object>,
-  theme: Object,
-  user: Object,
+  files: Array<Record<string, any>>;
+  theme: Record<string, any>;
+  user: Record<string, any>;
   viewer: {
     File: {
       files_summary: {
-        study__short_name_keyword:{
+        study__short_name_keyword: {
           buckets: [{
-            doc_count: number,
-            key: string
-          }]
-        },
+            doc_count: number;
+            key: string;
+          }];
+        };
         file_size: {
           stats: {
-            sum: number
-          }
-        }
-      },
+            sum: number;
+          };
+        };
+      };
       hits: {
-        total: number,
+        total: number;
         edges: {
           node: [
             {
-              file_id: string,
-              file_name: string,
-              file_size: number
+              file_id: string;
+              file_name: string;
+              file_size: number;
             }
-          ]
-        }
-      }
-    },
+          ];
+        };
+      };
+    };
     Case: {
       cases_summary: {
         study__short_name_keyword: {
           buckets: [{
-            doc_count: number,
-            key: string
-          }]
-        }
-      },
+            doc_count: number;
+            key: string;
+          }];
+        };
+      };
       hits: {
-        total: number
-      }
-    }
-  },
+        total: number;
+      };
+    };
+  };
 };
 
 type TCartPage = (props: TProps) => React.Element<*>;
 const CartPageComponent: TCartPage = (props: TProps) => {
   const {
-    viewer, files, theme, cart_file_filters, tableColumns
+    cart_file_filters, files, tableColumns, theme, viewer,
   } = props;
 
-  const summaryData = new Map;
+  const summaryData = new Map();
   const nbOfStudies = viewer.File.files_summary.study__short_name_keyword.buckets.length;
   const tableInfo = tableColumns.slice().filter(x => !x.hidden);
 
@@ -92,21 +96,21 @@ const CartPageComponent: TCartPage = (props: TProps) => {
         <SparkMeterWithTooltip
           part={bucket.doc_count}
           whole={viewer.Case.hits.total}
-        />
-      )
-    }
+          />
+      ),
+    };
     summaryData.set(bucket.key, item);
   });
 
   viewer.File.files_summary.study__short_name_keyword.buckets.forEach(bucket => {
     const item = summaryData.get(bucket.key);
-    if(item){
+    if (item) {
       item.file_count = bucket.doc_count;
       item.file_count_meter = (
         <SparkMeterWithTooltip
           part={bucket.doc_count}
           whole={viewer.File.hits.total}
-        />
+          />
       );
       item.tooltip = `${bucket.key}: ${bucket.doc_count} files`;
 
@@ -115,9 +119,6 @@ const CartPageComponent: TCartPage = (props: TProps) => {
   });
 
   const styles = {
-    container: {
-      padding: '2rem 2.5rem 13rem',
-    },
     header: {
       padding: '1rem',
       borderBottom: `1px solid ${theme.greyScale4}`,
@@ -129,45 +130,56 @@ const CartPageComponent: TCartPage = (props: TProps) => {
   const fileSize = viewer.File.files_summary.file_size.stats.sum;
 
   return (
-    <div id="cart-details" style={styles.container} className="test-cart-page">
+    <StackLayout className="cart-page" id="cart-details" vertical>
       {!files.length && <h1>Your cart is empty.</h1>}
       {!!files.length && (
-        <div>
-          <StackLayout className="cart-statistics" horizontal={true}>
-            <StackLayout className="cart-statistics" vertical={true}>
+        <React.Fragment>
+          <StackLayout className="cart-statistics" horizontal>
+            <StackLayout className="cart-statistics" vertical>
               <CountCard
-                title={String(t('global.files')).toUpperCase()}
                 count={files.length}
-                icon={<FileIcon style={{ width: '2rem', height: '2rem' }} />}
-                style={{ backgroundColor: 'transparent', padding: '0 1rem 1rem 1rem' }}
-              />
+                icon={(
+                  <FileIcon
+                    style={{
+                      width: '2rem',
+                      height: '2rem',
+                    }}
+                    />
+                )}
+                style={{
+                  backgroundColor: 'transparent',
+                  padding: '0 1rem 1rem 1rem',
+                }}
+                title={String(t('global.files')).toUpperCase()}
+                />
               <CountCard
-                title={String(t('global.donors')).toUpperCase()}
                 count={caseCount}
-                icon={<CaseIcon style={{ width: '2rem', height: '2rem' }} />}
+                icon={(
+                  <CaseIcon
+                    style={{
+                      width: '2rem',
+                      height: '2rem',
+                    }}
+                    />
+                )}
                 style={{ backgroundColor: 'transparent' }}
-              />
+                title={String(t('global.donors')).toUpperCase()}
+                />
               <CountCard
-                title={String(t('cart.details.summary.file_size')).toUpperCase()}
-                count={formatFileSize(fileSize*1000000, {exponent: 2})}
-                icon={
-                  <FileSizeIcon style={{ width: '2rem', height: '2rem' }} />
-                }
+                count={formatFileSize(fileSize * 1000000, { exponent: 2 })}
+                icon={(
+                  <FileSizeIcon
+                    style={{
+                      width: '2rem',
+                      height: '2rem',
+                    }}
+                    />
+                )}
                 style={{ backgroundColor: 'transparent' }}
-              />
+                title={String(t('cart.details.summary.file_size')).toUpperCase()}
+                />
             </StackLayout>
             <SummaryCard
-              style={{
-                flex: 1,
-                backgroundColor: 'transparent',
-                height: '20em',
-                overflow: 'auto',
-                minWidth: '20em',
-                flexShrink: 0,
-                marginLeft: '3rem',
-                marginRight: '3rem',
-              }}
-              tableTitle={t('cart.details.summary.count_per_study')}
               data={Array.from(summaryData.values())}
               footer={`${nbOfStudies} ${nbOfStudies > 1 ? t('global.studies') : t('global.study')}`}
               headings={[
@@ -175,12 +187,15 @@ const CartPageComponent: TCartPage = (props: TProps) => {
                   key: 'study',
                   title: t('global.study'),
                   color: true,
-                  style: { textTransform: 'capitalize'}
+                  style: { textTransform: 'capitalize' },
                 },
                 {
                   key: 'case_count',
                   title: t('global.cases'),
-                  style: { textAlign: 'right', textTransform: 'capitalize' },
+                  style: {
+                    textAlign: 'right',
+                    textTransform: 'capitalize',
+                  },
                 },
                 {
                   key: 'case_count_meter',
@@ -194,7 +209,10 @@ const CartPageComponent: TCartPage = (props: TProps) => {
                 {
                   key: 'file_count',
                   title: t('global.files'),
-                  style: { textAlign: 'right', textTransform: 'capitalize' },
+                  style: {
+                    textAlign: 'right',
+                    textTransform: 'capitalize',
+                  },
                 },
                 {
                   key: 'file_count_meter',
@@ -204,41 +222,59 @@ const CartPageComponent: TCartPage = (props: TProps) => {
                     textAlign: 'center',
                   },
                   style: { textAlign: 'left' },
-                }
+                },
               ]}
-            />
-            <CardContainerNotched type="hovered" className="how-to-download">
+              style={{
+                flex: 1,
+                backgroundColor: 'transparent',
+                height: '20em',
+                overflow: 'auto',
+                minWidth: '20em',
+                flexShrink: 0,
+                marginLeft: '3rem',
+                marginRight: '3rem',
+              }}
+              tableTitle={t('cart.details.summary.count_per_study')}
+              />
+            <CardContainerNotched className="how-to-download" type="hovered">
               <CardContent cardType="stack">
-                  <h2>{t('cart.details.how_to_download.title')}</h2>
-                  <strong>{t('cart.details.how_to_download.manifest.title')}</strong>
-                  {t('cart.details.how_to_download.manifest.description')}
-                  <br/>
-                  <strong>{t('cart.details.how_to_download.cart.title')}</strong>
+                <h2>{t('cart.details.how_to_download.title')}</h2>
+                <strong>{t('cart.details.how_to_download.manifest.title')}</strong>
+                {t('cart.details.how_to_download.manifest.description')}
+                <br />
+                <strong>{t('cart.details.how_to_download.cart.title')}</strong>
                 {t('cart.details.how_to_download.cart.description')}
               </CardContent>
             </CardContainerNotched>
           </StackLayout>
 
-          <StackLayout className="cart-actions" horizontal={true}>
+          <StackLayout className="cart-actions" horizontal>
             <CartDownloadDropdown
-              files={files}
               excludedColumns={[
-                "th_cart_toggle_all", "data_access", "data_category", "file_format", "is_harmonized",
-                "data_type", "experimental_strategy", "platform", "cases.hits.edges.submitter_donor_id"
+                'th_cart_toggle_all',
+                'data_access',
+                'data_category',
+                'file_format',
+                'is_harmonized',
+                'data_type',
+                'experimental_strategy',
+                'platform',
+                'cases.hits.edges.submitter_donor_id',
               ]}
-            />
+              files={files}
+              />
           </StackLayout>
 
           <FilesTable
             downloadable={false}
             downloadClinical={false}
+            entityType="cartTableFiles"
             filters={cart_file_filters}
             tableColumns={tableInfo}
-            entityType="cartTableFiles"
-          />
-        </div>
+            />
+        </React.Fragment>
       )}
-    </div>
+    </StackLayout>
   );
 };
 

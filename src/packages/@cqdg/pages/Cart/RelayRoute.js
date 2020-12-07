@@ -7,16 +7,18 @@ import { parse } from 'query-string';
 import { connect } from 'react-redux';
 
 import { handleStateChange } from '@ncigdc/dux/relayProgress';
-import CartPage from './CartPage';
 import { parseIntParam, parseJSONParam } from '@ncigdc/utils/uri';
 import { setFilter } from '@ncigdc/utils/filters';
+import CartPage from './CartPage';
 
 class CartRoute extends Relay.Route {
   static routeName = 'CartRoute';
+
   static queries = {
     viewer: () => Relay.QL`query { viewer }`,
   };
-  static prepareParams = ({ location: { search }, files }) => {
+
+  static prepareParams = ({ files, location: { search } }) => {
     const q = parse(search);
     const fileIds = files.map(f => f.file_id);
 
@@ -26,9 +28,9 @@ class CartRoute extends Relay.Route {
       files_sort: parseJSONParam(q.files_sort, null),
       cart_file_filters: files.length
         ? setFilter({
-            field: 'file_id',
-            value: fileIds,
-          })
+          field: 'file_id',
+          value: fileIds,
+        })
         : null,
       cart_case_filters: files.length
         ? setFilter({
@@ -43,8 +45,8 @@ class CartRoute extends Relay.Route {
 export default connect(state => state.cart)((props: mixed) => (
   <Relay.Renderer
     Container={CartPage}
-    queryConfig={new CartRoute(props)}
     environment={Relay.Store}
     onReadyStateChange={handleStateChange(props)}
-  />
+    queryConfig={new CartRoute(props)}
+    />
 ));
