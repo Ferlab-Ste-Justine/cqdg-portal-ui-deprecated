@@ -52,7 +52,6 @@ export const facetFieldDisplayMapper = field => {
     'genes.gene_id': 'Gene',
     'cases.case_id': 'Case'
   };
-  console.log(">>>>>>>>>>>>>>>>>>>>>> ", `aggregation.${field}`);
   return t(`aggregation.${map[field]}`) || t(`aggregation.${field}`) || map[field] || field;
 };
 
