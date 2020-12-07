@@ -137,49 +137,41 @@ const CartPageComponent: TCartPage = (props: TProps) => {
           <StackLayout className="cart-statistics" horizontal>
             <StackLayout className="cart-statistics" vertical>
               <CountCard
+                className="cards-statistics"
                 count={files.length}
                 icon={(
                   <FileIcon
-                    style={{
-                      width: '2rem',
-                      height: '2rem',
-                    }}
+                    className="icons-statistics"
                     />
                 )}
                 style={{
-                  backgroundColor: 'transparent',
                   padding: '0 1rem 1rem 1rem',
                 }}
                 title={String(t('global.files')).toUpperCase()}
                 />
               <CountCard
+                className="cards-statistics"
                 count={caseCount}
                 icon={(
                   <CaseIcon
-                    style={{
-                      width: '2rem',
-                      height: '2rem',
-                    }}
+                    className="icons-statistics"
                     />
                 )}
-                style={{ backgroundColor: 'transparent' }}
                 title={String(t('global.donors')).toUpperCase()}
                 />
               <CountCard
+                className="cards-statistics"
                 count={formatFileSize(fileSize * 1000000, { exponent: 2 })}
                 icon={(
                   <FileSizeIcon
-                    style={{
-                      width: '2rem',
-                      height: '2rem',
-                    }}
+                    className="icons-statistics"
                     />
                 )}
-                style={{ backgroundColor: 'transparent' }}
                 title={String(t('cart.details.summary.file_size')).toUpperCase()}
                 />
             </StackLayout>
             <SummaryCard
+              className="summary-statistics"
               data={Array.from(summaryData.values())}
               footer={`${nbOfStudies} ${nbOfStudies > 1 ? t('global.studies') : t('global.study')}`}
               headings={[
@@ -225,14 +217,7 @@ const CartPageComponent: TCartPage = (props: TProps) => {
                 },
               ]}
               style={{
-                flex: 1,
                 backgroundColor: 'transparent',
-                height: '20em',
-                overflow: 'auto',
-                minWidth: '20em',
-                flexShrink: 0,
-                marginLeft: '3rem',
-                marginRight: '3rem',
               }}
               tableTitle={t('cart.details.summary.count_per_study')}
               />

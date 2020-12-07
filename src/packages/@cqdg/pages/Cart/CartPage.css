@@ -4,6 +4,21 @@
     overflow: hidden;
 }
 
+.cart-page .cart-statistics .icons-statistics {
+    width: 32px;
+    height: 32px;
+}
+
+.cart-page .cart-statistics .cards-statistics {
+    background: transparent;
+}
+
+.cart-page .cart-statistics .summary-statistics {
+    flex: 1;
+    flex-shrink: 0;
+    margin: 0 48px;
+}
+
 .cart-actions{
     justify-content: flex-end;
     padding-bottom: 1rem;
