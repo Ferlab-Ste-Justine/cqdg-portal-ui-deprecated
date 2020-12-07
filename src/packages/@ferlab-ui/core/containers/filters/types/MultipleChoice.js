@@ -163,7 +163,11 @@ const MultipleChoice = (props: TProps) => {
                     {t('global.none')}
                   </Link>
                 </StackLayout>
-                {_.orderBy(filteredBuckets, 'doc_count', 'desc')
+                {filteredBuckets.sort((a, b) => {
+                    return (a.key === "__missing__") ? Number.MIN_VALUE :
+                      b.key === "__missing__" ? Number.MAX_VALUE :
+                      b.doc_count - a.doc_count;
+                  })
                   .slice(0, props.showingMore ? Infinity : maxShowing)
                   .map(b => ({
                     ...b,
