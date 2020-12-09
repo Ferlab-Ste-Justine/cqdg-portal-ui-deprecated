@@ -2,7 +2,7 @@ import t from '@cqdg/locales/intl';
 
 const presetFilters = [
   {
-    title: t('facet.file'),
+    title: 'facet.file',
     field: 'file_id',
     full: 'file_id',
     type: 'keyword',

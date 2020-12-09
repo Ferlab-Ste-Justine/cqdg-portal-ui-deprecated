@@ -125,7 +125,7 @@ const FileAggregations = ({
             facet={facet}
             key={facet.full}
             relay={relay}
-            title={facet.title || t(`facet.${facet.field}`)}
+            title={t(facet.title) || t(`facet.${facet.field}`)}
             />
         );
       })}

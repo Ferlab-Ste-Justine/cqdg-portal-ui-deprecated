@@ -103,6 +103,7 @@ export const WrapperComponent = compose(withTheme)(({
   DescriptionComponent = null,
 }) => {
   const facetType = getFacetType(facet);
+
   const displayTitle = title || fieldNameToTitle(facet.field);
   const commonProps = {
     collapsed,

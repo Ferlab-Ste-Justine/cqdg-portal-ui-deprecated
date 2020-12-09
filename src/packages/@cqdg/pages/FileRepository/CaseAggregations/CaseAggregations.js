@@ -106,8 +106,9 @@ const CaseAggregationsComponent = ({
         facet={facet}
         key={facet.full}
         relay={relay}
-        title={facet.title}
+        title={t(facet.title) || t(`facet.${facet.field}`)}
         />
+
     ))}
   </div>
 );
