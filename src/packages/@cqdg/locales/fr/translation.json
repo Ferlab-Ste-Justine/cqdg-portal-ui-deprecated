@@ -3,7 +3,7 @@
     "documentation": "Documentation",
     "files.title": "Fichiers",
     "files": "fichiers",
-    "cases": "cas",
+    "cases": "donneurs",
     "donors": "donneurs",
     "studies": "études",
     "study": "étude",
@@ -147,7 +147,7 @@
       },
       "card3": {
         "title": "Soumettre des données",
-        "text": "Guide pour la soumissionde données"
+        "text": "Guide pour la soumission de données"
       }
     }
   },
@@ -163,14 +163,14 @@
   },
   "facet": {
     "study.study_id": "ID de l'étude",
-    "study.name": "Nom de l'étude",
-    "study.domain": "Domain d'étude",
+    "study.study_name": "Nom de l'étude",
+    "study.domain": "Domaine d'étude",
     "gender": "Sexe",
     "ethnicity": "Ethnicité",
-    "age.at.recruitment": "Age au recruitement",
-    "age_at_recruitment": "Age au recruitement",
-    "age.at.diagnosis": "Age au diagnostique",
-    "diagnoses.age_at_diagnosis": "Age au diagnostique",
+    "age.at.recruitment": "Âge au recrutement",
+    "age_at_recruitment": "Âge au recrutement",
+    "age.at.diagnosis": "Âge au diagnostique",
+    "diagnoses.age_at_diagnosis": "Âge au diagnostique",
     "diagnoses.icd_term": "Diagnosis ICD Term",
     "phenotypes.hpo_term": "Phenotype HPO Term",
     "vital.status": "Statut vital",
