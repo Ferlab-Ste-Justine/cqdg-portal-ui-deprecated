@@ -1,4 +1,4 @@
-import { IRawQuery, IUriQuery } from '../uri/types';
+import { IRawQuery, IUriQuery } from '@cqdg/utils/uri/types';
 
 export type TFilterValue = Array<string | number | boolean>;
 
