@@ -17,10 +17,11 @@ interface IStackLayout extends IExtraProps {
   horizontal?: boolean;
   children: React.ReactNode;
   className: string;
+  style: object;
 }
 
 const StackLayout = ({
-  children, className, horizontal, onClick, orientation, vertical,
+  children, className, horizontal, onClick, orientation, style, vertical,
 }: IStackLayout) => {
   const definedOrientation = vertical
   ? StackOrientation.Vertical
@@ -37,6 +38,7 @@ const StackLayout = ({
   return (
     <div
       className={`fui-stack-layout ${definedOrientation} ${className || ''}`}
+      style={style}
       {...extraProps}
       >
       {children}

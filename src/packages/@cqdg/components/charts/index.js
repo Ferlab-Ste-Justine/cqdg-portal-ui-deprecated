@@ -6,9 +6,10 @@ import {
   inCurrentFilters,
 } from '@cqdg/utils/filters';
 import PieChart from '@cqdg/components/charts/PieChart';
-import { Row, Column } from '@ncigdc/uikit/Flex';
-import { stringifyJSONParam } from '@ncigdc/utils/uri';
+import { stringifyJSONParam } from '@cqdg/utils/uri';
+
 import removeEmptyKeys from '@ncigdc/utils/removeEmptyKeys';
+
 import HorizontalBarChart from './HorizontalBarChart';
 
 const toPieData = (clickHandler, docTypeSingular) => bucket => ({
@@ -95,7 +96,7 @@ export const SelfFilteringPie = ({
           ({ data }) => addFilter(query, push)(fieldName, data.id),
           docTypeSingular,
         ),
-      )}
+    )}
     {...props}
     />
 );
@@ -129,7 +130,7 @@ export const SelfFilteringBars = ({
           (data) => addFilter(query, push)(fieldName, data.id),
           docTypeSingular,
         ),
-      )}
+    )}
     {...props}
     />
 );

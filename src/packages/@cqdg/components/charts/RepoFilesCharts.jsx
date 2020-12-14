@@ -3,127 +3,126 @@ import React from 'react';
 import Relay from 'react-relay/classic';
 import _ from 'lodash';
 import { compose, withState } from 'recompose';
-import t from '@cqdg/locales/intl';
-import withSize from '@ncigdc/utils/withSize';
+
 import { IBucket } from '@ncigdc/components/Aggregations/types';
 import withRouter from '@ncigdc/utils/withRouter';
+
+import t from '@cqdg/locales/intl';
+import StackLayout from '@ferlab-ui/core/layouts/StackLayout';
 import { parseFilterParam } from '@cqdg/utils/uri';
 import {
   PieTitle,
   SelfFilteringPie,
 } from './index';
-import Column from "../../../@ncigdc/uikit/Flex/Column";
-import Row from "../../../@ncigdc/uikit/Flex/Row";
 
 export type TProps = {
-  push: Function,
-  query: Object,
+  push: Function;
+  query: Record<string, any>;
   aggregations: {
-    data_category: { buckets: [IBucket] },
-    data_type: { buckets: [IBucket] },
-    study__short_name_keyword: { buckets: [IBucket] },
-    file_format: { buckets: [IBucket] },
-  },
-  setShowingMore: Function,
-  showingMore: boolean,
-  size: { width: number },
+    data_category: { buckets: [IBucket] };
+    data_type: { buckets: [IBucket] };
+    study__short_name_keyword: { buckets: [IBucket] };
+    file_format: { buckets: [IBucket] };
+  };
+  setShowingMore: Function;
+  showingMore: boolean;
+  size: { width: number };
 };
 
 const enhance = compose(
   withRouter,
   withState('showingMore', 'setShowingMore', false),
-  withSize(),
 );
 
 const RepoFilesChartsComponent = ({
   aggregations,
-  query,
   push,
-  size: { width },
+  query,
 }: TProps) => {
   const currentFilters =
     (query && parseFilterParam((query || {}).filters, {}).content) || [];
   const currentFieldNames = currentFilters.map(f => f.content.field);
-  const pieColMinWidth = (width - 2) / 4;
   return (
     <div className="repo-charts">
-      <Row style={{maxWidth: `${width}px`, width: '100%'}} className="wrapped-row">
-        <Column
-          style={{ minWidth: `${pieColMinWidth}px` }}
-          className="column-center"
-        >
-          <PieTitle>{t('charts.study')}</PieTitle>
-          <SelfFilteringPie
-            buckets={_.get(
-              aggregations,
-              'study__short_name_keyword.buckets'
-            )}
-            fieldName="study.short_name_keyword"
-            docTypeSingular="file"
-            currentFieldNames={currentFieldNames}
-            currentFilters={currentFilters}
-            query={query}
-            push={push}
-            path="doc_count"
-            height={125}
-            width={125}
-          />
-        </Column>
-        <Column
-          style={{ minWidth: `${pieColMinWidth}px` }}
-          className="column-center"
-        >
-          <PieTitle>{t('charts.data_category')}</PieTitle>
-          <SelfFilteringPie
-            buckets={_.get(aggregations, 'data_category.buckets')}
-            fieldName="data_category"
-            docTypeSingular="file"
-            currentFieldNames={currentFieldNames}
-            currentFilters={currentFilters}
-            query={query}
-            push={push}
-            path="doc_count"
-            height={125}
-            width={125}
-          />
-        </Column>
-        <Column
-          style={{ minWidth: `${pieColMinWidth}px` }}
-          className="column-center"
-        >
-          <PieTitle>{t('charts.data_type')}</PieTitle>
-          <SelfFilteringPie
-            buckets={_.get(aggregations, 'data_type.buckets')}
-            fieldName="data_type"
-            docTypeSingular="file"
-            currentFieldNames={currentFieldNames}
-            currentFilters={currentFilters}
-            query={query}
-            push={push}
-            path="doc_count"
-            height={125}
-            width={125}
-          />
-        </Column>
-        <Column
-          style={{ minWidth: `${pieColMinWidth}px` }}
-          className="column-center"
-        >
-          <PieTitle>{t('charts.file_format')}</PieTitle>
-          <SelfFilteringPie
-            buckets={_.get(aggregations, 'file_format.buckets')}
-            fieldName="file_format"
-            docTypeSingular="file"
-            currentFieldNames={currentFieldNames}
-            currentFilters={currentFilters}
-            query={query}
-            push={push}
-            path="doc_count"
-            height={125}
-            width={125}
-          />
-        </Column>
-      </Row>
+      <div className="wrapped-grid">
+        <div className="grid-file-pie-charts">
+          <StackLayout
+            className="column-center"
+            vertical
+            >
+            <PieTitle>{t('charts.study')}</PieTitle>
+            <SelfFilteringPie
+              buckets={_.get(
+                aggregations,
+                'study__short_name_keyword.buckets'
+              )}
+              currentFieldNames={currentFieldNames}
+              currentFilters={currentFilters}
+              docTypeSingular="file"
+              fieldName="study.short_name_keyword"
+              height={125}
+              path="doc_count"
+              push={push}
+              query={query}
+              width={125}
+              />
+          </StackLayout>
+          <StackLayout
+            className="column-center"
+            vertical
+            >
+            <PieTitle>{t('charts.data_category')}</PieTitle>
+            <SelfFilteringPie
+              buckets={_.get(aggregations, 'data_category.buckets')}
+              currentFieldNames={currentFieldNames}
+              currentFilters={currentFilters}
+              docTypeSingular="file"
+              fieldName="data_category"
+              height={125}
+              path="doc_count"
+              push={push}
+              query={query}
+              width={125}
+              />
+          </StackLayout>
+          <StackLayout
+            className="column-center"
+            vertical
+            >
+            <PieTitle>{t('charts.data_type')}</PieTitle>
+            <SelfFilteringPie
+              buckets={_.get(aggregations, 'data_type.buckets')}
+              currentFieldNames={currentFieldNames}
+              currentFilters={currentFilters}
+              docTypeSingular="file"
+              fieldName="data_type"
+              height={125}
+              path="doc_count"
+              push={push}
+              query={query}
+              width={125}
+              />
+          </StackLayout>
+          <StackLayout
+            className="column-center"
+            vertical
+            >
+            <PieTitle>{t('charts.file_format')}</PieTitle>
+            <SelfFilteringPie
+              buckets={_.get(aggregations, 'file_format.buckets')}
+              currentFieldNames={currentFieldNames}
+              currentFilters={currentFilters}
+              docTypeSingular="file"
+              fieldName="file_format"
+              height={125}
+              path="doc_count"
+              push={push}
+              query={query}
+              width={125}
+              />
+          </StackLayout>
+        </div>
+      </div>
     </div>
   );
 };

@@ -1,41 +1,27 @@
+/* eslint-disable react/display-name */
+/* eslint-disable jsx-a11y/anchor-is-valid */
 // @flow
 import React from 'react';
 import { connect } from 'react-redux';
-import { compose, withState } from 'recompose';
+import { compose, withState, setDisplayName } from 'recompose';
 import ArrangeIcon from 'react-icons/lib/fa/bars';
-import SI from 'react-icons/lib/fa/search';
 
-import { Row, Column } from '@ncigdc/uikit/Flex';
-import Button from '@ncigdc/uikit/Button';
 import ArrangeColumns from '@ncigdc/components/ArrangeColumns';
 import { restoreColumns } from '@ncigdc/dux/tableColumns';
 import Dropdown from '@ncigdc/uikit/Dropdown';
-import Hidden from '@ncigdc/components/Hidden';
-import styled from '@ncigdc/theme/styled';
 
 import t from '@cqdg/locales/intl';
+import StackLayout from '@ferlab-ui/core/layouts/StackLayout';
+import Link from '@ferlab-ui/core/buttons/link';
+import Button from '@ferlab-ui/core/buttons/button';
 
 import SearchInput from '@ferlab-ui/core/input/Search';
 
+import './ArrangeColumnsButton.css';
 
-const SearchIcon = styled(SI, {
-  backgroundColor: ({ theme }) => theme.greyScale5,
-  color: ({ theme }) => theme.greyScale2,
-  padding: '0.7rem',
-  width: '3rem',
-  height: '3rem',
-});
-
-const RestoreDefaults = styled(Row, {
-  color: ({ theme }) => theme.secondaryHighContrast,
-  padding: '0.3rem 0.6rem',
-  cursor: 'pointer',
-  ':hover': {
-    textDecoration: 'underline',
-  },
-});
 
 const ArrangeColumnsButton = compose(
+  setDisplayName('ArrangeColumnsButton'),
   connect(),
   withState('searchTerm', 'setSearchTerm', '')
 )(
@@ -57,8 +43,7 @@ const ArrangeColumnsButton = compose(
           autoclose={false}
           button={(
             <Button className={buttonClassName} style={style}>
-              <ArrangeIcon />
-              <Hidden>{t('global.tables.actions.sort')}</Hidden>
+              <ArrangeIcon height="14px" width="14px" />
             </Button>
           )}
           className="test-arrange-columns-button"
@@ -68,7 +53,7 @@ const ArrangeColumnsButton = compose(
             whiteSpace: 'nowrap',
           }}
           >
-          <Column style={{ minWidth: '22rem' }}>
+          <StackLayout className="arrange-columns-wrapper" vertical>
             <SearchInput
               aria-label={t('global.tables.actions.filter.columns')}
               getNode={node => {
@@ -77,8 +62,9 @@ const ArrangeColumnsButton = compose(
               onChange={() => setSearchTerm(() => this.searchInput.value)}
               placeholder={t('global.tables.actions.filter.columns')}
               />
-            <RestoreDefaults
-              className="test-restore-defaults"
+            <Link
+              className="restore-defaults"
+              defaultIcon={false}
               onClick={() => {
                 dispatch(restoreColumns(entityType));
                 setSearchTerm(() => '');
@@ -86,13 +72,13 @@ const ArrangeColumnsButton = compose(
               }}
               >
               {t('global.tables.actions.restore.defaults')}
-            </RestoreDefaults>
+            </Link>
             <ArrangeColumns
               entityType={entityType}
               hideColumns={hideColumns}
               searchTerm={searchTerm}
               />
-          </Column>
+          </StackLayout>
         </Dropdown>
       );
     }

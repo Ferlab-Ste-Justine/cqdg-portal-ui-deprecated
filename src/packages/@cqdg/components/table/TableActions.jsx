@@ -1,19 +1,19 @@
 import React from 'react';
 import { compose, withState } from 'recompose';
 
-import ArrangeColumnsButton from '@cqdg/components/table/button/ArrangeColumnsButton';
 import timestamp from '@ncigdc/utils/timestamp';
 import withRouter from '@ncigdc/utils/withRouter';
-import { mergeQuery } from '@cqdg/utils/filters';
-import { Row } from '@ncigdc/uikit/Flex';
-import { parseJSONParam, stringifyJSONParam } from '@ncigdc/utils/uri';
 import { visualizingButton } from '@ncigdc/theme/mixins';
 import { withTheme } from '@ncigdc/theme';
 import SortTableButton from '@ncigdc/components/SortTableButton';
 
+import StackLayout from '@ferlab-ui/core/layouts/StackLayout';
+
+import { mergeQuery } from '@cqdg/utils/filters';
+import { parseJSONParam, stringifyJSONParam } from '@cqdg/utils/uri';
+import ArrangeColumnsButton from '@cqdg/components/table/button/ArrangeColumnsButton';
 import DownloadTableButton from '@cqdg/components/table/button/DownloadTableButton';
 import t from '@cqdg/locales/intl';
-
 
 import './TableActions.css';
 
@@ -55,7 +55,7 @@ const TableActions = ({
   clinicalData,
   hideColumns,
 }) => (
-  <Row className="test-table-actions" style={style}>
+  <StackLayout className="test-table-actions" style={style}>
     {showClinicalDownload && (
       <React.Fragment>
         <DownloadTableButton
@@ -104,7 +104,7 @@ const TableActions = ({
             selector={tsvSelector}
             />
     )}
-  </Row>
+  </StackLayout>
 );
 
 

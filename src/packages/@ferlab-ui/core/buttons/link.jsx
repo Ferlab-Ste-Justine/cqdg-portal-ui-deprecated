@@ -11,9 +11,10 @@ const Link = ({
   href,
   target,
   type = '',
+  onClick = () => {},
 }) => {
   return (
-    <a className={`${type} ${className}`} disabled={disabled} href={href} target={target}>
+    <a className={`${type} ${className}`} disabled={disabled} href={href} onClick={onClick} target={target}>
       {children}
       {' '}
       { defaultIcon && <FiExternalLink className="link-icon" />}

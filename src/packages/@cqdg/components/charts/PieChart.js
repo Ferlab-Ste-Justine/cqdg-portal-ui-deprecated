@@ -26,20 +26,18 @@ const PieChart = compose(
 )(
   ({
     data,
-    path = 'file_count',
     height = 160,
-    width = 160,
-    setTooltip,
     marginTop = 0,
+    path = 'file_count',
+    setTooltip,
+    width = 160,
   }) => {
     const color = d3.scaleOrdinal(d3.schemeCategory20);
     const outerRadius = height / 2 + 10;
 
     const node = ReactFauxDOM.createElement('div');
     node.style.setProperty('margin-top', `${marginTop}px`);
-    node.style.setProperty('display', 'flex');
-    node.style.setProperty('justify-content', 'center');
-    node.setAttribute('class', 'test-pie-chart');
+    node.setAttribute('class', 'pie-chart');
 
     const pie = d3.pie().value(d => getNestedValue(d, path.split('.')));
 

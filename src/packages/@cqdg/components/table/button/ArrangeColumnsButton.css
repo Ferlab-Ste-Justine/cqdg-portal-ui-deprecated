@@ -1,0 +1,9 @@
+.restore-defaults {
+  cursor: pointer;
+  padding: .3rem .6rem;
+  white-space: nowrap;
+}
+
+.arrange-columns-wrapper {
+  min-width: 22rem;
+}
