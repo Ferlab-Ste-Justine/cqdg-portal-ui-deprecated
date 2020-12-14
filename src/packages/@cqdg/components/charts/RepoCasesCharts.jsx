@@ -14,11 +14,11 @@ import { withTheme } from '@ncigdc/theme';
 
 import StackLayout from '@ferlab-ui/core/layouts/StackLayout';
 import t from '@cqdg/locales/intl';
+import PieTitle from './PieTitle';
+import ShowToggleBox from './ShowToggleBox';
 import {
-  PieTitle,
   SelfFilteringBars,
   SelfFilteringPie,
-  ShowToggleBox,
 } from './index';
 
 export type TProps = {

@@ -10,8 +10,9 @@ import withRouter from '@ncigdc/utils/withRouter';
 import t from '@cqdg/locales/intl';
 import StackLayout from '@ferlab-ui/core/layouts/StackLayout';
 import { parseFilterParam } from '@cqdg/utils/uri';
+import PieTitle from './PieTitle';
+
 import {
-  PieTitle,
   SelfFilteringPie,
 } from './index';
 

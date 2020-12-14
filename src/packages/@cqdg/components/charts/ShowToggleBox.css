@@ -1,0 +1,8 @@
+.show-toggle-box {
+  border: 1px solid #B5C6D8;
+  padding: 0.25rem 0.5rem;
+  margin: 0.5rem  0 0.75rem 0;
+  background-color: #fff;
+  cursor: pointer;
+  color: #18486B;
+}

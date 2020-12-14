@@ -1,5 +1,4 @@
 import React from 'react';
-import styled from '@ncigdc/theme/styled';
 import {
   mergeQuery,
   makeFilter,
@@ -26,22 +25,6 @@ const toPieData = (clickHandler, docTypeSingular) => bucket => ({
       {bucket.doc_count > 1 ? 's' : ''}
     </span>
   ),
-});
-
-export const ShowToggleBox = styled.div({
-  border: '1px solid #B5C6D8',
-  padding: '0.25rem 0.5rem',
-  marginBottom: '0.75rem',
-  marginTop: '0.5rem',
-  backgroundColor: ({ theme }) => theme.white,
-  cursor: 'pointer',
-  color: ({ theme }) => theme.primary,
-});
-
-export const PieTitle = styled.div({
-  color: ({ theme }) => theme.primary || 'inherit',
-  paddingTop: '1rem',
-  fontWeight: '600',
 });
 
 function addFilter(query: Record<string, any>, push: Function): Function {
