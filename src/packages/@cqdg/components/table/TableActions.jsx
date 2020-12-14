@@ -4,7 +4,6 @@ import { compose, withState } from 'recompose';
 import timestamp from '@ncigdc/utils/timestamp';
 import withRouter from '@ncigdc/utils/withRouter';
 import { visualizingButton } from '@ncigdc/theme/mixins';
-import { withTheme } from '@ncigdc/theme';
 import SortTableButton from '@ncigdc/components/SortTableButton';
 
 import StackLayout from '@ferlab-ui/core/layouts/StackLayout';
@@ -114,5 +113,4 @@ export default compose(
     tsvDownloading: false,
     jsonDownloading: false,
   }),
-  withTheme
 )(TableActions);

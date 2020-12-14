@@ -6,7 +6,6 @@ import {
   withState,
   pure,
 } from 'recompose';
-import { withTheme } from '@ncigdc/theme';
 import { withTooltip } from '@ncigdc/uikit/Tooltip';
 import withSize from '@ncigdc/utils/withSize';
 import './style.css';
@@ -136,7 +135,6 @@ const HorizontalBarChart = ({
 };
 
 export default compose(
-  withTheme,
   withTooltip,
   withState('chart', 'setState', <span />),
   withSize({ refreshRate: 16 }),

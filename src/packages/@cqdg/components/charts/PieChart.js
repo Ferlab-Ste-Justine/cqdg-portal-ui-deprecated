@@ -7,7 +7,6 @@ import ReactFauxDOM from 'react-faux-dom';
 import { compose } from 'recompose';
 
 import { withTooltip } from '@ncigdc/uikit/Tooltip';
-import { withTheme } from '@ncigdc/theme';
 
 const getNestedValue = (item, path) => {
   if (path.length === 1) {
@@ -22,7 +21,6 @@ const getNestedValue = (item, path) => {
 
 const PieChart = compose(
   withTooltip,
-  withTheme
 )(
   ({
     data,

@@ -10,7 +10,6 @@ import MinusSign from 'react-icons/lib/go/dash';
 import { IBucket } from '@ncigdc/components/Aggregations/types';
 import withRouter from '@ncigdc/utils/withRouter';
 import { parseFilterParam } from '@cqdg/utils/uri';
-import { withTheme } from '@ncigdc/theme';
 
 import StackLayout from '@ferlab-ui/core/layouts/StackLayout';
 import t from '@cqdg/locales/intl';
@@ -33,12 +32,10 @@ export type TProps = {
   };
   setShowingMore: Function;
   size: { width: number };
-  theme: Record<string, any>;
 };
 
 const enhance = compose(withRouter,
-                        withState('showingMore', 'setShowingMore', false),
-                        withTheme);
+                        withState('showingMore', 'setShowingMore', false),);
 
 const RepoCasesChartsComponent = ({
   aggregations,

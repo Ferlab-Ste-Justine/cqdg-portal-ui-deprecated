@@ -12,7 +12,6 @@ import FileSizeIcon from 'react-icons/lib/fa/floppy-o';
 
 // Custom
 import formatFileSize from '@ncigdc/utils/formatFileSize';
-import { withTheme } from '@ncigdc/theme';
 import FilesTable from '@cqdg/pages/FileRepository/FilesTable';
 import SummaryCard from '@ncigdc/components/SummaryCard';
 import CountCard from '@ncigdc/components/CountCard';
@@ -32,7 +31,6 @@ import './CartPage.css';
 
 export type TProps = {
   files: Array<Record<string, any>>;
-  theme: Record<string, any>;
   user: Record<string, any>;
   viewer: {
     File: {
@@ -81,7 +79,7 @@ export type TProps = {
 type TCartPage = (props: TProps) => React.Element<*>;
 const CartPageComponent: TCartPage = (props: TProps) => {
   const {
-    cart_file_filters, files, tableColumns, theme, viewer,
+    cart_file_filters, files, tableColumns, viewer,
   } = props;
 
   const summaryData = new Map();
@@ -117,14 +115,6 @@ const CartPageComponent: TCartPage = (props: TProps) => {
       summaryData.set(bucket.key, item);
     }
   });
-
-  const styles = {
-    header: {
-      padding: '1rem',
-      borderBottom: `1px solid ${theme.greyScale4}`,
-      color: theme.primary,
-    },
-  };
 
   const caseCount = viewer.Case.hits.total;
   const fileSize = viewer.File.files_summary.file_size.stats.sum;
@@ -329,7 +319,6 @@ const enhance = compose(
   })),
   withFilters(),
   withRouter,
-  withTheme,
 );
 
 const CartPage = Relay.createContainer(
