@@ -1,7 +1,7 @@
 import React from 'react';
 import SearchIcon from 'react-icons/lib/fa/search';
 import IoIosInformationCircleOutline from 'react-icons/lib/io/ios-informatoutline';
-import { Tooltip } from '@ncigdc/uikit/Tooltip';
+import { Tooltip } from '@cqdg/components/Tooltip';
 
 import './Search.css';
 

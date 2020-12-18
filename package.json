@@ -15,8 +15,8 @@
     "lint": "tslint -p tsconfig.json",
     "relay": "relay-compiler --src src --schema ./data/schema.graphql",
     "schema": "node ./data/getSchema",
-    "migration:list": "grep -R '@ncigdc' ./src/packages/@cqdg && grep -R '@ncigdc' ./src/packages/@ferlab-ui", 
-    "migration:status": "echo 'cqdg : ' `grep -R '@ncigdc' ./src/packages/@cqdg | wc -l` && echo 'ferlab-ui : ' `grep -R '@ncigdc' ./src/packages/@ferlab-ui | wc -l`"
+    "migration:list": "grep -R '@ncigdc' ./src/packages/@cqdg && grep -R '@ncigdc' ./src/packages/cqdg-ui", 
+    "migration:status": "echo 'cqdg : ' `grep -R '@ncigdc' ./src/packages/@cqdg | wc -l` && echo 'cqdg-ui : ' `grep -R '@ncigdc' ./src/packages/cqdg-ui | wc -l`"
   },
   "proxy": {
     "/api": {

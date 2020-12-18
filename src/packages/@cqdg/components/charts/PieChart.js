@@ -6,7 +6,7 @@ import _ from 'lodash';
 import ReactFauxDOM from 'react-faux-dom';
 import { compose } from 'recompose';
 
-import { withTooltip } from '@ncigdc/uikit/Tooltip';
+import { withTooltip } from '@cqdg/components/Tooltip';
 
 const getNestedValue = (item, path) => {
   if (path.length === 1) {

@@ -12,7 +12,7 @@ import GoSearch from 'react-icons/lib/go/search';
 import QuestionIcon from 'react-icons/lib/go/question';
 import CloseIcon from 'react-icons/lib/md/close';
 
-import { Tooltip } from '@ncigdc/uikit/Tooltip';
+import { Tooltip } from '@cqdg/components/Tooltip';
 import { internalHighlight } from '@ncigdc/uikit/Highlight';
 import StackLayout from 'cqdg-ui/core/layouts/StackLayout';
 

@@ -6,8 +6,8 @@ import {
   withState,
   pure,
 } from 'recompose';
-import { withTooltip } from '@ncigdc/uikit/Tooltip';
-import withSize from '@ncigdc/utils/withSize';
+import { withTooltip } from '@cqdg/components/Tooltip';
+import withSize from '@cqdg/utils/withSize';
 import './style.css';
 
 export const DEFAULT_X_AXIS_LABEL_LENGTH = 10;

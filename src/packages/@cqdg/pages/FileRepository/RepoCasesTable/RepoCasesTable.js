@@ -11,7 +11,7 @@ import { get } from 'lodash';
 import { theme } from '@ncigdc/theme';
 import withSelectIds from '@ncigdc/utils/withSelectIds';
 import timestamp from '@ncigdc/utils/timestamp';
-import { Tooltip } from '@ncigdc/uikit/Tooltip';
+import { Tooltip } from '@cqdg/components/Tooltip';
 
 import ScrollableTable from '@cqdg/components/table/ScrollableTable';
 import TableActions from '@cqdg/components/table/TableActions';
