@@ -14,7 +14,6 @@ import {
   withState,
 } from 'recompose';
 
-import { withTheme } from '@ncigdc/theme';
 import Header from 'cqdg-ui/core/containers/filters/FilterContainerHeader';
 
 import DateFacet from '@ncigdc/components/Aggregations/DateFacet';
@@ -86,7 +85,7 @@ const getFacetType = facet => {
   return 'terms';
 };
 
-export const WrapperComponent = compose(withTheme)(({
+export const WrapperComponent = ({
   setShowingValueSearch,
   showingValueSearch,
   collapsed,
@@ -191,7 +190,7 @@ export const WrapperComponent = compose(withTheme)(({
       </StackLayout>
     </div>
   );
-});
+};
 
 const FilterContainer = compose(
   setDisplayName('EnhancedFilterContainer'),

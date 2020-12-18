@@ -17,9 +17,9 @@ import {
 import fetchFileHistory from '@ncigdc/utils/fetchFileHistory';
 // Custom
 import { getFilterValue } from '@cqdg/utils/filters';
-import withDropdown from '@ncigdc/uikit/withDropdown';
+import withDropdown from '@cqdg/components/dropdown/withDropdown';
 import Link from '@cqdg/components/Links/Link';
-import withSelectableList from '@ncigdc/utils/withSelectableList';
+import withSelectableList from '@cqdg/utils/withSelectableList';
 import namespace from '@ncigdc/utils/namespace';
 import GeneSymbol from '@ncigdc/modern_components/GeneSymbol';
 import SetId from '@ncigdc/components/SetId';

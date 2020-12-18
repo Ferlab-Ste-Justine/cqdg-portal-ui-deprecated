@@ -6,7 +6,6 @@ import saveFile from '@ncigdc/utils/filesaver';
 import { mapStringArrayToTsvString } from '@ncigdc/utils/toTsvString';
 import Button from '@ncigdc/uikit/Button';
 import { visualizingButton } from '@ncigdc/theme/mixins';
-import { track } from '@ncigdc/utils/analytics';
 import Dropdown from '@ncigdc/uikit/Dropdown';
 import DropdownItem from '@ncigdc/uikit/DropdownItem';
 
@@ -19,12 +18,8 @@ const getSingleHeader = (headThs: Array<NodeList>) => reduce(
 );
 
 export const downloadToTSV = ({
-  excludedColumns = [
-    'th_cart',
-    'th_cart_toggle_all',
-  ], filename, selector, portionData = 'all',
+  excludedColumns = ['th_cart', 'th_cart_toggle_all'], filename, selector, portionData = 'all',
 }) => {
-
   const tableEl = document.querySelector(selector);
   const headTrs = tableEl.querySelector('thead').querySelectorAll('tr');
   const headThs = map(headTrs, h => h.querySelectorAll('th'));
@@ -36,7 +31,7 @@ export const downloadToTSV = ({
 
   const thText = map(thEls, el => ({
     id: el.id,
-    innerText: el.innerText.replace(/\s+/g, ' ')
+    innerText: el.innerText.replace(/\s+/g, ' '),
   }));
 
   const trs = tableEl.querySelector('tbody').querySelectorAll('tr');
@@ -83,12 +78,6 @@ export const downloadToTSV = ({
     .filter((td, idx) => excludedIndices.indexOf(idx) === -1));
 
   saveFile(mapStringArrayToTsvString(thFiltered, tdFiltered), 'TSV', filename);
-
-  track('download-table', {
-    filename,
-    selector,
-    type: 'tsv',
-  });
 };
 
 const DownloadTableButton =

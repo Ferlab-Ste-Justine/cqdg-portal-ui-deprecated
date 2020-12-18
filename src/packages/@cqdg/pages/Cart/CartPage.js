@@ -18,7 +18,7 @@ import CountCard from '@ncigdc/components/CountCard';
 import CartDownloadDropdown from '@ncigdc/components/CartDownloadDropdown';
 import SparkMeterWithTooltip from '@ncigdc/components/SparkMeterWithTooltip';
 import SampleSize from '@ncigdc/components/SampleSize';
-import withFilters from '@ncigdc/utils/withFilters';
+import withFilters from '@cqdg/utils/withFilters';
 import withRouter from '@cqdg/utils/withRouter';
 
 import t from '@cqdg/locales/intl';

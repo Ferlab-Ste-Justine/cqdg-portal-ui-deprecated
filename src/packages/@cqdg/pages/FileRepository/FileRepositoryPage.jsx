@@ -15,7 +15,7 @@ import CaseAggregations from '@cqdg/pages/FileRepository/CaseAggregations';
 import FileAggregations from '@cqdg/pages/FileRepository/FileAggregations';
 
 import FilesTable from '@cqdg/pages/FileRepository/FilesTable';
-import withFilters from '@ncigdc/utils/withFilters';
+import withFilters from '@cqdg/utils/withFilters';
 
 import RepoCasesCharts from '@cqdg/components/charts/RepoCasesCharts';
 import RepoFilesCharts from '@cqdg/components/charts/RepoFilesCharts';

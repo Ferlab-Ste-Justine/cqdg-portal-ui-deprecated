@@ -4,7 +4,6 @@ import React from 'react';
 import Relay from 'react-relay/classic';
 import CQDGPortal from '@cqdg/App';
 
-// import '@ncigdc/theme/global.css';
 import './style/themes/default/main.css';
 import './style/themes/default/colors.css';
 

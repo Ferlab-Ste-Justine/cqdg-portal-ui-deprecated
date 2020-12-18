@@ -3,8 +3,7 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable react/no-multi-comp */
 import React from 'react';
-import { withTheme } from '@ncigdc/theme';
-import Link from '@ncigdc/components/Links/Link';
+import Link from '@cqdg/components/Links/Link';
 
 import './Tab.css';
 
@@ -46,4 +45,4 @@ const Tabs = ({
   </div>
 );
 
-export default withTheme(Tabs);
+export default Tabs;

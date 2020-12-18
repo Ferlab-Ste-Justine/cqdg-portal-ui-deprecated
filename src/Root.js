@@ -7,7 +7,6 @@ import { parse } from 'query-string';
 import md5 from 'blueimp-md5';
 import urlJoin from 'url-join';
 import { RelayNetworkLayer, urlMiddleware } from 'react-relay-network-layer';
-import retryMiddleware from '@ncigdc/utils/retryMiddleware';
 import { Provider, connect } from 'react-redux';
 import {
   BrowserRouter as Router,
@@ -17,16 +16,17 @@ import {
 } from 'react-router-dom';
 import { PersistGate } from 'redux-persist/lib/integration/react';
 
-import setupStore from '@cqdg/store/dux';
-import { fetchApiVersionInfo } from '@cqdg/store/dux/versionInfo';
-import { viewerQuery } from '@ncigdc/routes/queries';
-import { API, IS_AUTH_PORTAL, AWG } from '@ncigdc/utils/constants';
-import { fetchUser } from '@cqdg/store/dux/auth';
 import Login from '@ncigdc/routes/Login';
 import { redirectToLogin } from '@ncigdc/utils/auth';
-import consoleDebug from '@ncigdc/utils/consoleDebug';
-import { fetchNotifications } from '@cqdg/store/dux/bannerNotification';
 import Loader from '@ncigdc/uikit/Loaders/Loader';
+import { viewerQuery } from '@ncigdc/routes/queries';
+import { API, IS_AUTH_PORTAL, AWG } from '@ncigdc/utils/constants';
+import retryMiddleware from '@ncigdc/utils/retryMiddleware';
+
+import setupStore from '@cqdg/store/dux';
+import { fetchApiVersionInfo } from '@cqdg/store/dux/versionInfo';
+import { fetchUser } from '@cqdg/store/dux/auth';
+import { fetchNotifications } from '@cqdg/store/dux/bannerNotification';
 import Portal from './Portal';
 import features from './features.json';
 
@@ -80,7 +80,6 @@ Relay.injectNetworkLayer(
       return next(req)
         .then(res => {
           if (!res.ok && !retryStatusCodes.includes(res.status)) {
-            consoleDebug('Throwing error in Root');
             throw res;
           }
 
@@ -107,10 +106,8 @@ Relay.injectNetworkLayer(
         .catch(err => {
           const { user } = window.store.getState().auth;
           if (err.name === 'AccessError') {
-            consoleDebug(`Access error message: ${err.message}`);
             return redirectToLogin(err.message);
           }
-          consoleDebug(`Something went wrong in Root network layer: ${err}`);
             // not able to pass the response status from throw so need to exclude by error message
           const errorMessage = err.message
               ? JSON.parse(err.message).message
@@ -172,20 +169,16 @@ const Root = (rootProps: mixed) => (
                   <HasUser>
                     {({ error, failed, user }) => {
                       // if user request fails
-                      consoleDebug('Root component user: ', user);
                       if (
                         failed &&
                         error.message === 'Session timed out or not authorized'
                       ) {
-                        consoleDebug('User request failed with error message');
                         return <Redirect to="/login?error=timeout" />;
                       }
                       if (failed) {
-                        consoleDebug('User request failed');
                         return <Redirect to="/login" />;
                       }
                       if (user) {
-                        consoleDebug('Has a user, rendering container');
                         return (
                           <Relay.Renderer
                             Container={Portal}
@@ -194,9 +187,6 @@ const Root = (rootProps: mixed) => (
                             />
                         );
                       }
-                      consoleDebug(
-                        'Response does not match any criteria, redirecting to login',
-                      );
                       return <Redirect to="/login" />;
                     }}
                   </HasUser>

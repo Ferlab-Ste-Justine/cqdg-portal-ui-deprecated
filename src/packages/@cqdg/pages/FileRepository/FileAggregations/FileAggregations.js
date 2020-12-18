@@ -13,11 +13,9 @@ import {
 import FilterSearchInput from '@cqdg/components/inputs/FilterSearchInput';
 import FilterContainer from 'cqdg-ui/core/containers/filters/FilterContainer';
 
-import withFacetSelection from '@ncigdc/utils/withFacetSelection';
+import withFacetSelection from '@cqdg/utils/withFacetSelection';
 import escapeForRelay from '@ncigdc/utils/escapeForRelay';
-import tryParseJSON from '@ncigdc/utils/tryParseJSON';
-
-import { IBucket } from '@ncigdc/components/Aggregations/types';
+import tryParseJSON from '@cqdg/utils/json/tryParseJSON';
 
 import DriveFileIcon from 'react-icons/lib/md/insert-drive-file';
 import t from '@cqdg/locales/intl';
@@ -45,42 +43,13 @@ const enhance = compose(
   }))
 );
 
-export type TProps = {
-  relay: Record<string, any>;
-  facets: { facets: string };
-  parsedFacets: Record<string, any>;
-  aggregations: {
-    data_access: { buckets: [IBucket] };
-    data_category: { buckets: [IBucket] };
-    file_format: { buckets: [IBucket] };
-    data_type: { buckets: [IBucket] };
-    experimental_strategy: { buckets: [IBucket] };
-    is_harmonized: { buckets: [IBucket] };
-    workflow_type: { buckets: [IBucket] };
-    platform: { buckets: [IBucket] };
-  };
-  theme: Record<string, any>;
-  suggestions: Array<Record<string, any>>;
-  setAutocomplete: Function;
-
-  userSelectedFacets: Array<{
-    description: string;
-    doc_type: string;
-    field: string;
-    full: string;
-    type: 'id' | 'string' | 'long';
-  }>;
-  handleRequestRemoveFacet: Function;
-  presetFacetFields: Array<string>;
-};
-
 const FileAggregations = ({
   handleRequestRemoveFacet,
   parsedFacets,
   relay,
   userSelectedFacets,
   viewer: { File: { aggregations } },
-}: TProps) => {
+}) => {
   return (
     <div className="file-aggregations">
       {userSelectedFacets.map(facet => (

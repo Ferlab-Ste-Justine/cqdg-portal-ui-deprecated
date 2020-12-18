@@ -7,7 +7,6 @@ import { compose, withState } from 'recompose';
 import PlusSign from 'react-icons/lib/go/plus';
 import MinusSign from 'react-icons/lib/go/dash';
 
-import { IBucket } from '@ncigdc/components/Aggregations/types';
 import withRouter from '@cqdg/utils/withRouter';
 import { parseFilterParam } from '@cqdg/utils/uri';
 
@@ -20,20 +19,6 @@ import {
   SelfFilteringPie,
 } from './index';
 
-export type TProps = {
-  push: Function;
-  query: Record<string, any>;
-  aggregations: {
-    study__short_name_keyword: { buckets: [IBucket] };
-    gender: { buckets: [IBucket] };
-    ethnicity: { buckets: [IBucket] };
-    diagnoses__mondo_term_keyword: { buckets: [IBucket] };
-    phenotypes__hpo_category_keyword: { buckets: [IBucket] };
-  };
-  setShowingMore: Function;
-  size: { width: number };
-};
-
 const enhance = compose(withRouter,
                         withState('showingMore', 'setShowingMore', false),);
 
@@ -43,7 +28,7 @@ const RepoCasesChartsComponent = ({
   query,
   setShowingMore,
   showingMore,
-}: TProps) => {
+}) => {
   const currentFilters =
     (query && parseFilterParam((query || {}).filters, {}).content) || [];
   const currentFieldNames = currentFilters.map(f => f.content.field);
