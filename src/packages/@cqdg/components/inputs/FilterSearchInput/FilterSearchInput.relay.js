@@ -2,7 +2,7 @@
 import React from 'react';
 import { graphql } from 'react-relay';
 import { compose, withPropsOnChange, withState } from 'recompose';
-import Query from '@ncigdc/modern_components/Query';
+import Query from '@cqdg/relay/Query';
 
 export default (Component: ReactClass<*>) => compose(
   withState('facetSearch', 'setFacetSearch', ''),

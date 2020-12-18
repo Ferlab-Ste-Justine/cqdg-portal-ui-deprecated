@@ -19,7 +19,7 @@ import {
 } from '@cqdg/utils/uri';
 
 import { mapFilter } from '@cqdg/utils/filters';
-import { viewerQuery } from '../../../@ncigdc/routes/queries';
+import { viewerQuery } from '@cqdg/relay/queries';
 
 class RepositoryRoute extends Relay.Route {
   static routeName = 'RepositoryRoute';

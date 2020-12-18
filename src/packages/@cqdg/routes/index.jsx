@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import Head from '@cqdg/components/head';
-import LoadableWithLoading from '@ncigdc/components/LoadableWithLoading';
+import LoadableWithLoading from '@cqdg/relay/ui/LoadableWithLoading';
 
 const HomePage = LoadableWithLoading({
   loader: () => import('@cqdg/pages/home'),

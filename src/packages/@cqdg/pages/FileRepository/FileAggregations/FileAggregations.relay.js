@@ -4,7 +4,7 @@ import React from 'react';
 import { graphql } from 'react-relay';
 import { compose, withPropsOnChange } from 'recompose';
 import { connect } from 'react-redux';
-import Query from '@ncigdc/modern_components/Query';
+import Query from '@cqdg/relay/Query';
 import { parseFilterParam } from '@cqdg/utils/uri';
 import withRouter from '@cqdg/utils/withRouter';
 import { parse } from 'query-string';

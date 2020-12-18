@@ -13,7 +13,7 @@ import {
   parseFilterParam,
   parseJSONParam,
 } from '@cqdg/utils/uri';
-import Query from '@ncigdc/modern_components/Query';
+import Query from '@cqdg/relay/Query';
 import { repoPageFileToCaseFiltersMapping } from '@cqdg/pages/FileRepository/FilterMapping';
 import { mapFilter } from '@cqdg/utils/filters';
 

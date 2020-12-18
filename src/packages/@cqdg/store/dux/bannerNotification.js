@@ -3,28 +3,28 @@
 import React from 'react';
 
 import { ApiOverrideBanner } from '@ncigdc/components/DismissibleBanner';
-import { fetchApi } from '@ncigdc/utils/ajax';
-import { LOCAL_STORAGE_API_OVERRIDE } from '@ncigdc/utils/constants';
+import { LOCAL_STORAGE_API_OVERRIDE } from '@cqdg/utils/constants';
 import { REHYDRATE } from 'redux-persist';
 import { uniqBy } from 'lodash';
+
 const NOTIFICATION_SUCCESS = 'NOTIFICATION_SUCCESS';
 const NOTIFICATION_DISMISS = 'NOTIFICATION_DISMISS';
 const NOTIFICATION_REMOVE = 'NOTIFICATION_REMOVE';
 type TState = Array<{
-  components: Array<string>,
-  level: string,
-  id: string,
-  dismissible: boolean,
-  message: any,
-  dismissed?: boolean,
+  components: Array<string>;
+  level: string;
+  id: string;
+  dismissible: boolean;
+  message: any;
+  dismissed?: boolean;
 }>;
 
 type TAction = {
-  type: string,
+  type: string;
   payload: Array<{
-    id: string,
-    components: Array<string>,
-  }>,
+    id: string;
+    components: Array<string>;
+  }>;
 };
 export function fetchNotifications() {
   return async (dispatch: Function) => {
@@ -32,9 +32,19 @@ export function fetchNotifications() {
 //      headers: { 'Content-Type': 'application/json' },
 //    });
 //    const res2 = (await fetchApi('login-notifications', {})) || { data: [] };
-	  
-	let res1 = {data:[{"components":["PORTAL"],"dismissible":true,"id":1,"level":"WARNING","message":"PLEASE NOTE: All datasets currently available in this tool were generated from reference tissue samples. This tool is currently still in active development. Additional data releases are expected soon and the user interface will be evolving."}]};
-	let res2 = { data: [] };
+
+    const res1 = {
+      data: [
+        {
+          components: ['PORTAL'],
+          dismissible: true,
+          id: 1,
+          level: 'WARNING',
+          message: 'PLEASE NOTE: All datasets currently available in this tool were generated from reference tissue samples. This tool is currently still in active development. Additional data releases are expected soon and the user interface will be evolving.',
+        },
+      ],
+    };
+    const res2 = { data: [] };
     dispatch({
       type: NOTIFICATION_SUCCESS,
       payload: [...res1.data, ...res2.data],
@@ -56,13 +66,13 @@ export function removeNotification(component: string) {
   };
 }
 
-let initialState = [];
+const initialState = [];
 
 if (LOCAL_STORAGE_API_OVERRIDE) {
   initialState.push({
     components: ['PORTAL'],
     level: 'INFO',
-    id: `api_override`,
+    id: 'api_override',
     dismissible: true,
     reactElement: true,
     message: <ApiOverrideBanner />,
@@ -90,7 +100,10 @@ const reducer = (state: TState = initialState, action: TAction) => {
                 n.components.includes('API') ||
                 n.components.includes('LOGIN')
             )
-            .map(n => ({ ...n, dismissed: false })),
+            .map(n => ({
+              ...n,
+              dismissed: false,
+            })),
         ],
         ({ id }) => id
       );

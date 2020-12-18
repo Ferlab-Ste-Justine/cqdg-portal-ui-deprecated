@@ -1,59 +1,6 @@
 // @flow
-import { fetchApi } from '@ncigdc/utils/ajax';
 import { handleActions } from 'redux-actions';
-import { UI_VERSION, UI_COMMIT_HASH } from '@ncigdc/utils/constants';
-
-const API_BASE_URL = 'https://github.com/NCI-GDC/gdcapi';
-const UI_BASE_URL = 'https://github.com/NCI-GDC/portal-ui';
-
-const red = 'color: rgb(173, 30, 30);';
-const blue = 'color: rgb(89, 139, 214);';
-const fontStyle = 'font-weight: bold;';
-
-const logVersionInfo = ({
-  uiVersion,
-  uiCommitHash,
-  apiCommitHash,
-  apiVersion,
-}) => {
-  // UI info
-  console.groupCollapsed(
-    '%c★ UI Git Info\n=============',
-    `${red};${fontStyle}`,
-  );
-
-  if (uiVersion) {
-    console.info(
-      `%cTag Link: %c${UI_BASE_URL}/releases/tag/${uiVersion}`,
-      fontStyle,
-      blue,
-    );
-  }
-
-  console.info(
-    `%cCommit Link: %c${UI_BASE_URL}/commit/${uiCommitHash}`,
-    fontStyle,
-    blue,
-  );
-  console.groupEnd();
-
-  // API info
-  console.groupCollapsed(
-    '%c★ API Git Info\n==============',
-    `${red};${fontStyle}`,
-  );
-  console.info(
-    `%cTag Link: %c${API_BASE_URL}/releases/tag/${apiVersion}`,
-    fontStyle,
-    blue,
-  );
-  console.info(
-    `%cCommit Link: %c${API_BASE_URL}/commit/${apiCommitHash}`,
-    fontStyle,
-    blue,
-  );
-  console.groupEnd();
-};
+import { UI_VERSION, UI_COMMIT_HASH } from '@cqdg/utils/constants';
 
 // Action Types
 
@@ -78,13 +25,16 @@ export function fetchApiVersionInfo(): Function {
 //
 //    logVersionInfo(versionInfo);
 //
-	  
-	let apiVersionInfo = {apiCommitHash:"585cd1079835b7d5bec5c4dfd154fd9adde5f18e",dataRelease:"Data Release 22.0 - January 16, 2020",apiVersion:"2.0.0"};  
+
+    const apiVersionInfo = {
+      apiCommitHash: '585cd1079835b7d5bec5c4dfd154fd9adde5f18e',
+      dataRelease: 'Data Release 22.0 - January 16, 2020',
+      apiVersion: '2.0.0',
+    };
     dispatch({
       type: VERSION_INFO_SUCCESS,
       payload: apiVersionInfo,
     });
-	 
   };
 }
 

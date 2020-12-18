@@ -4,7 +4,6 @@ import Relay from 'react-relay/classic';
 import _ from 'lodash';
 import { compose, withState } from 'recompose';
 
-import { IBucket } from '@ncigdc/components/Aggregations/types';
 import withRouter from '@cqdg/utils/withRouter';
 
 import t from '@cqdg/locales/intl';
@@ -16,20 +15,6 @@ import {
   SelfFilteringPie,
 } from './index';
 
-export type TProps = {
-  push: Function;
-  query: Record<string, any>;
-  aggregations: {
-    data_category: { buckets: [IBucket] };
-    data_type: { buckets: [IBucket] };
-    study__short_name_keyword: { buckets: [IBucket] };
-    file_format: { buckets: [IBucket] };
-  };
-  setShowingMore: Function;
-  showingMore: boolean;
-  size: { width: number };
-};
-
 const enhance = compose(
   withRouter,
   withState('showingMore', 'setShowingMore', false),
@@ -39,7 +24,7 @@ const RepoFilesChartsComponent = ({
   aggregations,
   push,
   query,
-}: TProps) => {
+}) => {
   const currentFilters =
     (query && parseFilterParam((query || {}).filters, {}).content) || [];
   const currentFieldNames = currentFilters.map(f => f.content.field);

@@ -8,10 +8,8 @@ import { stringify } from 'query-string';
 import { fetchApi } from '@ncigdc/utils/ajax';
 import { notify } from '@cqdg/store/dux/notification';
 import { Column } from '@ncigdc/uikit/Flex';
-import { center } from '@ncigdc/theme/mixins';
 import { replaceFilters } from '@ncigdc/utils/filters';
 import UnstyledButton from '@ncigdc/uikit/UnstyledButton';
-import { API, IS_AUTH_PORTAL } from '@ncigdc/utils/constants';
 
 import IoIosCloseCircleOutline from 'react-icons/lib/io/ios-close';
 import FaExclamationCircle from 'react-icons/lib/fa/exclamation-circle';
@@ -21,27 +19,6 @@ import t from '@cqdg/locales/intl';
 
 /*----------------------------------------------------------------------------*/
 
-export type TCartFile = {
-  file_name: string;
-  file_id: string;
-  acl: Array<string>;
-  state: string;
-  access: string;
-  file_size: number;
-};
-
-type TNotification = {
-  fileText?: string;
-  action: string;
-  file: string | number;
-  extraText?: any;
-  prepositon: string;
-  undo: {
-    files: Array<TCartFile>;
-    addAllToCart: boolean;
-  };
-};
-
 export const UPDATE_CART = 'UPDATE_CART';
 export const ADD_TO_CART = 'ADD_TO_CART';
 export const CLEAR_CART = 'CLEAR_CART';
@@ -50,13 +27,6 @@ export const TOGGLE_ADD_ALL = 'TOGGLE_ADD_ALL';
 export const SAVE_ADD_ALL_STATE = 'SAVE_ADD_ALL_STATE';
 
 export const MAX_CART_SIZE = 5000;
-
-const DEFAULTS = {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-  },
-};
 
 const getNotificationComponent = (
   action,

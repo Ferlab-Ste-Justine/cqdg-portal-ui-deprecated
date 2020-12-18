@@ -8,7 +8,6 @@ import { connect } from 'react-redux';
 import MdPeople from 'react-icons/lib/md/people';
 
 import { get } from 'lodash';
-import { theme } from '@ncigdc/theme';
 import withSelectIds from '@ncigdc/utils/withSelectIds';
 import timestamp from '@ncigdc/utils/timestamp';
 import { Tooltip } from '@cqdg/components/Tooltip';
@@ -71,7 +70,6 @@ export default compose(
     const tableInfo = tableColumns.slice().filter(x => !x.hidden);
     const getNbFilesMatchInCart = (files) => cartFiles.filter(cartFile => files.map(f => f.file_id).includes(cartFile.file_id)).length;
     const getCartState = (count, files) => (count === files.length ? CART_EXACT_MATCH : count > 0 ? CART_PARTIAL_MATCH : CART_NO_MATCH);
-
     return (
       <div className="cases-table">
         <StackLayout className="cases-actions">
@@ -112,7 +110,7 @@ export default compose(
                       key={e.node.id}
                       style={{
                         ...(selectedIds.includes(e.node.case_id) && {
-                          backgroundColor: theme.tableHighlight,
+                          backgroundColor: '#ffffbe',
                         }),
                       }}
                       >

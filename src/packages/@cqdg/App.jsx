@@ -6,11 +6,11 @@ import {
   compose,
 } from 'recompose';
 
-import RelayLoadingContainer from '@ncigdc/components/RelayLoadingContainer';
-import ProgressContainer from '@ncigdc/components/ProgressContainer';
 import ModalContainer from '@ncigdc/components/ModalContainer';
-import withRouter from '@cqdg/utils/withRouter';
 
+import RelayLoadingContainer from '@cqdg/relay/containers/RelayLoadingContainer';
+import ProgressContainer from '@cqdg/relay/containers/ProgressContainer';
+import withRouter from '@cqdg/utils/withRouter';
 import { GlobalTooltip } from '@cqdg/components/Tooltip';
 import Routes from '@cqdg/routes';
 import NotificationContainer from '@cqdg/components/notification/NotificationContainer';

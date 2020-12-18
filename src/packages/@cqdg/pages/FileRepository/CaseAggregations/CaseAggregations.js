@@ -13,7 +13,7 @@ import FilterSearchInput from '@cqdg/components/inputs/FilterSearchInput';
 import FilterContainer from 'cqdg-ui/core/containers/filters/FilterContainer';
 import UploadSetButton from '@ncigdc/components/UploadSetButton';
 import withFacetSelection from '@cqdg/utils/withFacetSelection';
-import escapeForRelay from '@ncigdc/utils/escapeForRelay';
+import escapeForRelay from '@cqdg/relay/escapeForRelay';
 import tryParseJSON from '@cqdg/utils/json/tryParseJSON';
 
 import { UploadCaseSet } from '@ncigdc/components/Modals/UploadSet';
