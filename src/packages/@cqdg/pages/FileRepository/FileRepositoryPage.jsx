@@ -20,7 +20,7 @@ import withFilters from '@ncigdc/utils/withFilters';
 import RepoCasesCharts from '@cqdg/components/charts/RepoCasesCharts';
 import RepoFilesCharts from '@cqdg/components/charts/RepoFilesCharts';
 
-import withRouter from '@ncigdc/utils/withRouter';
+import withRouter from '@cqdg/utils/withRouter';
 import t from '@cqdg/locales/intl';
 import Tabs from 'cqdg-ui/core/containers/tabs';
 import ScrollView from 'cqdg-ui/core/layouts/ScrollView';

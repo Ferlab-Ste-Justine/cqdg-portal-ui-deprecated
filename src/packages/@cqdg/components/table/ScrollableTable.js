@@ -3,7 +3,7 @@ import { parse, stringify } from 'query-string';
 import debounce from 'lodash/debounce';
 
 import { parseIntParam } from '@cqdg/utils/uri';
-import withRouter from '@ncigdc/utils/withRouter';
+import withRouter from '@cqdg/utils/withRouter';
 
 import {
   compose, setDisplayName,

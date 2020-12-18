@@ -5,7 +5,7 @@ import _ from 'lodash';
 import { compose, withState } from 'recompose';
 
 import { IBucket } from '@ncigdc/components/Aggregations/types';
-import withRouter from '@ncigdc/utils/withRouter';
+import withRouter from '@cqdg/utils/withRouter';
 
 import t from '@cqdg/locales/intl';
 import StackLayout from 'cqdg-ui/core/layouts/StackLayout';

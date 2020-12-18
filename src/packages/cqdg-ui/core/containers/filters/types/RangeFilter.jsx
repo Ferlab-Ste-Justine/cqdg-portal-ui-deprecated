@@ -11,7 +11,7 @@ import {
 import { isEqual } from 'lodash';
 import { parseFilterParam } from '@cqdg/utils/uri';
 
-import withRouter from '@ncigdc/utils/withRouter';
+import withRouter from '@cqdg/utils/withRouter';
 import Input from '@ncigdc/uikit/Form/Input';
 import {
   DAYS_IN_YEAR,

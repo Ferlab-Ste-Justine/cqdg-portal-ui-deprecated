@@ -8,7 +8,7 @@ import PlusSign from 'react-icons/lib/go/plus';
 import MinusSign from 'react-icons/lib/go/dash';
 
 import { IBucket } from '@ncigdc/components/Aggregations/types';
-import withRouter from '@ncigdc/utils/withRouter';
+import withRouter from '@cqdg/utils/withRouter';
 import { parseFilterParam } from '@cqdg/utils/uri';
 
 import StackLayout from 'cqdg-ui/core/layouts/StackLayout';

@@ -8,18 +8,17 @@ import { apiMiddleware } from 'redux-api-middleware';
 import reducers from './reducers';
 
 type TSetupStoreArgs = {
-  persistConfig: Object,
+  persistConfig: Record<string, any>;
 };
-type TSetupStore = (args: TSetupStoreArgs) => Object;
+type TSetupStore = (args: TSetupStoreArgs) => Record<string, any>;
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const setupStore: TSetupStore = ({ persistConfig = {} } = {}) => {
   const config = {
     key: 'reducers',
-    storage: storage,
+    storage,
     whitelist: [
-      'analysis',
       'auth',
       'bannerNotification',
       'cart',
@@ -39,7 +38,10 @@ const setupStore: TSetupStore = ({ persistConfig = {} } = {}) => {
 
   const persistor = persistStore(store);
 
-  return { store, persistor };
+  return {
+    store,
+    persistor,
+  };
 };
 
 export default setupStore;

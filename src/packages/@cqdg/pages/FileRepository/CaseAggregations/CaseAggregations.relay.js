@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import { parse } from 'query-string';
 import Query from '@ncigdc/modern_components/Query';
 import { parseFilterParam } from '@cqdg/utils/uri';
-import withRouter from '@ncigdc/utils/withRouter';
+import withRouter from '@cqdg/utils/withRouter';
 import { repoPageFileToCaseFiltersMapping } from '@cqdg/pages/FileRepository/FilterMapping';
 import { mapFilter } from '@cqdg/utils/filters';
 

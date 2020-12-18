@@ -9,7 +9,7 @@ import {
 import RelayLoadingContainer from '@ncigdc/components/RelayLoadingContainer';
 import ProgressContainer from '@ncigdc/components/ProgressContainer';
 import ModalContainer from '@ncigdc/components/ModalContainer';
-import withRouter from '@ncigdc/utils/withRouter';
+import withRouter from '@cqdg/utils/withRouter';
 
 import { GlobalTooltip } from '@cqdg/components/Tooltip';
 import Routes from '@cqdg/routes';

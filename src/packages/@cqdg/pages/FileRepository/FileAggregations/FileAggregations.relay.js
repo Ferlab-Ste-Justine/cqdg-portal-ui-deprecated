@@ -6,7 +6,7 @@ import { compose, withPropsOnChange } from 'recompose';
 import { connect } from 'react-redux';
 import Query from '@ncigdc/modern_components/Query';
 import { parseFilterParam } from '@cqdg/utils/uri';
-import withRouter from '@ncigdc/utils/withRouter';
+import withRouter from '@cqdg/utils/withRouter';
 import { parse } from 'query-string';
 import { mapFilter } from '@cqdg/utils/filters';
 import { repoPageCaseToFileFiltersMapping } from '@cqdg/pages/FileRepository/FilterMapping';

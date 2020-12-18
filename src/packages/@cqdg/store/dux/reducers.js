@@ -15,7 +15,6 @@ import error from './error';
 import tableColumns from './tableColumns';
 import customFacets from './customFacets';
 import sets from './sets';
-import analysis from './analysis';
 import backLocation from './backLocation';
 import facetsExpandedStatus from './facetsExpandedStatus';
 
@@ -35,7 +34,6 @@ export default {
   tableColumns,
   customFacets,
   sets,
-  analysis,
   backLocation,
   facetsExpandedStatus,
   intl,

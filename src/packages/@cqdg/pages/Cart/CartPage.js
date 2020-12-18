@@ -19,7 +19,7 @@ import CartDownloadDropdown from '@ncigdc/components/CartDownloadDropdown';
 import SparkMeterWithTooltip from '@ncigdc/components/SparkMeterWithTooltip';
 import SampleSize from '@ncigdc/components/SampleSize';
 import withFilters from '@ncigdc/utils/withFilters';
-import withRouter from '@ncigdc/utils/withRouter';
+import withRouter from '@cqdg/utils/withRouter';
 
 import t from '@cqdg/locales/intl';
 import CardContainerNotched from '@cqdg/components/cards/CardContainerNotched';

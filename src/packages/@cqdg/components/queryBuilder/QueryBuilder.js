@@ -12,7 +12,7 @@ import {
 } from 'recompose';
 
 import { humanify } from '@ncigdc/utils/string';
-import withRouter from '@ncigdc/utils/withRouter';
+import withRouter from '@cqdg/utils/withRouter';
 
 import Link from '@cqdg/components/Links/Link';
 
