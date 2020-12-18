@@ -24,7 +24,7 @@ import './FilesTable.css';
 import Td from '@cqdg/components/table/Td';
 import {
   addAllFilesInCart, removeAllInCart, toggleFilesInCart, toggleAddAllToCart,
-} from '@ncigdc/dux/cart';
+} from '@cqdg/store/dux/cart';
 import Th from '@cqdg/components/table/Th';
 import Button from 'cqdg-ui/core/buttons/button';
 import CartIcon from '@cqdg/components/icons/CartIcon';

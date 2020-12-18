@@ -17,27 +17,18 @@ import {
 } from 'react-router-dom';
 import { PersistGate } from 'redux-persist/lib/integration/react';
 
-import setupStore from '@ncigdc/dux';
-import { fetchApiVersionInfo } from '@ncigdc/dux/versionInfo';
+import setupStore from '@cqdg/store/dux';
+import { fetchApiVersionInfo } from '@cqdg/store/dux/versionInfo';
 import { viewerQuery } from '@ncigdc/routes/queries';
 import { API, IS_AUTH_PORTAL, AWG } from '@ncigdc/utils/constants';
-import { fetchUser } from '@ncigdc/dux/auth';
+import { fetchUser } from '@cqdg/store/dux/auth';
 import Login from '@ncigdc/routes/Login';
 import { redirectToLogin } from '@ncigdc/utils/auth';
 import consoleDebug from '@ncigdc/utils/consoleDebug';
-import { fetchNotifications } from '@ncigdc/dux/bannerNotification';
+import { fetchNotifications } from '@cqdg/store/dux/bannerNotification';
 import Loader from '@ncigdc/uikit/Loaders/Loader';
-import ReactGA from 'react-ga';
 import Portal from './Portal';
 import features from './features.json';
-
-// if (process.env.NODE_ENV !== 'production') {
-//   const { whyDidYouUpdate } = require('why-did-you-update');
-//   whyDidYouUpdate(React);
-// }
-
-// ReactGA.initialize('UA-124331187-10');
-// ReactGA.pageview(window.location.pathname + window.location.search);
 
 const retryStatusCodes = [
   500,

@@ -7,7 +7,7 @@ import { compose, withState, setDisplayName } from 'recompose';
 import ArrangeIcon from 'react-icons/lib/fa/bars';
 
 import ArrangeColumns from '@ncigdc/components/ArrangeColumns';
-import { restoreColumns } from '@ncigdc/dux/tableColumns';
+import { restoreColumns } from '@cqdg/store/dux/tableColumns';
 import Dropdown from '@ncigdc/uikit/Dropdown';
 
 import t from '@cqdg/locales/intl';

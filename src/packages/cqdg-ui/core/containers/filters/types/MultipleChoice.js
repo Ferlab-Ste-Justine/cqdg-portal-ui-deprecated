@@ -8,7 +8,7 @@ import {
   compose, withState, withPropsOnChange, pure,
 } from 'recompose';
 
-import { toggleAddAllToCart } from '@ncigdc/dux/cart';
+import { toggleAddAllToCart } from '@cqdg/store/dux/cart';
 import OverflowTooltippedLabel from '@ncigdc/uikit/OverflowTooltippedLabel';
 import Link from '@cqdg/components/Links/Link';
 import { internalHighlight } from '@ncigdc/uikit/Highlight';

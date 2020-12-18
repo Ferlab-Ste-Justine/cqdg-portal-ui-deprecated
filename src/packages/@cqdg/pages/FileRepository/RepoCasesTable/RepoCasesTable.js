@@ -20,7 +20,7 @@ import Table from '@cqdg/components/table/Table';
 import Tr from '@cqdg/components/table/Tr';
 
 import StackLayout from 'cqdg-ui/core/layouts/StackLayout';
-import { addAllFilesInCart, toggleFilesInCart } from '@ncigdc/dux/cart';
+import { addAllFilesInCart, toggleFilesInCart } from '@cqdg/store/dux/cart';
 import Button from 'cqdg-ui/core/buttons/button';
 import CartIcon from '@cqdg/components/icons/CartIcon';
 

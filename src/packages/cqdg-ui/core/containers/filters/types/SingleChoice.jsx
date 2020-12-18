@@ -8,7 +8,7 @@ import {
   compose, withState, withPropsOnChange, pure,
 } from 'recompose';
 
-import { toggleAddAllToCart } from '@ncigdc/dux/cart';
+import { toggleAddAllToCart } from '@cqdg/store/dux/cart';
 import LocationSubscriber from '@ncigdc/components/LocationSubscriber';
 import { IRawQuery } from '@ncigdc/utils/uri/types';
 import { parseFilterParam } from '@cqdg/utils/uri';

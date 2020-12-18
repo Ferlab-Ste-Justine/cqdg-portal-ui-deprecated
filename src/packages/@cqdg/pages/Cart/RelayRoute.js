@@ -6,7 +6,7 @@ import Relay from 'react-relay/classic';
 import { parse } from 'query-string';
 import { connect } from 'react-redux';
 
-import { handleStateChange } from '@ncigdc/dux/relayProgress';
+import { handleStateChange } from '@cqdg/store/dux/relayProgress';
 import { parseIntParam, parseJSONParam } from '@cqdg/utils/uri';
 import { setFilter } from '@cqdg/utils/filters';
 import CartPage from './CartPage';

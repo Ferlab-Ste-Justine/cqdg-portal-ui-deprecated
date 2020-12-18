@@ -27,7 +27,7 @@ import LeftArrow from 'react-icons/lib/fa/angle-left';
 import Filter from 'cqdg-ui/core/filters/Filter';
 
 import './QueryBuilder.css';
-import { toggleAddAllToCart } from '@ncigdc/dux/cart';
+import { toggleAddAllToCart } from '@cqdg/store/dux/cart';
 import { connect } from 'react-redux';
 
 /*----------------------------------------------------------------------------*/

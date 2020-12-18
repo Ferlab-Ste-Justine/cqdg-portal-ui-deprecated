@@ -6,7 +6,7 @@ import Relay from 'react-relay/classic';
 import { connect } from 'react-redux';
 import { parse } from 'query-string';
 
-import { handleStateChange } from '@ncigdc/dux/relayProgress';
+import { handleStateChange } from '@cqdg/store/dux/relayProgress';
 import RepositoryPage from '@cqdg/pages/FileRepository/FileRepositoryPage';
 import {
   repoPageCaseToFileFiltersMapping,
