@@ -6,9 +6,9 @@ import { connect } from 'react-redux';
 import { compose, withState, setDisplayName } from 'recompose';
 import ArrangeIcon from 'react-icons/lib/fa/bars';
 
-import ArrangeColumns from '@ncigdc/components/ArrangeColumns';
+import ArrangeColumns from '@cqdg/components/table/ArrangeColumns';
 import { restoreColumns } from '@cqdg/store/dux/tableColumns';
-import Dropdown from '@ncigdc/uikit/Dropdown';
+import Dropdown from '@cqdg/components/Dropdown';
 
 import t from '@cqdg/locales/intl';
 import StackLayout from 'cqdg-ui/core/layouts/StackLayout';

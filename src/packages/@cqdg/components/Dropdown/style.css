@@ -1,0 +1,30 @@
+.dropdown-button {
+  background-color: white;
+  padding: 0.3rem 0.5rem;
+  border: 1px solid rgb(204, 204, 204);
+  cursor: pointer;
+  align-items: center;
+}
+
+.dropdown-items {
+  position: absolute;
+  z-index: 200;
+  min-width: 165px;
+  background-color: white;
+  text-align: left;
+  right: 0;
+  border-radius: 2px;
+  box-shadow: 0px 2px 8px rgba(13, 102, 159, 0.17);
+  white-space: nowrap;
+}
+
+.dropdown-item {
+  padding: 0.2rem 0.5rem;
+  text-decoration: none;
+  width: 100%;
+}
+
+.dropdown-item:hover {
+  color: #262626;
+  background-color: #f5f5f5;
+}

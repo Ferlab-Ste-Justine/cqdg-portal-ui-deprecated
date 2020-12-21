@@ -1,0 +1,15 @@
+.spark-meter-container {
+  background-color: rgb(209, 209, 209);
+  margin: 0 5px;
+  border-radius: 2px;
+  display: inline-block;
+  pointer-events: none;
+  height: 8px;
+}
+
+.spark-meter-container .spark-meter {
+  left: 0;
+  background-color: rgb(39, 156, 75);
+  border-radius: 2px;
+  height: 8px;
+}

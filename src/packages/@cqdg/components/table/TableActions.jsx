@@ -3,8 +3,7 @@ import { compose, withState } from 'recompose';
 
 import timestamp from '@cqdg/utils/timestamp';
 import withRouter from '@cqdg/utils/withRouter';
-import { visualizingButton } from '@ncigdc/theme/mixins';
-import SortTableButton from '@ncigdc/components/SortTableButton';
+import SortTableButton from '@cqdg/components/table/button/SortTableButton';
 
 import StackLayout from 'cqdg-ui/core/layouts/StackLayout';
 
@@ -74,9 +73,6 @@ const TableActions = ({
         buttonClassName="table-actions-buttons"
         entityType={arrangeColumnKey}
         hideColumns={hideColumns}
-        style={{
-          ...visualizingButton,
-        }}
         />
     )}
     {sortOptions && (
@@ -90,9 +86,6 @@ const TableActions = ({
         isDisabled={!sortOptions.length}
         options={sortOptions}
         sortFunction={tableSortFuncCreator(query, `${type}s_sort`, push)}
-        style={{
-          ...visualizingButton,
-        }}
         />
     )}
     {downloadable && tsvSelector &&

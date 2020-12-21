@@ -22,7 +22,7 @@ import { getCurrentFilters } from '@cqdg/store/query';
 import fetchFileHistory from '@cqdg/utils/fetchFileHistory';
 // Custom
 import { getFilterValue } from '@cqdg/utils/filters';
-import withDropdown from '@cqdg/components/dropdown/withDropdown';
+import withDropdown from '@cqdg/components/Dropdown/withDropdown';
 import Link from '@cqdg/components/Links/Link';
 import withSelectableList from '@cqdg/utils/withSelectableList';
 import { isUUID } from '@cqdg/utils/string';

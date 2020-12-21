@@ -7,17 +7,17 @@ import { connect } from 'react-redux';
 import Relay from 'react-relay/classic';
 
 // Custom
+import SparkMeterWithTooltip from '@cqdg/components/SparkMeter/SparkMeterWithTooltip';
+import SummaryCard from '@cqdg/components/SummaryCard';
+
+import timestamp from '@cqdg/utils/timestamp';
+import CartDownloadDropdown from '@cqdg/pages/Cart/DownloadCart';
 import formatFileSize, { EFileInputType } from '@cqdg/utils/formatFileSize';
 import FilesTable from '@cqdg/pages/FileRepository/FilesTable';
-import SummaryCard from '@ncigdc/components/SummaryCard';
 import CountWithIcon from '@cqdg/components/countWithIcon/CountWithIcon';
-
-import CartDownloadDropdown from '@ncigdc/components/CartDownloadDropdown';
-import SparkMeterWithTooltip from '@ncigdc/components/SparkMeterWithTooltip';
 import SampleSize from '@cqdg/components/SampleSize';
 import withFilters from '@cqdg/utils/withFilters';
 import withRouter from '@cqdg/utils/withRouter';
-
 import t from '@cqdg/locales/intl';
 import CardContainerNotched from '@cqdg/components/cards/CardContainerNotched';
 
@@ -26,55 +26,8 @@ import CardContent from 'cqdg-ui/cards/CardContent';
 
 import './CartPage.css';
 
-export type TProps = {
-  files: Array<Record<string, any>>;
-  user: Record<string, any>;
-  viewer: {
-    File: {
-      files_summary: {
-        study__short_name_keyword: {
-          buckets: [{
-            doc_count: number;
-            key: string;
-          }];
-        };
-        file_size: {
-          stats: {
-            sum: number;
-          };
-        };
-      };
-      hits: {
-        total: number;
-        edges: {
-          node: [
-            {
-              file_id: string;
-              file_name: string;
-              file_size: number;
-            }
-          ];
-        };
-      };
-    };
-    Case: {
-      cases_summary: {
-        study__short_name_keyword: {
-          buckets: [{
-            doc_count: number;
-            key: string;
-          }];
-        };
-      };
-      hits: {
-        total: number;
-      };
-    };
-  };
-};
 
-type TCartPage = (props: TProps) => React.Element<*>;
-const CartPageComponent: TCartPage = (props: TProps) => {
+const CartPageComponent = (props) => {
   const {
     cart_file_filters, files, tableColumns, viewer,
   } = props;
@@ -151,7 +104,6 @@ const CartPageComponent: TCartPage = (props: TProps) => {
                 {
                   key: 'study',
                   title: t('global.study'),
-                  color: true,
                   style: { textTransform: 'capitalize' },
                 },
                 {
@@ -165,10 +117,6 @@ const CartPageComponent: TCartPage = (props: TProps) => {
                 {
                   key: 'case_count_meter',
                   title: <SampleSize n={caseCount} />,
-                  thStyle: {
-                    width: 1,
-                    textAlign: 'center',
-                  },
                   style: { textAlign: 'left' },
                 },
                 {
@@ -182,10 +130,6 @@ const CartPageComponent: TCartPage = (props: TProps) => {
                 {
                   key: 'file_count_meter',
                   title: <SampleSize n={files.length} />,
-                  thStyle: {
-                    width: 1,
-                    textAlign: 'center',
-                  },
                   style: { textAlign: 'left' },
                 },
               ]}
@@ -219,8 +163,13 @@ const CartPageComponent: TCartPage = (props: TProps) => {
                 'platform',
                 'cases.hits.edges.submitter_donor_id',
               ]}
+              filename={`cart-table.${timestamp()}.tsv`}
               files={files}
-              />
+              selector="#repository-files-table"
+              >
+              {t('global.download')}
+
+            </CartDownloadDropdown>
           </StackLayout>
 
           <FilesTable

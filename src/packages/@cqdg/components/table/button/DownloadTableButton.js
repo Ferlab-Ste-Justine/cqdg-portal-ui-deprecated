@@ -6,8 +6,8 @@ import saveFile from '@cqdg/utils/filesaver';
 import { mapStringArrayToTsvString } from '@cqdg/utils/toTsvString';
 import Button from 'cqdg-ui/core/buttons/button';
 
-import Dropdown from '@ncigdc/uikit/Dropdown';
-import DropdownItem from '@ncigdc/uikit/DropdownItem';
+import Dropdown from '@cqdg/components/Dropdown';
+import DropdownItem from '@cqdg/components/Dropdown/DropdownItem';
 
 import t from '@cqdg/locales/intl';
 
