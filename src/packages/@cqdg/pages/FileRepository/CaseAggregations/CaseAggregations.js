@@ -7,21 +7,17 @@ import {
   setDisplayName,
   withPropsOnChange,
 } from 'recompose';
+import PersonIcon from 'react-icons/lib/md/person';
 
 import FilterSearchInput from '@cqdg/components/inputs/FilterSearchInput';
-
 import FilterContainer from 'cqdg-ui/core/containers/filters/FilterContainer';
-import UploadSetButton from '@ncigdc/components/UploadSetButton';
 import withFacetSelection from '@cqdg/utils/withFacetSelection';
 import escapeForRelay from '@cqdg/relay/escapeForRelay';
 import tryParseJSON from '@cqdg/utils/json/tryParseJSON';
-
-import { UploadCaseSet } from '@ncigdc/components/Modals/UploadSet';
-import PersonIcon from 'react-icons/lib/md/person';
 import StackLayout from 'cqdg-ui/core/layouts/StackLayout';
-
 import t from '@cqdg/locales/intl';
 import presetFacets from '@cqdg/pages/FileRepository/CaseAggregations/CaseAggregationsFilters';
+
 import features from '../../../../../features.json';
 
 import '../Aggregations.css';
@@ -85,19 +81,6 @@ const CaseAggregationsComponent = ({
         title="Case"
         tooltip={t('facet.search_suggest_tooltip_donors')}
         />
-    )}
-    {features.uploadCaseSet && (
-      <UploadSetButton
-        defaultQuery={{
-          pathname: '/repository',
-          query: { searchTableTab: 'cases' },
-        }}
-        idField="cases.case_id"
-        type="case"
-        UploadModal={UploadCaseSet}
-        >
-        Upload Case Set
-      </UploadSetButton>
     )}
     {reject(presetFacets, { full: 'donor_id' }).map((facet) => (
       <FilterContainer

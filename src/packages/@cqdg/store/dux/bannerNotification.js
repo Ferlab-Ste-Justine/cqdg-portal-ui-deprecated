@@ -1,9 +1,6 @@
 /* @flow */
 
 import React from 'react';
-
-import { ApiOverrideBanner } from '@ncigdc/components/DismissibleBanner';
-import { LOCAL_STORAGE_API_OVERRIDE } from '@cqdg/utils/constants';
 import { REHYDRATE } from 'redux-persist';
 import { uniqBy } from 'lodash';
 
@@ -28,11 +25,6 @@ type TAction = {
 };
 export function fetchNotifications() {
   return async (dispatch: Function) => {
-//    const res1 = await fetchApi('notifications', {
-//      headers: { 'Content-Type': 'application/json' },
-//    });
-//    const res2 = (await fetchApi('login-notifications', {})) || { data: [] };
-
     const res1 = {
       data: [
         {
@@ -67,17 +59,6 @@ export function removeNotification(component: string) {
 }
 
 const initialState = [];
-
-if (LOCAL_STORAGE_API_OVERRIDE) {
-  initialState.push({
-    components: ['PORTAL'],
-    level: 'INFO',
-    id: 'api_override',
-    dismissible: true,
-    reactElement: true,
-    message: <ApiOverrideBanner />,
-  });
-}
 
 const reducer = (state: TState = initialState, action: TAction) => {
   switch (action.type) {

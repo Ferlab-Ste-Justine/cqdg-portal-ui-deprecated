@@ -13,14 +13,12 @@ import {
 } from 'react-router-dom';
 import { PersistGate } from 'redux-persist/lib/integration/react';
 
-import Loader from '@ncigdc/uikit/Loaders/Loader';
-
+import Loader from '@cqdg/relay/ui/Loader';
 import { API } from '@cqdg/utils/constants';
 import { viewerQuery } from '@cqdg/relay/queries';
 import retryMiddleware from '@cqdg/relay/retryMiddleware';
 import setupStore from '@cqdg/store/dux';
 import { fetchApiVersionInfo } from '@cqdg/store/dux/versionInfo';
-import { fetchUser } from '@cqdg/store/dux/auth';
 import { fetchNotifications } from '@cqdg/store/dux/bannerNotification';
 import Portal from './Portal';
 import features from './features.json';
@@ -74,7 +72,6 @@ window.store = store;
 store.dispatch(fetchApiVersionInfo());
 
 if (process.env.NODE_ENV !== 'development') {
-  store.dispatch(fetchUser());
   if (features.notifications) {
     store.dispatch(fetchNotifications());
   }

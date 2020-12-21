@@ -1,5 +1,5 @@
-import LoadableWithLoading from '@cqdg/relay/ui/LoadableWithLoading';
 import PropTypes from 'prop-types';
+import LoadableWithLoading from '@cqdg/relay/ui/LoadableWithLoading';
 import createRenderer from './GeneSymbol.relay';
 
 const Component = LoadableWithLoading({

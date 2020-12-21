@@ -2,9 +2,11 @@ import React from 'react';
 
 import './CountWithIcon.css';
 
-const CountWithIcon = ({ count, iconType, label }) => {
+const CountWithIcon = ({
+  className = '', count, iconType, label,
+}) => {
   return (
-    <div className="countwithicon-container">
+    <div className={`${className} countwithicon-container`}>
       <img alt={label} src={`/img/${iconType}_icon.svg`} />
       <div className="countwithicon-desc">
         <span className="countwithicon-count">{count}</span>

@@ -1,6 +1,6 @@
 import { REHYDRATE } from 'redux-persist';
 // Custom
-import { default as tableModels } from '@ncigdc/tableModels';
+import { default as tableModels } from '@cqdg/relay/models';
 import { namespaceActions } from './utils';
 /*----------------------------------------------------------------------------*/
 const tableColumns = namespaceActions('tableColumns', [

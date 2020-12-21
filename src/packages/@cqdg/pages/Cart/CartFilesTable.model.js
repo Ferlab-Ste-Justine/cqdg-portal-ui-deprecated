@@ -16,8 +16,7 @@ import Td from '@cqdg/components/table/Td';
 import TdNum from '@cqdg/components/table/TdNum';
 import ThNum from '@cqdg/components/table/ThNum';
 import FileLink from '@cqdg/components/Links/FileLink';
-import FileSize from '@ncigdc/components/FileSize';
-import CopyToClipboardButton from '@ncigdc/modern_components/CopyToClipboardButton/CopyToClipboardButton';
+import filesizeInput, { EFileInputType } from '@cqdg/utils/formatFileSize';
 
 import t from '@cqdg/locales/intl';
 
@@ -68,8 +67,6 @@ const cartFilesTableModel = [
     th: ({ id }) => <Th id={id}>{t('facet.file_name_keyword')}</Th>,
     td: ({ node }) => (
       <Td>
-        <CopyToClipboardButton text={node.file_name_keyword} />
-        {' '}
         {features.fileLinking ? (
           <FileLink
             style={{
@@ -131,7 +128,7 @@ const cartFilesTableModel = [
     th: ({ id }) => <ThNum id={id}>{t('facet.file_size')}</ThNum>,
     td: ({ node }) => (
       <TdNum>
-        <FileSize bytes={node.file_size * 1000000} />
+        <span>{filesizeInput(node.file_size, {}, EFileInputType.MB)}</span>
       </TdNum>
     ),
     sortable: true,

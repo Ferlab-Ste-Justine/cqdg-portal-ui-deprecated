@@ -6,8 +6,6 @@ import {
   compose,
 } from 'recompose';
 
-import ModalContainer from '@ncigdc/components/ModalContainer';
-
 import RelayLoadingContainer from '@cqdg/relay/containers/RelayLoadingContainer';
 import ProgressContainer from '@cqdg/relay/containers/ProgressContainer';
 import withRouter from '@cqdg/utils/withRouter';
@@ -49,7 +47,6 @@ class CqdgApp extends React.PureComponent {
         <Routes />
         <RelayLoadingContainer />
         <NotificationContainer />
-        <ModalContainer />
         <GlobalTooltip />
       </Fragment>
     );

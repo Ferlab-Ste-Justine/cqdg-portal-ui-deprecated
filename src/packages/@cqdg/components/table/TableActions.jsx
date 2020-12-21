@@ -1,7 +1,7 @@
 import React from 'react';
 import { compose, withState } from 'recompose';
 
-import timestamp from '@ncigdc/utils/timestamp';
+import timestamp from '@cqdg/utils/timestamp';
 import withRouter from '@cqdg/utils/withRouter';
 import { visualizingButton } from '@ncigdc/theme/mixins';
 import SortTableButton from '@ncigdc/components/SortTableButton';

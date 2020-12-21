@@ -1,6 +1,7 @@
 // @flow
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
+import { connect } from 'react-redux';
 import { xor, omit } from 'lodash';
 import {
   compose,
@@ -11,24 +12,20 @@ import {
   withProps,
 } from 'recompose';
 
-import { humanify } from '@ncigdc/utils/string';
-import withRouter from '@cqdg/utils/withRouter';
-
-import Link from '@cqdg/components/Links/Link';
-
-import { facetFieldDisplayMapper } from '@ncigdc/components/Aggregations';
-import { parseJSONParam } from '@cqdg/utils/uri';
-
-import t from '@cqdg/locales/intl';
-
 import IoIosCloseCircleOutline from 'react-icons/lib/io/ios-close-outline';
 import LeftArrow from 'react-icons/lib/fa/angle-left';
+
+import { toggleAddAllToCart } from '@cqdg/store/dux/cart';
+import { humanify } from '@cqdg/utils/string';
+import withRouter from '@cqdg/utils/withRouter';
+import Link from '@cqdg/components/Links/Link';
+import facetFieldDisplayMapper from '@cqdg/utils/facets/facetFiledDisplayMapper';
+import { parseJSONParam } from '@cqdg/utils/uri';
+import t from '@cqdg/locales/intl';
 
 import Filter from 'cqdg-ui/core/filters/Filter';
 
 import './QueryBuilder.css';
-import { toggleAddAllToCart } from '@cqdg/store/dux/cart';
-import { connect } from 'react-redux';
 
 /*----------------------------------------------------------------------------*/
 

@@ -2,10 +2,10 @@ import React from 'react';
 import { map, reduce } from 'lodash';
 import MdFileDownload from 'react-icons/lib/md/file-download';
 
-import saveFile from '@ncigdc/utils/filesaver';
-import { mapStringArrayToTsvString } from '@ncigdc/utils/toTsvString';
-import Button from '@ncigdc/uikit/Button';
-import { visualizingButton } from '@ncigdc/theme/mixins';
+import saveFile from '@cqdg/utils/filesaver';
+import { mapStringArrayToTsvString } from '@cqdg/utils/toTsvString';
+import Button from 'cqdg-ui/core/buttons/button';
+
 import Dropdown from '@ncigdc/uikit/Dropdown';
 import DropdownItem from '@ncigdc/uikit/DropdownItem';
 
@@ -82,26 +82,19 @@ export const downloadToTSV = ({
 
 const DownloadTableButton =
   ({
-    filename,
-    selector,
-    leftIcon,
-    style = {},
-    className = '',
     children,
+    className = '',
+    filename,
     isDisabled = false,
     portionData,
+    selector,
   }) => (
     <Dropdown
       button={(
         <Button
           className={`${className} ${isDisabled ? 'disabled' : ''}`}
-          leftIcon={leftIcon}
-          style={{
-            ...visualizingButton,
-            ...style,
-          }}
           >
-          <MdFileDownload />
+          <MdFileDownload height="14px" width="14px" />
           {children}
         </Button>
       )}

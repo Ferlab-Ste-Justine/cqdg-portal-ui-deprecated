@@ -19,11 +19,9 @@ const setupStore: TSetupStore = ({ persistConfig = {} } = {}) => {
     key: 'reducers',
     storage,
     whitelist: [
-      'auth',
       'bannerNotification',
       'cart',
       'customFacets',
-      'facetsExpandedStatus',
       'sets',
       'tableColumns',
     ],

@@ -6,17 +6,19 @@ import './button.css';
 const Button = ({
   active,
   children,
+  className,
   defaultIcon = true,
   disabled = false,
   onClick,
   shape = 'rect',
+  style,
   type = 'normal',
-  className,
 }) => {
   const buttonAttr = {
     className: `${type} ${shape} ${active ? 'active' : ''} ${className}`,
     disabled,
     onClick,
+    style,
   };
 
   if (type === 'text') {

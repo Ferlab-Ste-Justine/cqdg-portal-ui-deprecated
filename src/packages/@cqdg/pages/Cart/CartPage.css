@@ -4,13 +4,8 @@
     overflow: hidden;
 }
 
-.cart-page .cart-statistics .icons-statistics {
-    width: 32px;
-    height: 32px;
-}
-
-.cart-page .cart-statistics .cards-statistics {
-    background: transparent;
+.cart-statistics .cards-statistics:not(:last-child) {
+    margin-bottom: 10px;
 }
 
 .cart-page .cart-statistics .summary-statistics {

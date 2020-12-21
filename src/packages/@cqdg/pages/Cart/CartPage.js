@@ -6,18 +6,15 @@ import { compose, setDisplayName } from 'recompose';
 import { connect } from 'react-redux';
 import Relay from 'react-relay/classic';
 
-import FileIcon from 'react-icons/lib/fa/file-o';
-import CaseIcon from 'react-icons/lib/fa/user';
-import FileSizeIcon from 'react-icons/lib/fa/floppy-o';
-
 // Custom
-import formatFileSize from '@ncigdc/utils/formatFileSize';
+import formatFileSize, { EFileInputType } from '@cqdg/utils/formatFileSize';
 import FilesTable from '@cqdg/pages/FileRepository/FilesTable';
 import SummaryCard from '@ncigdc/components/SummaryCard';
-import CountCard from '@ncigdc/components/CountCard';
+import CountWithIcon from '@cqdg/components/countWithIcon/CountWithIcon';
+
 import CartDownloadDropdown from '@ncigdc/components/CartDownloadDropdown';
 import SparkMeterWithTooltip from '@ncigdc/components/SparkMeterWithTooltip';
-import SampleSize from '@ncigdc/components/SampleSize';
+import SampleSize from '@cqdg/components/SampleSize';
 import withFilters from '@cqdg/utils/withFilters';
 import withRouter from '@cqdg/utils/withRouter';
 
@@ -118,7 +115,7 @@ const CartPageComponent: TCartPage = (props: TProps) => {
 
   const caseCount = viewer.Case.hits.total;
   const fileSize = viewer.File.files_summary.file_size.stats.sum;
-
+  const filseSizeData = formatFileSize(fileSize, { output: 'object' }, EFileInputType.MB);
   return (
     <StackLayout className="cart-page" id="cart-details" vertical>
       {!files.length && <h1>Your cart is empty.</h1>}
@@ -126,37 +123,23 @@ const CartPageComponent: TCartPage = (props: TProps) => {
         <React.Fragment>
           <StackLayout className="cart-statistics" horizontal>
             <StackLayout className="cart-statistics" vertical>
-              <CountCard
+              <CountWithIcon
                 className="cards-statistics"
                 count={files.length}
-                icon={(
-                  <FileIcon
-                    className="icons-statistics"
-                    />
-                )}
-                style={{
-                  padding: '0 1rem 1rem 1rem',
-                }}
-                title={String(t('global.files')).toUpperCase()}
+                iconType="file"
+                label={String(t('global.files')).toUpperCase()}
                 />
-              <CountCard
+              <CountWithIcon
                 className="cards-statistics"
                 count={caseCount}
-                icon={(
-                  <CaseIcon
-                    className="icons-statistics"
-                    />
-                )}
-                title={String(t('global.donors')).toUpperCase()}
+                iconType="donor"
+                label={String(t('global.donors')).toUpperCase()}
                 />
-              <CountCard
+              <CountWithIcon
                 className="cards-statistics"
-                count={formatFileSize(fileSize * 1000000, { exponent: 2 })}
-                icon={(
-                  <FileSizeIcon
-                    className="icons-statistics"
-                    />
-                )}
+                count={filseSizeData.value}
+                iconType="storage"
+                label={filseSizeData.symbol}
                 title={String(t('cart.details.summary.file_size')).toUpperCase()}
                 />
             </StackLayout>

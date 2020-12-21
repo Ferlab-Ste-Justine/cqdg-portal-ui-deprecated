@@ -9,7 +9,7 @@ import FaFile from 'react-icons/lib/fa/file';
 import MdPeople from 'react-icons/lib/md/people';
 
 import QueryLayout from '@cqdg/components/layouts/QueryLayout';
-import NoResultsMessage from '@ncigdc/components/NoResultsMessage';
+import NoResultsMessage from '@cqdg/components/NoResultsMessage';
 import RepoCasesTable from '@cqdg/pages/FileRepository/RepoCasesTable';
 import CaseAggregations from '@cqdg/pages/FileRepository/CaseAggregations';
 import FileAggregations from '@cqdg/pages/FileRepository/FileAggregations';

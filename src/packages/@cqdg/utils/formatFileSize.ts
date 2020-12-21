@@ -24,10 +24,16 @@ const convertInputBase: TConvertFileSize = (input, inputType) => {
 
 const FilesizeInput: TFilesizeInput = (input = 0, options, inputType = EFileInputType.B) => {
   const newInput = convertInputBase(input, inputType);
-  return filesize(newInput || 0, {
+  const result = filesize(newInput || 0, {
     base: 10,
     ...options,
-  }).toUpperCase();
+  });
+
+  if (typeof result === 'string') {
+    return result.toUpperCase();
+  }
+
+  return result;
 };
 
 export default FilesizeInput;

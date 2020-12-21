@@ -8,8 +8,8 @@ import { connect } from 'react-redux';
 import MdPeople from 'react-icons/lib/md/people';
 
 import { get } from 'lodash';
-import withSelectIds from '@ncigdc/utils/withSelectIds';
-import timestamp from '@ncigdc/utils/timestamp';
+import withSelectIds from '@cqdg/utils/withSelectIds';
+import timestamp from '@cqdg/utils/timestamp';
 import { Tooltip } from '@cqdg/components/Tooltip';
 
 import ScrollableTable from '@cqdg/components/table/ScrollableTable';

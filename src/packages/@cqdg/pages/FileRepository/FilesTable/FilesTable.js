@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 import FaFile from 'react-icons/lib/fa/file';
 import SaveIcon from 'react-icons/lib/md/save';
 
-import timestamp from '@ncigdc/utils/timestamp';
+import timestamp from '@cqdg/utils/timestamp';
 import formatFileSize, { EFileInputType } from '@cqdg/utils/formatFileSize';
 
 import ScrollableTable from '@cqdg/components/table/ScrollableTable';
@@ -32,7 +32,7 @@ import CartIcon from '@cqdg/components/icons/CartIcon';
 
 export default compose(
   setDisplayName('FilesTablePresentation'),
-  connect((state,props) => ({
+  connect((state, props) => ({
     tableColumns: props.tableColumns ? props.tableColumns : state.tableColumns.files,
     cartFiles: state.cart.files,
     addAllToCart: state.cart.addAllToCart,
@@ -50,18 +50,17 @@ export default compose(
   )
 )(
   ({
-     addAllToCart,
-     downloadClinical = false,
-     cartFiles,
-     dispatch,
-     downloadable,
-     entityType = 'files',
-     resetScroll = false,
-     tableColumns,
-     tableHeader,
-     viewer: { File: { aggregations: fileSummary, hits } },
-   }) => {
-
+    addAllToCart,
+    cartFiles,
+    dispatch,
+    downloadable,
+    downloadClinical = false,
+    entityType = 'files',
+    resetScroll = false,
+    tableColumns,
+    tableHeader,
+    viewer: { File: { aggregations: fileSummary, hits } },
+  }) => {
     const tableInfo = tableColumns.slice().filter(x => !x.hidden);
 
     const fileInCart = (file) => cartFiles.some(f => f.file_id === file.file_id);
@@ -144,7 +143,7 @@ export default compose(
               </tbody>
             )}
             headings={[
-              <Th id="th_cart_toggle_all" className="table-th" key="cart-toggle-all">
+              <Th className="table-th" id="th_cart_toggle_all" key="cart-toggle-all">
                 <Button
                   active={addAllToCart}
                   className="files-table-cart-btn"
@@ -159,9 +158,10 @@ export default compose(
                 </Button>
               </Th>,
               ...tableInfo.map(x => {
-                  return (
-                  <x.th hits={hits} key={x.id} id={x.id} />
-                )}),
+                return (
+                  <x.th hits={hits} id={x.id} key={x.id} />
+                );
+              }),
             ]}
             id="repository-files-table"
             />

@@ -14,24 +14,21 @@ import {
   withPropsOnChange,
 } from 'recompose';
 
-import fetchFileHistory from '@ncigdc/utils/fetchFileHistory';
+// Icons
+import CheckCircleOIcon from 'react-icons/lib/fa/check';
+import FileIcon from 'react-icons/lib/fa/file';
+
+import { getCurrentFilters } from '@cqdg/store/query';
+import fetchFileHistory from '@cqdg/utils/fetchFileHistory';
 // Custom
 import { getFilterValue } from '@cqdg/utils/filters';
 import withDropdown from '@cqdg/components/dropdown/withDropdown';
 import Link from '@cqdg/components/Links/Link';
 import withSelectableList from '@cqdg/utils/withSelectableList';
-import namespace from '@ncigdc/utils/namespace';
-import GeneSymbol from '@ncigdc/modern_components/GeneSymbol';
-import SetId from '@ncigdc/components/SetId';
-import { isUUID } from '@ncigdc/utils/string';
-
-// Icons
-import CheckCircleOIcon from 'react-icons/lib/fa/check';
-import FileIcon from 'react-icons/lib/fa/file';
-
-import {
-  getCurrentFilters,
-} from '@cqdg/store/query';
+import { isUUID } from '@cqdg/utils/string';
+import namespace from '@cqdg/utils/namespace';
+import GeneSymbol from '@cqdg/components/GeneSymbol';
+import SetId from '@cqdg/components/SetId';
 
 import StackLayout from 'cqdg-ui/core/layouts/StackLayout';
 import SearchInput from 'cqdg-ui/core/input/Search';

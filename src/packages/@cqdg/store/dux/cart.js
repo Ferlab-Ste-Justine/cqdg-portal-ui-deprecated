@@ -4,18 +4,17 @@
 import React from 'react';
 import _ from 'lodash';
 import { stringify } from 'query-string';
-
-import { fetchApi } from '@ncigdc/utils/ajax';
-import { notify } from '@cqdg/store/dux/notification';
-import { Column } from '@ncigdc/uikit/Flex';
-import { replaceFilters } from '@ncigdc/utils/filters';
-import UnstyledButton from '@ncigdc/uikit/UnstyledButton';
-
 import IoIosCloseCircleOutline from 'react-icons/lib/io/ios-close';
 import FaExclamationCircle from 'react-icons/lib/fa/exclamation-circle';
 import FaCheckCircle from 'react-icons/lib/fa/check-circle';
 
+import { fetchApi } from '@cqdg/utils/ajax';
+import { notify } from '@cqdg/store/dux/notification';
+import { replaceFilters } from '@cqdg/utils/filters';
+import Buton from 'cqdg-ui/core/buttons/button';
 import t from '@cqdg/locales/intl';
+
+import StackLayout from 'cqdg-ui/core/layouts/StackLayout';
 
 /*----------------------------------------------------------------------------*/
 
@@ -79,7 +78,7 @@ const getNotificationComponent = (
       {notification.undo && (
         <span style={{ marginLeft: '15px' }}>
           <strong>
-            <UnstyledButton
+            <Buton
               onClick={() => {
                 dispatch(toggleFilesInCart(notification.undo.files));
                 dispatch(setAddAllToCart(notification.undo.addAllToCart));
@@ -89,9 +88,10 @@ const getNotificationComponent = (
                 textDecoration: 'underline',
                 textTransform: 'capitalize',
               }}
+              type="text"
               >
               {t('cart.actions.undo')}
-            </UnstyledButton>
+            </Buton>
             <i
               className="fa fa-undo"
               style={{
@@ -115,9 +115,9 @@ const messageNotificationDispatcher = (
       action,
       id: `${new Date().getTime()}`,
       component: (
-        <Column>
+        <StackLayout vertical>
           <div>{message}</div>
-        </Column>
+        </StackLayout>
       ),
     }),
   );
@@ -428,9 +428,9 @@ function fetchFilesAndRemove(currentFilters: ?Record<string, any>, size: number)
         notify({
           action: 'warning',
           component: (
-            <Column>
+            <StackLayout vertical>
               <span>There are no files in the cart to remove.</span>
-            </Column>
+            </StackLayout>
           ),
         }),
       );
@@ -508,9 +508,9 @@ function removeAllInCart(): Function {
           action: 'remove',
           id: 'remove/nofile',
           component: (
-            <Column>
+            <StackLayout vertical>
               <span>There are no files in the cart</span>
-            </Column>
+            </StackLayout>
           ),
         }),
       );

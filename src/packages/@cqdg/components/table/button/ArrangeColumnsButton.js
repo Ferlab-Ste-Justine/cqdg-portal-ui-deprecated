@@ -30,19 +30,18 @@ const ArrangeColumnsButton = compose(
 
     render() {
       const {
-        searchTerm,
-        setSearchTerm,
+        buttonClassName = '',
         dispatch,
         entityType,
-        style = {},
         hideColumns,
-        buttonClassName = '',
+        searchTerm,
+        setSearchTerm,
       } = this.props;
       return (
         <Dropdown
           autoclose={false}
           button={(
-            <Button className={buttonClassName} style={style}>
+            <Button className={buttonClassName}>
               <ArrangeIcon height="14px" width="14px" />
             </Button>
           )}
