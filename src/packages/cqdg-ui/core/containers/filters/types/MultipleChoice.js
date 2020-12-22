@@ -9,9 +9,9 @@ import {
 } from 'recompose';
 
 import { toggleAddAllToCart } from '@cqdg/store/dux/cart';
-import OverflowTooltippedLabel from '@ncigdc/uikit/OverflowTooltippedLabel';
+import OverflowTooltippedLabel from '@cqdg/components/Tooltip/OverflowTooltippedLabel';
 import Link from '@cqdg/components/Links/Link';
-import { internalHighlight } from '@ncigdc/uikit/Highlight';
+import { internalHighlight } from '@cqdg/components/Highlight';
 import { inCurrentFilters } from '@cqdg/utils/filters';
 import { getCurrentFilters } from '@cqdg/store/query';
 import t from '@cqdg/locales/intl';
@@ -23,22 +23,6 @@ import Tag from 'cqdg-ui/core/text/Tag';
 import StackLayout from 'cqdg-ui/core/layouts/StackLayout';
 
 import './MultipleChoice.css';
-
-type TProps = {
-  buckets: [IBucket];
-  field: string;
-  filteredBuckets: Array<Record<string, any>>;
-  style: Record<string, any>;
-  title: string;
-  showingValueSearch: boolean;
-  collapsed: boolean;
-  setShowingMore: Function;
-  showingMore: boolean;
-  maxShowing: number;
-  searchValue: string;
-  isMatchingSearchValue: boolean;
-};
-
 
 const getCurrentFilters3 = () => {
   const currentFilters = getCurrentFilters([]).content;
@@ -59,7 +43,7 @@ const getCurrentFilters3 = () => {
 
 
 let input;
-const MultipleChoice = (props: TProps) => {
+const MultipleChoice = (props) => {
   const {
     addAllToCart,
     collapsed,

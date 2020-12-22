@@ -9,10 +9,9 @@ import {
 } from 'recompose';
 
 import { toggleAddAllToCart } from '@cqdg/store/dux/cart';
-import LocationSubscriber from '@ncigdc/components/LocationSubscriber';
-import { IRawQuery } from '@ncigdc/utils/uri/types';
+import LocationSubscriber from '@cqdg/components/LocationSubscriber';
 import { parseFilterParam } from '@cqdg/utils/uri';
-import Link from '@ncigdc/components/Links/Link';
+import Link from '@cqdg/components/Links/Link';
 
 import t from '@cqdg/locales/intl';
 import {
@@ -24,21 +23,6 @@ import StackLayout from 'cqdg-ui/core/layouts/StackLayout';
 import Button from 'cqdg-ui/core/buttons/button';
 
 import './SingleChoice.css';
-
-type TProps = {
-  buckets: [IBucket];
-  field: string;
-  filteredBuckets: Array<Record<string, any>>;
-  style: Record<string, any>;
-  title: string;
-  showingValueSearch: boolean;
-  collapsed: boolean;
-  setShowingMore: Function;
-  showingMore: boolean;
-  maxShowing: number;
-  searchValue: string;
-  isMatchingSearchValue: boolean;
-};
 
 const getCurrentFilters = (ctx) => ((ctx.query &&
   parseFilterParam((ctx.query || {}).filters, {}).content) ||
@@ -55,7 +39,7 @@ const getCurrentFilters = (ctx) => ((ctx.query &&
   ));
 
 let input;
-const SingleChoice = (props: TProps) => {
+const SingleChoice = (props) => {
   const {
     addAllToCart, collapsed, dispatch, field, filteredBuckets, maxShowing,
   } = props;
@@ -66,7 +50,7 @@ const SingleChoice = (props: TProps) => {
 
   return (
     <LocationSubscriber>
-      {(ctx: { pathname: string; query: IRawQuery }) => {
+      {(ctx) => {
         const currentFilters = getCurrentFilters(ctx);
         const selectedFilters = currentFilters.reduce((acc, f) => acc.concat(f.content.value), []);
         const selectedFilter = selectedFilters ? selectedFilters[0] : '';

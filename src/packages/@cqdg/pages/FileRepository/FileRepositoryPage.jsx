@@ -4,6 +4,7 @@ import React from 'react';
 import Relay from 'react-relay/classic';
 import { connect } from 'react-redux';
 import { compose, setDisplayName } from 'recompose';
+import get from 'lodash/get';
 
 import FaFile from 'react-icons/lib/fa/file';
 import MdPeople from 'react-icons/lib/md/people';
@@ -86,7 +87,7 @@ const enhance = compose(
 
 export const RepositoryPageComponent = (props: TProps) => {
   const {
-    filters, query, relay, viewer,
+    query, relay, viewer,
   } = props;
   const fileCount = viewer.File.hits.total;
   const caseCount = viewer.Case.hits.total;
@@ -116,6 +117,7 @@ export const RepositoryPageComponent = (props: TProps) => {
     <Tabs
       defaultIndex={0}
       panes={facetTabPanes}
+      preSelectedTab={get(query, 'facetTab', null)}
       queryParam="facetTab"
       />
   );
@@ -181,6 +183,7 @@ export const RepositoryPageComponent = (props: TProps) => {
                   ),
                 },
               ]}
+              preSelectedTab={get(query, 'searchTableTab', null)}
               queryParam="searchTableTab"
               type="card"
               />

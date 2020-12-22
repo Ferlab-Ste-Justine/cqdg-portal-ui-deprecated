@@ -12,15 +12,15 @@ import { isEqual } from 'lodash';
 import { parseFilterParam } from '@cqdg/utils/uri';
 
 import withRouter from '@cqdg/utils/withRouter';
-import Input from '@ncigdc/uikit/Form/Input';
+import Input from '@cqdg/components/Form/Input';
 import {
   DAYS_IN_YEAR,
   getLowerAgeYears,
   getUpperAgeYears,
-} from '@ncigdc/utils/ageDisplay';
+} from '@cqdg/utils/ageDisplay';
 import t from '@cqdg/locales/intl';
 
-import Link from '@ncigdc/components/Links/Link';
+import Link from '@cqdg/components/Links/Link';
 import StackLayout from 'cqdg-ui/core/layouts/StackLayout';
 import Button from 'cqdg-ui/core/buttons/button';
 import {

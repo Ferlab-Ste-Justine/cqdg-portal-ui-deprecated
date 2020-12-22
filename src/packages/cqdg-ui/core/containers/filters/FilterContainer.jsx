@@ -3,8 +3,6 @@
 /* @flow */
 
 import React from 'react';
-import includes from 'lodash/includes';
-import some from 'lodash/some';
 
 import {
   compose,
@@ -15,9 +13,6 @@ import {
 } from 'recompose';
 
 import Header from 'cqdg-ui/core/containers/filters/FilterContainerHeader';
-
-import DateFacet from '@ncigdc/components/Aggregations/DateFacet';
-import ExactMatchFacet from '@ncigdc/components/Aggregations/ExactMatchFacet';
 import StackLayout from 'cqdg-ui/core/layouts/StackLayout';
 import SingleChoice from 'cqdg-ui/core/containers/filters/types/SingleChoice';
 import MultipleChoice from 'cqdg-ui/core/containers/filters/types/MultipleChoice';
@@ -58,25 +53,12 @@ const getFacetType = facet => {
   if (facet.type === 'choice') {
     return 'choice';
   }
-  if (includes(facet.field, 'datetime')) {
-    return 'datetime';
-  }
   if (facet.type === 'terms') {
     // on Annotations & Repo pages project_id is a terms facet
     // need a way to force an *_id field to return terms
     return 'terms';
   }
   if (facet.type === 'exact') {
-    return 'exact';
-  }
-  if (
-    some([
-      '_id',
-      '_uuid',
-      'md5sum',
-      'file_name',
-    ], idSuffix => includes(facet.field, idSuffix))
-  ) {
     return 'exact';
   }
   if (facet.type === 'long' || facet.type === 'float') {
@@ -102,7 +84,7 @@ export const WrapperComponent = ({
   DescriptionComponent = null,
 }) => {
   const facetType = getFacetType(facet);
-
+  console.log(facetType);
   const displayTitle = title || fieldNameToTitle(facet.field);
   const commonProps = {
     collapsed,
@@ -122,20 +104,6 @@ export const WrapperComponent = ({
       }
         {...additionalProps}
         />
-    ),
-    exact: () => (
-      <ExactMatchFacet
-        {...commonProps}
-        doctype={facet.doc_type}
-        fieldNoDoctype={facet.field}
-        placeholder={
-          facet.placeholder ? facet.placeholder : `Enter ${commonProps.title}`
-        }
-        {...additionalProps}
-        />
-    ),
-    datetime: () => (
-      <DateFacet field={facet.full} {...commonProps} {...additionalProps} />
     ),
     range: () => (
       <RangeFilter
