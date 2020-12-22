@@ -1,6 +1,0 @@
-{
-  "name": "@ncigdc/routes",
-  "description": "Relay containers for fetching GraphQL data from GDC",
-  "private": true,
-  "version": "0.0.0"
-}
