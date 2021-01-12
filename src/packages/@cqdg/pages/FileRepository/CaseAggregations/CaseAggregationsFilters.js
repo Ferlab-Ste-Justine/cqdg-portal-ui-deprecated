@@ -1,4 +1,3 @@
-import t from '@cqdg/locales/intl';
 
 const presetFilters = [
   {

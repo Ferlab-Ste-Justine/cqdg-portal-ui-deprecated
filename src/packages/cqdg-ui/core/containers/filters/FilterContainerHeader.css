@@ -11,7 +11,12 @@
   line-height: 22px;
   transition: 2s;
   cursor: pointer;
-  background-color: white
+  background-color: white;
+  padding: 0 10px;
+}
+
+.fui-filters-container-header .title {
+  width: 100%;
 }
 
 .fui-filters-container-header > .fui-stack-layout:first-child { 

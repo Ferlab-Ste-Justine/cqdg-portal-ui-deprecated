@@ -16,12 +16,15 @@ import escapeForRelay from '@cqdg/relay/escapeForRelay';
 import tryParseJSON from '@cqdg/utils/json/tryParseJSON';
 import StackLayout from 'cqdg-ui/core/layouts/StackLayout';
 import t from '@cqdg/locales/intl';
-import presetFacets from '@cqdg/pages/FileRepository/CaseAggregations/CaseAggregationsFilters';
+
+import facets from '@cqdg/pages/FileRepository/CaseAggregations/CaseAggregationsFilters';
+import { getFacetType } from '@cqdg/pages/FileRepository/filtersUtils';
 
 import features from '../../../../../features.json';
 
 import '../Aggregations.css';
 
+const presetFacets = facets.map(f => getFacetType(f));
 const presetFacetFields = presetFacets.map((x) => x.field);
 const entityType = 'Cases';
 
@@ -47,11 +50,11 @@ const CaseAggregationsComponent = ({
     {userSelectedFacets &&
       userSelectedFacets.map((facet) => (
         <FilterContainer
-          aggregation={parsedFacets[facet.field]}
           facet={facet}
+          filters={parsedFacets[facet.field]}
           isRemovable
           key={facet.full}
-          onRequestRemove={() => handleRequestRemoveFacet(facet)}
+          onRemoveFilterContainer={() => handleRequestRemoveFacet(facet)}
           relayVarName="repoCaseCustomFacetFields"
           />
       ))}
@@ -82,17 +85,21 @@ const CaseAggregationsComponent = ({
         tooltip={t('facet.search_suggest_tooltip_donors')}
         />
     )}
-    {reject(presetFacets, { full: 'donor_id' }).map((facet) => (
-      <FilterContainer
-        additionalProps={facet.additionalProps}
-        aggregation={viewer.Case.aggregations[escapeForRelay(facet.field)]}
-        facet={facet}
-        key={facet.full}
-        relay={relay}
-        title={t(facet.title) || t(`facet.${facet.field}`)}
-        />
-
-    ))}
+    {reject(presetFacets, { full: 'donor_id' }).map((facet) => {
+      const aggregation = viewer.Case.aggregations[escapeForRelay(facet.field)];
+      return (
+        <FilterContainer
+          facet={facet}
+          filters={aggregation && aggregation.buckets}
+          key={facet.full}
+          relay={relay}
+          searchEnabled={facet.visualType === 'terms' &&
+            (aggregation || { buckets: [] }).buckets.filter(b => b.key !== '_missing')
+              .length >= 10}
+          title={t(facet.title) || t(`facet.${facet.field}`)}
+          />
+      );
+    })}
   </div>
 );
 

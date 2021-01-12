@@ -37,19 +37,6 @@
   padding: 0;
 }
 
-.side-panel .fui-filters-container-header {
-  flex-grow: 0;
-  display: flex;
-  justify-content: start;
-  align-items: center;
-  background-color: white;
-  color: #003457; /* gray-9*/
-  font-size: 14px;
-  font-weight: 600;
-  border-bottom: thin solid #D8E1EB; /* gray-4 */
-  padding: 5px 14px;
-}
-
 .side-panel-content {
   flex-grow: 1;
   font-size: 12px;

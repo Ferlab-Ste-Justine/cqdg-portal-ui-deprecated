@@ -1,5 +1,4 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-/* @flow */
 
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
@@ -14,13 +13,13 @@ import Link from '@cqdg/components/Links/Link';
 import { internalHighlight } from '@cqdg/components/Highlight';
 import { inCurrentFilters } from '@cqdg/utils/filters';
 import { getCurrentFilters } from '@cqdg/store/query';
-import t from '@cqdg/locales/intl';
 
 import CloseIcon from 'react-icons/lib/md/close';
 
 import Button from 'cqdg-ui/core/buttons/button';
 import Tag from 'cqdg-ui/core/text/Tag';
 import StackLayout from 'cqdg-ui/core/layouts/StackLayout';
+import t from '@cqdg/locales/intl';
 
 import './MultipleChoice.css';
 
@@ -51,6 +50,7 @@ const MultipleChoice = (props) => {
     field,
     filteredBuckets,
     maxShowing,
+    noResultsText,
     setShowingMore,
     showingMore,
     showingValueSearch,
@@ -70,11 +70,10 @@ const MultipleChoice = (props) => {
     }
   }).filter(v => v);
 
-
+  if (collapsed) return null;
   return (
-
     <Fragment>
-      {!collapsed && showingValueSearch && (
+      {showingValueSearch && (
         <StackLayout>
           <input
             aria-label={t('search.search')}
@@ -97,7 +96,7 @@ const MultipleChoice = (props) => {
           )}
         </StackLayout>
       )}
-      {!collapsed && filteredBuckets.length > 0 && (
+      {filteredBuckets.length > 0 && (
         <StackLayout vertical>
           <StackLayout className="fui-filters-actions">
             <Link
@@ -257,9 +256,9 @@ const MultipleChoice = (props) => {
           )}
         </StackLayout>
       )}
-      {!props.collapsed && filteredBuckets.length === 0 && (
+      {filteredBuckets.length === 0 && (
         <StackLayout className="fui-no-filters" vertical>
-          <span className="no-results-text">{t('facet.no.result')}</span>
+          <span className="no-results-text">{noResultsText}</span>
         </StackLayout>
       )}
     </Fragment>
@@ -271,7 +270,6 @@ const enhance = compose(
   withState('filter', 'setFilter', ''),
   connect(state => ({
     addAllToCart: state.cart.addAllToCart,
-    intl: state.intl,
   })),
   withPropsOnChange(
     [
@@ -280,14 +278,13 @@ const enhance = compose(
       'searchValue',
     ],
     ({
-      buckets, filter, isMatchingSearchValue, searchValue = '',
+      buckets, filter, searchValue = '',
     }) => ({
       filteredBuckets: buckets.filter(
         b => b.key !== '_missing' &&
           (b.key || '').length &&
           b.key.toLowerCase().includes(filter.toLowerCase()) &&
-          (b.key.toLowerCase().includes(searchValue.toLowerCase()) ||
-            isMatchingSearchValue),
+          (b.key.toLowerCase().includes(searchValue.toLowerCase())),
       ),
     }),
   ),
