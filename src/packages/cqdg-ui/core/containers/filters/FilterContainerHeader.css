@@ -33,3 +33,11 @@
 .fui-filters-container-header .close-icon:hover::before { 
   padding-left: '2px';
 }
+
+.fui-filters-container-header .angle-icon {
+  transform: rotate(0deg)
+}
+
+.fui-filters-container-header .angle-icon.collapsed{
+  transform: rotate(270deg)
+}

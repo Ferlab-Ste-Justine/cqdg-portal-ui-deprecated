@@ -11,7 +11,6 @@ import StackLayout from 'cqdg-ui/core/layouts/StackLayout';
 import './FilterContainerHeader.css';
 
 interface IFilterContainerHeaderProps {
-  angleIconRight?: boolean;
   collapsed?: boolean;
   onRemoveFilterContainer: (event?: React.SyntheticEvent<EventTarget>) => void;
   searchEnabled?: boolean;
@@ -25,7 +24,6 @@ interface IFilterContainerHeaderProps {
 }
 
 const FilterContainerHeader = ({
-  angleIconRight = false,
   collapsed = false,
   searchEnabled = false,
   helpTooltip = null,
@@ -48,24 +46,10 @@ const FilterContainerHeader = ({
       >
       <div onClick={() => onClick(!collapsed)} role="button">
 
-        {!angleIconRight && (
-          <AngleIcon
-            style={{
-              transform: `rotate(${collapsed ? 270 : 0}deg)`,
-            }}
-            />
-        )}
+        <AngleIcon
+          className={`angle-icon ${collapsed && 'collapsed'}`}
+          />
         {title}
-        {angleIconRight && (
-          <AngleIcon
-            style={{
-              display: 'flex',
-              float: 'right',
-              overflow: 'auto',
-              transform: `rotate(${collapsed ? 270 : 0}deg)`,
-            }}
-            />
-        )}
       </div>
     </Tooltip>
 
