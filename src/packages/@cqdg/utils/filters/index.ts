@@ -1,4 +1,6 @@
-import { isArray, isEqual, uniqWith, xorWith } from 'lodash';
+import {
+  isArray, isEqual, uniqWith, xorWith,
+} from 'lodash';
 import { parseFilterParam } from '../uri';
 import {
   IGroupFilter,
@@ -27,11 +29,10 @@ function compareTerms(a: IValueFilter, b: IValueFilter): boolean {
 const sortFilters: TSortFilters = (a, b) => {
   if (a.content.field && b.content.field) {
     return a.content.field.localeCompare(b.content.field);
-  } else if (a.content.field || b.content.field) {
+  } if (a.content.field || b.content.field) {
     return a.content.field ? -1 : 1;
-  } else {
-    return 0;
   }
+  return 0;
 };
 
 const combineFilterValues: TCombineValues = (x, y, type) => {
@@ -60,10 +61,7 @@ const toggle: TMergeFilters = (x, y) => ({
       if (!found) {
         return [...acc, curr];
       }
-      return [
-        ...acc.filter(f => f.content.field !== found.content.field),
-        combineFilterValues(found, curr, 'toggle'),
-      ].filter(removeNoValueFilter);
+      return [...acc.filter(f => f.content.field !== found.content.field), combineFilterValues(found, curr, 'toggle')].filter(removeNoValueFilter);
     }, x.content)
     .sort(sortFilters),
 });
@@ -88,10 +86,7 @@ const addIn: TMergeFilters = (x, y) => ({
       if (!found) {
         return [...acc, curr];
       }
-      return [
-        ...acc.filter(f => f.content.field !== found.content.field),
-        combineFilterValues(found, curr, 'add'),
-      ].filter(removeNoValueFilter);
+      return [...acc.filter(f => f.content.field !== found.content.field), combineFilterValues(found, curr, 'add')].filter(removeNoValueFilter);
     }, x.content)
     .sort(sortFilters),
   op: y.op || 'and',
@@ -105,9 +100,9 @@ const filterOperation: TFilterOperation = (t, x, y) => {
 
   if (noX && noY) {
     return null;
-  } else if (noY) {
+  } if (noY) {
     return x;
-  } else if (noX) {
+  } if (noX) {
     return y;
   }
 
@@ -145,9 +140,9 @@ const mergeFns: TMergeFns = v => {
 export const removeFilter: TRemoveFilter = (field, query) => {
   if (!query) {
     return null;
-  } else if (!field) {
+  } if (!field) {
     return query;
-  } else if (Object.keys(query).length === 0) {
+  } if (Object.keys(query).length === 0) {
     return null;
   }
 
@@ -163,18 +158,18 @@ export const removeFilter: TRemoveFilter = (field, query) => {
 
   return filteredContent.length
     ? {
-        op: query.op,
-        content: filteredContent,
-      }
+      op: query.op,
+      content: filteredContent,
+    }
     : null;
 };
 
 export const removeFilterWithOp: TRemoveFilterWithOp = (filterFunc, query) => {
   if (!query) {
     return null;
-  } else if (!filterFunc) {
+  } if (!filterFunc) {
     return query;
-  } else if (Object.keys(query).length === 0) {
+  } if (Object.keys(query).length === 0) {
     return query;
   }
 
@@ -188,9 +183,9 @@ export const removeFilterWithOp: TRemoveFilterWithOp = (filterFunc, query) => {
 
   return filteredContent.length
     ? {
-        ...query,
-        content: filteredContent,
-      }
+      ...query,
+      content: filteredContent,
+    }
     : null;
 };
 // end-todo: refactor the two remove filter function into one
@@ -199,7 +194,10 @@ const filterByWhitelist: TFilterByWhitelist = (obj, wls) =>
   Object.keys(obj || {}).reduce(
     (acc, k) =>
       // $FlowIgnore
-      wls.includes(k) ? { ...acc, [k]: obj[k] } : acc,
+      (wls.includes(k) ? {
+        ...acc,
+        [k]: obj[k],
+      } : acc),
     {}
   );
 
@@ -223,8 +221,8 @@ export const mergeQuery: TMergeQuery = (q, c, mergeType, whitelist) => {
 };
 
 export const setFilter = ({
-  value,
   field,
+  value,
 }: {
   value: string;
   field: string;
@@ -233,7 +231,10 @@ export const setFilter = ({
   content: [
     {
       op: 'in',
-      content: { field, value },
+      content: {
+        field,
+        value,
+      },
     },
   ],
 });
@@ -260,8 +261,8 @@ const getDisplayValue = (value: string | number | boolean) => {
 // true if field and value in
 export const inCurrentFilters = ({
   currentFilters,
-  key,
   dotField,
+  key,
 }: {
   currentFilters: IValueFilter[];
   key: string;
@@ -294,16 +295,15 @@ export const getFilterValue = ({
 }) => currentFilters.find(f => f.content.field === dotField);
 
 
-export const mapFilter = (filters:IGroupFilter, originDestinationMap:Map<string, string>) => {
-  if(filters && filters.content){
-    filters.content.forEach((filter:any) => {
-
-      if(filter.content && filter.content.field && originDestinationMap.has(filter.content.field)){
-        filter.content.field = originDestinationMap.get(filter.content.field)
+export const mapFilter = (filters: IGroupFilter, originDestinationMap: Map<string, string>) => {
+  if (filters && filters.content) {
+    filters.content.forEach((filter: any) => {
+      if (filter.content && filter.content.field && originDestinationMap.has(filter.content.field)) {
+        filter.content.field = originDestinationMap.get(filter.content.field);
       }
-    })
+    });
   }
-}
+};
 
 type TMakeFilter = (
   fields: Array<{ field: string; value: string | string[] }>
@@ -311,21 +311,20 @@ type TMakeFilter = (
 export const makeFilter: TMakeFilter = fields => {
   if (!fields.length) {
     return null;
-  } else {
-    return {
-      op: 'and',
-      content: fields.map(item => {
-        const value = isArray(item.value) ? item.value : item.value.split(',');
-        return {
-          op: 'in',
-          content: {
-            field: item.field,
-            value,
-          },
-        } as IValueFilter;
-      }),
-    };
   }
+  return {
+    op: 'and',
+    content: fields.map(item => {
+      const value = isArray(item.value) ? item.value : item.value.split(',');
+      return {
+        op: 'in',
+        content: {
+          field: item.field,
+          value,
+        },
+      } as IValueFilter;
+    }),
+  };
 };
 
 export default makeFilter;

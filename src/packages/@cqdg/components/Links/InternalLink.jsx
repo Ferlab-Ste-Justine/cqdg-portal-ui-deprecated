@@ -9,6 +9,7 @@ import { removeEmptyKeys } from '@cqdg/utils/object';
 
 import validAttributes from '@cqdg/components/Links/validAttributes';
 import { scrollToId } from '@cqdg/components/Links/deepLink';
+import { createSearchQuery } from '@cqdg/components/Links/linkUtils';
 
 import { TLinkProps } from './types';
 
@@ -29,15 +30,7 @@ const InternalLink = ({
   search,
   ...rest
 }: TLinkProps) => {
-  const q0 = query || {};
-  const f0 = q0.filters ? stringifyJSONParam(q0.filters) : null;
-
-  const q1 = {
-    ...q0,
-    filters: f0,
-  };
-
-  const q = removeEmptyKeys(q1);
+  const searchQuery = createSearchQuery(query, search);
 
   const validAttrProps = validAttributes(rest);
   const validLinkProps = _.pick(rest, reactRouterLinkProps);
@@ -46,7 +39,7 @@ const InternalLink = ({
     <Link
       to={{
         pathname,
-        search: search || stringify(q),
+        search: searchQuery,
       }}
       {...validAttrProps}
       {...validLinkProps}

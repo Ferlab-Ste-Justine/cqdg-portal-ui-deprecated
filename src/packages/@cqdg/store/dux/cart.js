@@ -15,6 +15,7 @@ import Buton from 'cqdg-ui/core/buttons/button';
 import t from '@cqdg/locales/intl';
 
 import StackLayout from 'cqdg-ui/core/layouts/StackLayout';
+import './cart.css';
 
 /*----------------------------------------------------------------------------*/
 
@@ -79,14 +80,10 @@ const getNotificationComponent = (
         <span style={{ marginLeft: '15px' }}>
           <strong>
             <Buton
+              className="cart-undo-button"
               onClick={() => {
                 dispatch(toggleFilesInCart(notification.undo.files));
                 dispatch(setAddAllToCart(notification.undo.addAllToCart));
-              }}
-              style={{
-                display: 'inline-block',
-                textDecoration: 'underline',
-                textTransform: 'capitalize',
               }}
               type="text"
               >

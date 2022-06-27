@@ -1,24 +1,34 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import FiExternalLink from 'react-icons/lib/fa/external-link';
 
 import './button.css';
 
+interface IButtonProps {
+  active?: boolean;
+  children: React.ReactNode;
+  className?: string;
+  defaultIcon?: boolean;
+  disabled?: boolean;
+  onClick: () => void;
+  shape?: string;
+  type?: string;
+}
+
 const Button = ({
-  active,
+  active = true,
   children,
-  className,
+  className = '',
   defaultIcon = true,
   disabled = false,
   onClick,
   shape = 'rect',
-  style,
   type = 'normal',
-}) => {
+}: IButtonProps) => {
   const buttonAttr = {
     className: `${type} ${shape} ${active ? 'active' : ''} ${className}`,
     disabled,
     onClick,
-    style,
   };
 
   if (type === 'text') {

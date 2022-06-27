@@ -1,6 +1,5 @@
 /* eslint-disable react/no-multi-comp */
 import React from 'react';
-// import FiExternalLink from 'react-icons/lib/fa/external-link';
 
 import './RadioButton.css';
 
@@ -41,9 +40,8 @@ const Button = ({
     disabled,
     onClick,
   };
-
   return (
-    <label className={`fui-button-radio-button ${checked ? 'active' : ''} ${className}`} htmlFor={`fui-button-rb-${key}`}>
+    <label className={`fui-button-radio-button ${checked ? 'active' : ''} ${className}`} htmlFor={`fui-button-rb-${key}`} onClick={onClick}>
       <input {...buttonAttr} className="fui-button-input" id={`fui-button-rb-${value}`} />
       {children}
     </label>
@@ -51,6 +49,6 @@ const Button = ({
 };
 
 export default {
-  Group: ButtonGroup,
   Button,
+  Group: ButtonGroup,
 };

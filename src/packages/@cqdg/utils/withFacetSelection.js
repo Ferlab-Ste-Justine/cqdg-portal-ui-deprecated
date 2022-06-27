@@ -43,7 +43,7 @@ export default ({
           : presetFacetFields.concat(userSelectedFacets.map(x => x.field));
 
       const match = _.some([
-        !_.includes(validFacetDocTypes, facet.doc_type),
+        !_.includes(validFacetDocTypes, facet.docType),
         _.includes(facetFieldNamesToExclude, facet.field),
         validFacetPrefixes &&
         !_.includes(validFacetPrefixes.map(p => facet.full.indexOf(p)), 0),

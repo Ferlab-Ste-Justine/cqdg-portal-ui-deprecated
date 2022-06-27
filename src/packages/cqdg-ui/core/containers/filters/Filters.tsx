@@ -1,90 +1,54 @@
-import React from 'react';
+export enum VisualType {
+  Checkbox = 'checkbox',
+  Toggle = 'toggle',
+  Range = 'range',
+}
 
-import ExactMatchFacet from 'cqdg-ui/core/containers/filters/types/ExactMatchFacet';
+export interface IFiltersOnChange {
+  selectedFilter: IFilter[];
+  filterGroup: IFilterGroup;
+}
 
-import SingleChoice from 'cqdg-ui/core/containers/filters/types/SingleChoice';
-import MultipleChoice from 'cqdg-ui/core/containers/filters/types/MultipleChoice';
-import RangeFilter from 'cqdg-ui/core/containers/filters/types/RangeFilter';
-import t from '@cqdg/locales/intl';
+export type onChangeType = (fg: IFilterGroup, f: IFilter[] | IRangeFilterState) => void
+
+export interface IRangeFilterTypes {
+  key: string;
+  name: string;
+}
+
+export interface IRangeFilterState {
+  max: number | undefined;
+  min: number |undefined;
+  rangeType: string | undefined;
+}
+
+export interface IRangeFilter {
+  max: string | number | undefined;
+  min: string | number | undefined;
+  rangeTypes: IRangeFilterTypes[];
+}
+
+export const createDefaultRange = (max = 0, min = 0, rangeTypes = []) => ({
+  max,
+  min,
+  rangeTypes,
+});
 
 export interface IFilterGroup {
-  'doc_type': string;
+  docType: string;
   description: string;
   field: string;
   full: string;
   placeholder: string;
+  range?: IRangeFilter;
   title: string;
   type: string;
-  visualType: string;
+  visualType: VisualType;
 }
 
 export interface IFilter {
   doc_count: number;
   key: string;
+  name: string; // use for translated/todisplay string
+  id: string; //  dash (-) separated key
 }
-
-interface IFiltersProps {
-  filterGroup: IFilterGroup;
-  collapsed: boolean;
-  title: string;
-  filters: IFilter[];
-  searchInputVisible: boolean;
-  maxShowing: number;
-  searchValue: string;
-}
-
-export const FilterComponent = ({
-  collapsed, filterGroup, filters, maxShowing, searchInputVisible, searchValue, title,
-}: IFiltersProps) => {
-  const facet = filterGroup;
-  const commonProps = {
-    collapsed,
-    title,
-  };
-
-  switch (filterGroup.visualType) {
-    case 'choice': return (
-      <SingleChoice
-        {...commonProps}
-        buckets={filters}
-        doctype={facet.doc_type}
-        field={facet.full}
-        fieldNoDoctype={facet.field}
-        placeholder={
-          facet.placeholder ? facet.placeholder : `Enter ${commonProps.title}`
-        }
-        />
-    );
-    case 'exact': return (
-      <ExactMatchFacet
-        {...commonProps}
-        doctype={facet.doc_type}
-        fieldNoDoctype={facet.field}
-        placeholder={
-          facet.placeholder ? facet.placeholder : `Enter ${commonProps.title}`
-        }
-        />
-    );
-    case 'range': return (
-      <RangeFilter
-        convertDays={false}
-        field={facet.full}
-        max={({ max: 0 }).max}
-        min={({ min: 0 }).min}
-        {...commonProps}
-        />
-    );
-    case 'terms':
-    default: return (
-      <MultipleChoice
-        field={facet.full}
-        {...commonProps}
-        buckets={filters}
-        maxShowing={maxShowing}
-        noResultsText={t('facet.no.result')}
-        searchInputVisible={searchInputVisible}
-        searchValue={searchValue}
-        />
-    );
-  }
-};

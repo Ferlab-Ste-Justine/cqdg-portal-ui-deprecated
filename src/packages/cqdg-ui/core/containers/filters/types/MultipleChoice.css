@@ -30,6 +30,18 @@
   overflow: hidden;
 }
 
+.fui-mc-item input {
+  flex-shrink: 0;
+  margin-right: '5px';
+  pointer-events: 'none';
+  vertical-align: 'middle';
+}
+
+.fui-mc-item .tooltip {
+  margin-left: 0.3rem;
+  vertical-align: middle;
+}
+
 .fui-filters-actions .separator {
   height: 11px;
   align-self: center;
@@ -46,7 +58,7 @@
   text-transform: capitalize;
 }
 
-.fui-no-filters .no-results-text {
+.no-results-text {
   background: #F0F3F8;
   color: #18486B;
   font-size: 14px;

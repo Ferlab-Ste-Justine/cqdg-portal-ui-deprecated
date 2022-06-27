@@ -8,6 +8,7 @@
 
 .fui-button-group-container .fui-button-radio-button {
   align-items: center;
+  cursor: pointer;
   display: flex;
   margin: 0;
   padding: 0 8px;

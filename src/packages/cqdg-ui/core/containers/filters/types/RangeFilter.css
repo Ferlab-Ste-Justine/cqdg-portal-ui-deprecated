@@ -11,15 +11,13 @@
   margin: 16px 14px;
 }
 
-.fui-rf-grouped-inputs > *:first-child {
-  flex-grow: auto;
-}
 .fui-rf-range-target {
   align-items: center;
   border-right: thin solid #B5C6D8;
   color: #18486B;
   display: flex;
   flex-grow: 1;
+  flex-shrink: 0;
   height: 100%;
   justify-content: center;
 }
@@ -30,13 +28,14 @@
 }
 
 .fui-rf-grouped-inputs > input {
-  flex-grow: 1;
   border: none;
   border-width: 0px;
+  flex-shrink: 1;
   height: 24px;
   margin: 0 8px;
   justify-content: center;
   text-align: center;
+  width: 100%;
 }
 
 .fui-rf-actions {
